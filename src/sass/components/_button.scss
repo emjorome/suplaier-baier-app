@@ -1,20 +1,59 @@
 .btn {
-  &--white {
-    background-color: $color-white;
-    color: $color-grey-dark;
+  &,
+  &:link, 
+  &:visited {
+      text-decoration: none;
+      padding: 1.5rem 2rem;
+      width: 15rem;
+      border-radius: 1.5rem;
+      transition: all .2s;
+      position: relative;
+      font-size: $default-font-size;
+
+      // Change for the <button> element
+      border: none;
+      cursor: pointer;
+  }
+
+  &:hover {
 
     &::after {
-        background-color: $color-white;
+        transform: scaleX(1.4) scaleY(1.6);
+        opacity: 0;
+    }
+  }
+
+  &:active,
+  &:focus {
+    background-color: $color-grey-dark-2;
+  }
+
+  &--blue {
+    background-color: $color-blue;
+    color: $color-white;
+
+    &::after {
+        background-color: $color-blue;
     
     }
   }
 
   &--green {
-    background-color: $color-primary;
+    background-color: $color-green;
     color: $color-white;
 
     &::after {
-      background-color: $color-primary;
+      background-color: $color-green;
+      
+    }
+  }
+
+  &--red {
+    background-color: $color-red;
+    color: $color-white;
+
+    &::after {
+      background-color: $color-red;
       
     }
   }

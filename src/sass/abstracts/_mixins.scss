@@ -1,0 +1,5 @@
+@mixin full-round-corner-progressbar($progress-width){
+  @if $progress-width == 100% {
+    border-radius: 10px;
+  }
+}

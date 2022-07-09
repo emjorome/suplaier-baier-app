@@ -6,3 +6,19 @@ body {
   padding: 3rem;
   
 }
+
+.paragraph {
+  font-size: $default-font-size;
+
+  &--bold{
+    font-weight: bold;
+  }
+
+  &--mid{
+    font-size: $default-font-size-mid;
+  }
+
+  /*&:not(:last-child) {
+    margin-bottom: 1rem;
+  }*/
+}
