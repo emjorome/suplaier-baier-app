@@ -18,6 +18,11 @@ body {
     font-size: $default-font-size-mid;
   }
 
+  &--sm{
+    font-size: $default-font-size-sm;
+  }
+
+
   /*&:not(:last-child) {
     margin-bottom: 1rem;
   }*/

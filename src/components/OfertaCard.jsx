@@ -7,9 +7,9 @@ import { ProgressBar } from "./ProgressBar";
 export const OfertaCard = ({oferta}) => {
 
   //aqui con el idProducto, hacer get del producto
-  const {idProducto,
-        idProveedor, 
-        cantMin,
+  const {//idProducto,
+        //idProveedor, 
+        //cantMin,
         cantMax,
         actualProductos,
         fechaLimite,
@@ -35,7 +35,10 @@ export const OfertaCard = ({oferta}) => {
   const {nombre: nombreProd, costoUnitario: costoU, urlImg} = producto;
 
   return (
-    <div className="oferta-card" onClick={() => console.log("click en oferta :o")}>
+    <div 
+      className="oferta-card u-margin-bottom-small" 
+      onClick={() => console.log("click en oferta :o")}
+    >
       <div className="oferta-card__imgbox">
         <img className="oferta-card__imgbox__img" src={urlImg} alt={nombreProd}/>
       </div>
@@ -46,7 +49,7 @@ export const OfertaCard = ({oferta}) => {
           <p className="paragraph">{nombreProveedor}</p>
         </div>
         <div className="oferta-card__datosbox__otros">
-          <div>
+          <div className="oferta-card__datosbox__otros__der">
             <p className="paragraph">En oferta: {cantMax - actualProductos} / { cantMax }</p>
             <ProgressBar 
               actualProductos={actualProductos} 

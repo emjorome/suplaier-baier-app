@@ -9,9 +9,7 @@ export const ProgressBar = ({cantMax, actualProductos}) => {
 
     const newWidth = actualProductos * 100 / cantMax;
 
-    if (newWidth === 100){
-      setIsFull(true);
-    }
+    newWidth === 100 && setIsFull(true);
 
     setNewWidth(newWidth + "%");
   }

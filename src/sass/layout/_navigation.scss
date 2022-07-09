@@ -1,39 +1,65 @@
 .navigation {
-  &__background {
-    height: 6rem;
-    width: 6rem;
-    border-radius: 50%;
-    position: fixed;
-    top: 6.5rem;
-    right: 6.5rem;
-    background-image: radial-gradient($color-primary-light, $color-primary-dark);
-    z-index: 1000;
-    transition: transform .8s cubic-bezier(0.86, 0, 0.07, 1);
+  height: 6rem;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: $color-primary;
+  transition: transform .8s cubic-bezier(0.86, 0, 0.07, 1);
+  display: flex;
+  flex-direction: row;
+  padding: 0.5rem 1.5rem;
+
+  & > :not(:last-child) {
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-right-color: $color-grey-dark-2;
   }
 
   &__icon {
-
     position: relative;
-    margin-top: 3.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20%;
+    color: $color-white;
 
-    &,
-    &::before,
-    &::after {
-        width: 3rem;
-        height: 2px;
-        background-color: $color-grey-dark-3;
-        display: inline-block;
+  }
+
+  &__search {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__leftButtons {
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__box {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      color: $color-white;
+      
+      & > :not(:last-child) {
+        margin-right: 3.8rem;
+      }
+
+      &__ind {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        &:hover{
+          cursor: pointer;
+        }
+      }
     }
 
-    &::before,
-    &::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        transition: all .2s;
-    }
-
-    &::before { top: -.8rem; }
-    &::after { top: .8rem; }
   }
 }
