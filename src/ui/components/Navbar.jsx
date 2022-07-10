@@ -1,6 +1,11 @@
-import { Buscador } from "./Buscador"
+import { useContext } from "react";
+import { AuthContext } from "../../auth";
+import { Buscador } from "./Buscador";
 
 export const Navbar = () => {
+
+  const {logout} = useContext(AuthContext);
+
   return (
     <div className="navigation">
       <div className="navigation__icon">
@@ -31,7 +36,7 @@ export const Navbar = () => {
           </div>
           <div 
             className="navigation__leftButtons__box__ind"
-            onClick={() => {console.log("perfil de usuario..")}}
+            onClick={() => logout()}
           >
             <span className="material-symbols-rounded icon--bg">
               person
