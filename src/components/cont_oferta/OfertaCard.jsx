@@ -36,7 +36,7 @@ export const OfertaCard = ({oferta}) => {
 
   return (
     <div 
-      className="oferta-card u-margin-bottom-small" 
+      className="oferta-card" 
       onClick={() => console.log("click en oferta :o")}
     >
       <div className="oferta-card__imgbox">

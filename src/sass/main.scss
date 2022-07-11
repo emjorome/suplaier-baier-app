@@ -9,9 +9,14 @@
 @import "components/oferta-card";
 @import "components/progressbar";
 @import "components/buscador";
+@import "components/explorarCat";
+@import "components/favoritosProv";
+@import "components/actividadesRec";
 
 @import "layout/navigation";
+@import "layout/footer";
+@import "layout/grid";
 
 //@import "pages/administrador";
-//@import "pages/comprador";
+@import "pages/comprador/comp-main";
 //@import "pages/proveedor";

@@ -25,7 +25,6 @@ export const AppRouter = () => {
   return (
     <>
       <Routes>
-        //Rutas publicas
         <Route path="/login" element={
           <PublicRoute>
             <LoginPage/>
@@ -36,7 +35,6 @@ export const AppRouter = () => {
             <SignupPage/>
           </PublicRoute>
         }/>
-        //Rutas privadas
         <Route path="/*" element={
           <PrivateRoute>
             {getRoutesByTypeOfUser(authState?.user?.tipo)}

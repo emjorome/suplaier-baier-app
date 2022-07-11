@@ -1,0 +1,55 @@
+.comp-main-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  &__divSepIzq {
+    position: relative;
+    width: 20%;
+  }
+  &__divSepDer {
+    position: relative;
+    width: 30%;
+  }
+
+  &__izqCont {
+    position: fixed;
+    //top: 2rem;
+    left: 1rem;
+    width: 20%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    z-index: 1001;
+
+    & > :not(:last-child) {
+      margin-bottom: 1rem;
+    }
+
+  }
+
+  &__medCont {
+    position: relative;
+    left: 0;
+    width: 50%;
+    padding: 1rem;
+    
+
+    &__ofertas {
+      position: relative;
+      background-color: $color-white;
+      border-radius: 5px;
+      padding: 1rem;
+    }
+
+  }
+
+  &__derCont {
+    position: fixed;
+    right: 1rem;
+    width: 30%;
+    padding: 1rem;
+    z-index: 1002;
+  }
+
+}
