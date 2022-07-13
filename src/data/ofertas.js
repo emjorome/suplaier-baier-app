@@ -2,6 +2,7 @@ export const listaOfertas = [
   {
     idOferta: 123,
     idProducto: 1,
+    idProveedor: 7,
     cantMin: 4000,
     cantMax: 5000,
     descripcion: "Consideraciones adicionales de la oferta...",
@@ -13,6 +14,7 @@ export const listaOfertas = [
   {
     idOferta: 124,
     idProducto: 1,
+    idProveedor: 7,
     cantMin: 6000,
     cantMax: 8000,
     descripcion: "Consideraciones adicionales de la oferta... Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, remaining essentially unchanged.",
@@ -24,6 +26,7 @@ export const listaOfertas = [
   {
     idOferta: 125,
     idProducto: 1,
+    idProveedor: 7,
     cantMin: 6000,
     cantMax: 10000,
     descripcion: "Consideraciones adicionales de la oferta...",
@@ -35,6 +38,7 @@ export const listaOfertas = [
   {
     idOferta: 126,
     idProducto: 1,
+    idProveedor: 7,
     cantMin: 6000,
     cantMax: 8000,
     descripcion: "Consideraciones adicionales de la oferta...",
@@ -46,6 +50,7 @@ export const listaOfertas = [
   {
     idOferta: 127,
     idProducto: 1,
+    idProveedor: 7,
     cantMin: 4000,
     cantMax: 5000,
     descripcion: "Consideraciones adicionales de la oferta...",
@@ -57,6 +62,7 @@ export const listaOfertas = [
   {
     idOferta: 128,
     idProducto: 1,
+    idProveedor: 7,
     cantMin: 4000,
     cantMax: 5000,
     descripcion: "Consideraciones adicionales de la oferta...",

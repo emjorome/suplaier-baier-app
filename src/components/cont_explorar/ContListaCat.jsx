@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom"
 
 export const ContListaCat = ({categorias}) => {
+
   return (
     <div className="explorarCat__lista">
       {
         categorias.map(cat => (
           <Link 
-            to={`/categoria/${cat.nombre.toLowerCase().replace(" ", "_")}`} 
+            to={`/categoria?q=${cat.id}`} 
             key={cat.nombre} 
             className="explorarCat__lista__item"
           >

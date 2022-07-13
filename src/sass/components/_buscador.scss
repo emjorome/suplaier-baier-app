@@ -4,8 +4,24 @@
   height: 90%;
   background-color: $color-white;
   display: flex;
+  flex-direction: row;
   align-items: center;
   border-radius: 8px;
+
+  &__errorBusqueda {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    justify-content: center;
+
+  }
+
+  &__form{
+    width: 100%;
+    position: relative;
+    display: flex;
+    height: 100%;
+  }
 
   &__input{
     height: 100%;
@@ -25,6 +41,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    border-style: none;
 
     &:hover {
       cursor: pointer;

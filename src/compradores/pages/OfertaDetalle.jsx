@@ -89,7 +89,8 @@ export const OfertaDetalle = () => {
             <div className="oferta-detalle__productoBox u-margin-top-small">
               <p className="paragraph">Fecha de cierre: {oferta?.fechaLimite}</p>
             </div>
-
+            
+            {/* antes de unirse, verificar que haya vinculado el método de pago */}
             <div className="oferta-detalle__btnBox">
               <button className="btn btn--blue">
                 Unirse

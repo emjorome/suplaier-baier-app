@@ -13,6 +13,10 @@ export const NavbarComp = () => {
     nagivate("/historial_ofertas");
   }
 
+  const onClickAlertas = () => {
+    nagivate("/notificaciones");
+  }
+
   return (
     <div className="navigation">
       <div className="navigation__icon">
@@ -27,7 +31,7 @@ export const NavbarComp = () => {
         <div className="navigation__leftButtons__box">
           <div 
             className="navigation__leftButtons__box__ind" 
-            onClick={() => {console.log("notificaciones..")}}
+            onClick={onClickAlertas}
           >
             <span className="material-symbols-rounded icon--bg">
               notifications
