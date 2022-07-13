@@ -1,10 +1,17 @@
 //import { useFetch } from "../hooks/useFetch";
+import { useNavigate } from "react-router-dom";
 import { EtiquetaOferta } from "./EtiquetaOferta"
 import { ProgressBar } from "./ProgressBar";
 
 //Para hacer una ofertaCard, yo solo necesito como param
 //el objeto de la oferta
 export const OfertaCard = ({oferta}) => {
+
+  const navigate = useNavigate();
+
+  const onClickOferta = () => {
+    navigate(`/oferta/${oferta.idOferta}`);
+  }
 
   //aqui con el idProducto, hacer get del producto
   const {//idProducto,
@@ -37,7 +44,7 @@ export const OfertaCard = ({oferta}) => {
   return (
     <div 
       className="oferta-card" 
-      onClick={() => console.log("click en oferta :o")}
+      onClick={onClickOferta}
     >
       <div className="oferta-card__imgbox">
         <img className="oferta-card__imgbox__img" src={urlImg} alt={nombreProd}/>

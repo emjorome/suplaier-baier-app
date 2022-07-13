@@ -15,8 +15,13 @@ export const ContListaAct = ({ofertasActivasByUser}) => {
   return (
     <div className="actividadesRec__lista">
       {
-        ofertasActivasByUser.map(ofertaActiva => (
-          <Link to={"/"} key={ofertaActiva.idOferta} className="actividadesRec__lista__item">
+        ofertasActivasByUser.map(ofertaActiva => {
+
+          return <Link 
+              to={`/oferta/${ofertaActiva.idOferta}`} 
+              key={ofertaActiva.idOferta} 
+              className="actividadesRec__lista__item"
+            >
             <div className="actividadesRec__lista__item__enCurso"></div>
             <span className="material-symbols-rounded icon--sm actividadesRec__lista__item__delete">
               cancel
@@ -25,7 +30,7 @@ export const ContListaAct = ({ofertasActivasByUser}) => {
             <p className="paragraph--mid--2">{producto.nombreProveedor}</p>
             <p className="paragraph--mid--2">{ofertaActiva.fechaLimite}</p>
           </Link>
-        ))
+        })
       }
     </div>
   )

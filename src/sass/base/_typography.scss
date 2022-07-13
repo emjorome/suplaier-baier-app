@@ -27,6 +27,10 @@ body {
     font-size: $default-font-size-sm;
   }
 
+  &--blue {
+    color: $color-blue;
+  }
+
 
   /*&:not(:last-child) {
     margin-bottom: 1rem;

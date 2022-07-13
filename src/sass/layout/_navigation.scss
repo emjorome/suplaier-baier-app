@@ -23,7 +23,17 @@
     justify-content: center;
     align-items: center;
     width: 20%;
-    color: $color-white;
+
+    &__text {
+
+      text-decoration: none;
+      color: $color-white;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+    }
 
   }
 

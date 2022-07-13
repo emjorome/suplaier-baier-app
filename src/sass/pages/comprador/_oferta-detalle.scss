@@ -1,0 +1,80 @@
+
+.oferta-detalle{
+
+  &__productoBox{
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: $color-grey-light-4;
+    padding: 1rem;
+
+    &__imgBox{
+
+      width: 50%;
+      position: relative;
+
+      &__img{
+        max-width: 100%;
+
+      }
+    }
+
+    &__desc{
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      width: 50%;
+      max-height: 25rem;
+      padding: 1rem;
+      border-left-style: solid;
+      border-left-color: $color-grey-light-3;
+
+      &__text {
+        color: $color-grey-dark-3;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
+    }
+
+
+
+  }
+
+  &__productoProgress{
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: $color-grey-light-4;
+    padding: 1rem;
+
+    &__barbox{
+      margin: 0rem 1rem;
+      position: relative;
+      width: 35%;
+    }
+  }
+
+  &__etiqueta{
+    position: absolute;
+    top: 1.2rem;
+    right: 1rem;
+    background-color: $color-tag-green;
+    color: $color-white;
+    border-radius: 5px;
+    padding: 0.3rem 0.8rem;
+  }
+
+  &__btnBox{
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+}
+

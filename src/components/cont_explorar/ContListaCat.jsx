@@ -5,7 +5,11 @@ export const ContListaCat = ({categorias}) => {
     <div className="explorarCat__lista">
       {
         categorias.map(cat => (
-          <Link to={"/"} key={cat.nombre} className="explorarCat__lista__item">
+          <Link 
+            to={`/categoria/${cat.nombre.toLowerCase().replace(" ", "_")}`} 
+            key={cat.nombre} 
+            className="explorarCat__lista__item"
+          >
             <span className="material-symbols-rounded icon--sm">
               {cat.googleCodeRoundedIcon}
             </span>
