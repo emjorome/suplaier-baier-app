@@ -1,15 +1,23 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ContActividades, ContExplorar, ContFavoritos, ProgressBar, ValoracionStar } from "../../components"
 import { getOfertaById, getProductoById } from "../../helpers/getOfertaById";
+import { CompraProductos, MetodoPago } from "../components";
 
 export const OfertaDetalle = () => {
 
   const {ofertaId:idOferta} = useParams();
 
   const oferta = useMemo(() => getOfertaById(parseInt(idOferta)), [idOferta]);
-
   const producto = useMemo(() => getProductoById(oferta?.idProducto), [oferta]);
+
+  const [showCompraProductos, setShowCompraProductos] = useState(false);
+  const [showMetodoPago, setShowMetodoPago] = useState(false);
+
+  const handleClickUnirse = () => {
+    setShowCompraProductos(true);
+
+  }
 
   return (
     <div className="comp-main-container u-margin-top-navbar">
@@ -91,11 +99,28 @@ export const OfertaDetalle = () => {
             </div>
             
             {/* antes de unirse, verificar que haya vinculado el método de pago */}
-            <div className="oferta-detalle__btnBox">
-              <button className="btn btn--blue">
+            { oferta.estado === "En Curso" && <div className="oferta-detalle__btnBox">
+              <button 
+                className="btn btn--blue"
+                onClick={handleClickUnirse}>
                 Unirse
               </button>
-            </div>
+            </div>}
+            {/* ventana para confirmar comprar */}
+            {showCompraProductos && 
+              <CompraProductos 
+                setShowCompraProductos={setShowCompraProductos}
+                setShowMetodoPago={setShowMetodoPago}
+                oferta={oferta}
+                producto={producto}
+              />
+            }
+            {/* ventana para confirmar metodo de pago */}
+            {showMetodoPago && 
+              <MetodoPago
+                setShowMetodoPago={setShowMetodoPago}
+              />
+            }
           </div>
         </div>
       </div>
