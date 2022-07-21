@@ -11,6 +11,8 @@ const init = () => {
   }
 }
 
+// aqui tambien deberia haber contexto para las ofertasActivas del usuario
+
 export const AuthProvider = ({children}) => {
 
   const [authState, dispatch] = useReducer(authReducer, {}, init);

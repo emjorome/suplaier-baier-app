@@ -1,5 +1,6 @@
 //import { useFetch } from "../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
+import { getProductoById, getProveedorById } from "../../helpers/getOfertaById";
 import { EtiquetaOferta } from "./EtiquetaOferta"
 import { ProgressBar } from "./ProgressBar";
 
@@ -15,7 +16,7 @@ export const OfertaCard = ({oferta}) => {
 
   //aqui con el idProducto, hacer get del producto
   const {//idProducto,
-        //idProveedor, 
+        idProveedor, 
         //cantMin,
         cantMax,
         actualProductos,
@@ -30,14 +31,9 @@ export const OfertaCard = ({oferta}) => {
   //const {proveedor} = data;
   //const {nombre} = proveedor;
 
-  const nombreProveedor = "Agrícola S.A.";
-  const producto = {
-    nombre: "Manzana",
-    descripcion: "Manzana fresca de tipo ... traída desde ...",
-    costoUnitario: 0.5,
-    //aqui debe ser un album de Img, abrir nueva tabla de unos a muchos
-    urlImg: "https://t2.ev.ltmcdn.com/es/posts/7/0/2/germinar_semillas_de_manzana_como_hacerlo_y_cuidados_2207_600.jpg",
-  }
+  const proveedor = getProveedorById(idProveedor);
+  const {nombre: nombreProveedor} = proveedor;
+  const producto = getProductoById(oferta.idProducto);
 
   const {nombre: nombreProd, costoUnitario: costoU, urlImg} = producto;
 

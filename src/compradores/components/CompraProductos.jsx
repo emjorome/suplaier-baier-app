@@ -1,19 +1,20 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useForm } from "../../hooks";
 
 export const CompraProductos = ({
   setShowCompraProductos, 
   oferta, 
   setShowMetodoPago,
+  costoTotal,
+  setCostoTotal,
   producto}) => {
 
-  const [costoTotal, setCostoTotal] = useState(0.00);
 
   const {unidadesUser, onInputChange} = useForm({unidadesUser: 0})
 
   useEffect(() => {
-    setCostoTotal(parseInt(unidadesUser) * producto?.costoUnitario)
-  }, [unidadesUser, producto]);
+    setCostoTotal((parseInt(unidadesUser) * producto?.costoUnitario))
+  }, [unidadesUser, producto, setCostoTotal]);
   
   const onCompraSubmit = (e) => {
     e.preventDefault();
@@ -55,22 +56,25 @@ export const CompraProductos = ({
         <div className="oferta-detalle__productoBox u-margin-top-small">
           <p className="paragraph">Fecha de cierre: {oferta?.fechaLimite}</p>
         </div>
-        <div className="oferta-detalle__productoBox u-margin-top-small ">
-          <input
-            type="number"
-            placeholder="Cantidad de unidades a comprar"
-            className="compraProducto__input paragraph"
-            name="unidadesUser"
-            autoComplete="off"
-            value={unidadesUser}
-            onChange={onInputChange}
-            min={1}
-            max={oferta?.cantMax - oferta?.actualProductos}
-          />
+        <div className="oferta-detalle__productoBox__twoColumn">
+          <div className="oferta-detalle__productoBox u-margin-top-small ">
+            <input
+              type="number"
+              placeholder="Cantidad de unidades a comprar"
+              className="compraProducto__input paragraph"
+              name="unidadesUser"
+              autoComplete="off"
+              value={unidadesUser}
+              onChange={onInputChange}
+              min={1}
+              max={oferta?.cantMax - oferta?.actualProductos}
+            />
+          </div>
+          <div className="oferta-detalle__productoBox u-margin-top-small u-justify-center">
+            <p className="paragraph"><b>Total: $ {!!unidadesUser ? costoTotal.toFixed(2) : 0}</b></p>
+          </div>
         </div>
-        <div className="oferta-detalle__productoBox u-margin-top-small u-justify-center">
-          <p className="paragraph"><b>Total: $ {!!unidadesUser ? costoTotal : 0}</b></p>
-        </div>
+        
 
       </div>
 

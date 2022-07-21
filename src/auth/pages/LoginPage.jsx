@@ -67,29 +67,39 @@ export const LoginPage = () => {
   }
 
   return (
-    <>
-      <h1>Login</h1>
-      <hr />
-      <div>
-        <button 
-          className="btn btn--blue u-margin-right-medium"
-          onClick={() => onLoginAsComprador(usuarioComp)}
-        >
-          Comprador
-        </button>
-        <button 
-          className="btn btn--green u-margin-right-medium"
-          onClick={() => onLoginAsProveedor(usuarioProv)}
-        >
-          Proveedor
-        </button>
-        <button 
-          className="btn btn--red"
-          onClick={() => onLoginAsAdministrador(usuarioAdm)}
-        >
-          Administrador
-        </button>
+    <div className="loginPage">
+      {/* div central */}
+      <div className="loginPage__centralbox">
+        <div className="loginPage__centralbox__izq">
+          <h1 className="paragraph--white paragraph--md">SUPPLAIER</h1>
+          <h3 className="paragraph--white paragraph">Inicia sesión para acceder a la aplicación</h3>
+          <img src="/login.png" alt="login" className="loginPage__centralbox__izq__img" />
+        </div>
+        <div className="loginPage__centralbox__der">
+          <h1>Iniciar Sesión</h1>
+          <hr className="hrGeneral"/>
+          <div className="u-margin-top-small loginPage__centralbox__der__buttons">
+            <button 
+              className="btn btn--blue u-margin-right-medium"
+              onClick={() => onLoginAsComprador(usuarioComp)}
+            >
+              Comprador
+            </button>
+            <button 
+              className="btn btn--green u-margin-right-medium"
+              onClick={() => onLoginAsProveedor(usuarioProv)}
+            >
+              Proveedor
+            </button>
+            <button 
+              className="btn btn--red"
+              onClick={() => onLoginAsAdministrador(usuarioAdm)}
+            >
+              Administrador
+            </button>
+          </div>
+        </div>
       </div>
-    </>
+    </div>
   )
 }

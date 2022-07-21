@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ContActividades, ContExplorar, ContFavoritos, ProgressBar, ValoracionStar } from "../../components"
 import { getOfertaById, getProductoById } from "../../helpers/getOfertaById";
-import { CompraProductos, MetodoPago } from "../components";
+import { CompraAnticipada, CompraProductos, CompraReserva, MetodoPago, PagoExito } from "../components";
 
 export const OfertaDetalle = () => {
 
@@ -11,8 +11,14 @@ export const OfertaDetalle = () => {
   const oferta = useMemo(() => getOfertaById(parseInt(idOferta)), [idOferta]);
   const producto = useMemo(() => getProductoById(oferta?.idProducto), [oferta]);
 
+  const [ofertaActual, setOfertaActual] = useState(oferta);
+  const [costoTotal, setCostoTotal] = useState(0.00);
+
   const [showCompraProductos, setShowCompraProductos] = useState(false);
   const [showMetodoPago, setShowMetodoPago] = useState(false);
+  const [showPagoReserva, setShowPagoReserva] = useState(false);
+  const [showPagoAnticipado, setShowPagoAnticipado] = useState(false);
+  const [showPagoExito, setShowPagoExito] = useState(false);
 
   const handleClickUnirse = () => {
     setShowCompraProductos(true);
@@ -34,7 +40,7 @@ export const OfertaDetalle = () => {
             </span>
             <p className="paragraph--mid"><b>{producto?.nombre}</b></p>
             <div className="oferta-detalle__etiqueta">
-              <p className="paragraph--sm">{oferta?.estado}</p>
+              <p className="paragraph--sm">{ofertaActual?.estado}</p>
             </div>
           </div>
           <hr className="hrGeneral"/>
@@ -59,7 +65,7 @@ export const OfertaDetalle = () => {
             </div>
             
             <div className="oferta-detalle__productoBox u-margin-top-small">
-              <p className="paragraph">{oferta?.descripcion}</p>
+              <p className="paragraph">{ofertaActual?.descripcion}</p>
             </div>
 
             <div className="oferta-detalle__productoBox u-margin-top-small">
@@ -68,14 +74,14 @@ export const OfertaDetalle = () => {
 
             <div className="oferta-detalle__productoProgress u-margin-top-small">
               <p className="paragraph paragraph--blue">Unidades restantes para completar el mínimo:&nbsp;
-                {oferta?.cantMin - oferta?.actualProductos}
+                {ofertaActual?.cantMin - ofertaActual?.actualProductos}
               </p>
             </div>
             
             <div className="oferta-detalle__productoProgress u-margin-top-small">
               <p className="paragraph">Unidades restantes:&nbsp;
-                {oferta?.cantMax - oferta?.actualProductos}&nbsp;/&nbsp;
-                {oferta?.cantMax}
+                {ofertaActual?.cantMax - ofertaActual?.actualProductos}&nbsp;/&nbsp;
+                {ofertaActual?.cantMax}
               </p>
             </div>
 
@@ -83,23 +89,23 @@ export const OfertaDetalle = () => {
               <p className="paragraph">Progreso de unidades vendidas: </p>
               <div className="oferta-detalle__productoProgress__barbox">
                 <ProgressBar 
-                  cantMax={oferta?.cantMax} 
-                  actualProductos={oferta?.actualProductos}
+                  cantMax={ofertaActual?.cantMax} 
+                  actualProductos={ofertaActual?.actualProductos}
                 />
               </div>
               <p 
                 className="paragraph paragraph--blue"
               >
-                {(oferta?.actualProductos / oferta?.cantMax) * 100}%
+                {((ofertaActual?.actualProductos / ofertaActual?.cantMax) * 100).toFixed(0)}%
               </p>
             </div>
 
             <div className="oferta-detalle__productoBox u-margin-top-small">
-              <p className="paragraph">Fecha de cierre: {oferta?.fechaLimite}</p>
+              <p className="paragraph">Fecha de cierre: {ofertaActual?.fechaLimite}</p>
             </div>
             
             {/* antes de unirse, verificar que haya vinculado el método de pago */}
-            { oferta.estado === "En Curso" && <div className="oferta-detalle__btnBox">
+            { ofertaActual.estado === "En Curso" && <div className="oferta-detalle__btnBox">
               <button 
                 className="btn btn--blue"
                 onClick={handleClickUnirse}>
@@ -111,14 +117,39 @@ export const OfertaDetalle = () => {
               <CompraProductos 
                 setShowCompraProductos={setShowCompraProductos}
                 setShowMetodoPago={setShowMetodoPago}
-                oferta={oferta}
+                oferta={ofertaActual}
                 producto={producto}
+                costoTotal={costoTotal}
+                setCostoTotal={setCostoTotal}
               />
             }
             {/* ventana para confirmar metodo de pago */}
             {showMetodoPago && 
               <MetodoPago
                 setShowMetodoPago={setShowMetodoPago}
+                setShowPagoReserva={setShowPagoReserva}
+                setShowPagoAnticipado={setShowPagoAnticipado}
+              />
+            }
+            {showPagoAnticipado &&
+              <CompraAnticipada
+                setShowPagoAnticipado={setShowPagoAnticipado}
+                setShowPagoExito={setShowPagoExito}
+                setOfertaActual={setOfertaActual}
+                costoTotal={costoTotal}
+              />
+            }
+            {showPagoReserva &&
+              <CompraReserva
+                setShowPagoReserva={setShowPagoReserva}
+                setShowPagoExito={setShowPagoExito}
+                setOfertaActual={setOfertaActual}
+                costoTotal={costoTotal}
+              />
+            }
+            {showPagoExito &&
+              <PagoExito
+                setShowPagoExito={setShowPagoExito}
               />
             }
           </div>

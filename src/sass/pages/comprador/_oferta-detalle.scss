@@ -10,12 +10,29 @@
     border-color: $color-grey-light-4;
     padding: 1rem;
 
+    &__twoColumn{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+
+      & > * {
+        width: 50%;
+      }
+
+      & > :not(:last-child) {
+        margin-right: 1rem;
+      }
+    }
+
     &__imgBox{
 
       width: 50%;
       position: relative;
+      min-height: 20rem ;
+      max-height: 35rem;
 
       &__img{
+        max-height: 100%;
         max-width: 100%;
 
       }

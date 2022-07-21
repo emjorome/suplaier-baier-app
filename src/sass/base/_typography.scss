@@ -31,6 +31,14 @@ body {
     color: $color-blue;
   }
 
+  &--white {
+    color: $color-white;
+  }
+
+  &--grey {
+    color: $color-grey-dark-2;
+  }
+
 
   /*&:not(:last-child) {
     margin-bottom: 1rem;
