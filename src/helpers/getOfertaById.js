@@ -52,3 +52,12 @@ export const getProveedorById = (id) => {
 export const getOfertaByIdProveedor = (id) => {
   return listaOfertas.filter(oferta => oferta.idProveedor === id);
 }
+
+export const getOfertaActivaByIdProveedor = (id) => {
+  const listaOfertasByProd = listaOfertas.filter(oferta => oferta.idProveedor === id);
+  return listaOfertasByProd.filter(oferta => oferta.estado === "En Curso");
+}
+
+export const getProductosByIdProveedor = (id) => {
+  return productos.filter(prod => prod.nombreProveedor === "Agrícola S.A.");
+}

@@ -6,12 +6,16 @@ import { ProgressBar } from "./ProgressBar";
 
 //Para hacer una ofertaCard, yo solo necesito como param
 //el objeto de la oferta
-export const OfertaCard = ({oferta}) => {
+export const OfertaCard = ({oferta, esProveedor = false}) => {
 
   const navigate = useNavigate();
 
   const onClickOferta = () => {
-    navigate(`/oferta/${oferta.idOferta}`);
+    !esProveedor 
+    ?
+    navigate(`/oferta/${oferta.idOferta}`)
+    :
+    navigate(`/mi_oferta/${oferta.idOferta}`);
   }
 
   //aqui con el idProducto, hacer get del producto

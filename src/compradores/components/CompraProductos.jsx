@@ -74,8 +74,6 @@ export const CompraProductos = ({
             <p className="paragraph"><b>Total: $ {!!unidadesUser ? costoTotal.toFixed(2) : 0}</b></p>
           </div>
         </div>
-        
-
       </div>
 
       <div className="metodoPago__btnBox">

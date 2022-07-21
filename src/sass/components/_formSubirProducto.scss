@@ -1,0 +1,32 @@
+.formSubirProducto {
+
+  display: flex;
+  position: relative;
+  flex-direction: row;
+
+  &__input {
+    width: 100%;
+    position: relative;
+    display: flex;
+    height: 100%;
+    border-style: solid;
+    border-radius: 5px;
+    border-width: 1px;
+    padding: 1rem;
+    border-color: $color-grey-light-4;
+  }
+
+  &__textArea {
+    width: 100%;
+    position: relative;
+    display: flex;
+    height: 15rem;
+    border-style: solid;
+    border-radius: 5px;
+    border-width: 1px;
+    padding: 1rem;
+    border-color: $color-grey-light-4;
+    resize: none;
+    font-family: "Lato", sans-serif;
+  }
+}

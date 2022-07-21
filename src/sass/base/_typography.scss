@@ -38,6 +38,9 @@ body {
   &--grey {
     color: $color-grey-dark-2;
   }
+  &--grey--2 {
+    color: $color-grey-dark;
+  }
 
 
   /*&:not(:last-child) {

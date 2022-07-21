@@ -38,6 +38,16 @@
     }
   }
 
+  &--grey {
+    background-color: $color-secondary-light;
+    color: $color-white;
+
+    &::after {
+        background-color: $color-secondary-light;
+    
+    }
+  }
+
   &--green {
     background-color: $color-green;
     color: $color-white;
