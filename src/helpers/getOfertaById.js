@@ -1,4 +1,6 @@
+import { apiUrl } from "../apiUrl";
 import { categorias, listaOfertas, notificaciones, ofertaComprador, productos, tipoNotificacion, usuariosRegistrados } from "../data";
+import { useFetch } from "../hooks";
 
 export const getOfertaById = (id) => {
   return listaOfertas.find(oferta => oferta.idOferta === id);
@@ -33,8 +35,12 @@ export const getOfertaByCategoriaProducto = (categoria) => {
   return ofertas;
 }
 
-export const getCategoriaById = (id) => {
-  return categorias.find(cat => cat.id === id);
+export const GetCategoriaById = (id) => {
+
+  const {data, isLoading} = useFetch(`${apiUrl}/catProductos?id=${id}`);
+
+  const {rows: categoria} = !!data && data;
+  return categoria.Nombre;
 }
 
 export const getNotificacionesByUsuarioId = (id) => {

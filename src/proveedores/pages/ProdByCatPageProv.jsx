@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 import { ContActividades, ContExplorar, OfertaCard } from "../../components"
-import { getCategoriaById, getOfertaByCategoriaProducto } from "../../helpers/getOfertaById";
+import { GetCategoriaById, getOfertaByCategoriaProducto } from "../../helpers/getOfertaById";
 import { useContext } from "react";
 import { AuthContext } from "../../auth";
 import { ProdOfertaButtonBox } from "../components";
@@ -14,7 +14,7 @@ export const ProdByCatPageProv = () => {
   const {user} = authState;
 
   const {q = ""} = queryString.parse(location.search);
-  const {nombre: nombreCategoria} = getCategoriaById(q);
+  const {nombre: nombreCategoria} = GetCategoriaById(q);
   const ofertas = getOfertaByCategoriaProducto(q);
 
   const ofertasProv = ofertas.filter(oferta => oferta.idProveedor === user.id);

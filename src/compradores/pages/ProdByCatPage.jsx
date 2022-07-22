@@ -1,18 +1,24 @@
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 import { ContActividades, ContExplorar, ContFavoritos, OfertaCard } from "../../components"
-import { getCategoriaById, getOfertaByCategoriaProducto } from "../../helpers/getOfertaById";
+import { getOfertaByCategoriaProducto } from "../../helpers/getOfertaById";
+import { apiUrl } from "../../apiUrl";
+import { useFetch } from "../../hooks";
 
 export const ProdByCatPage = () => {
 
   const location = useLocation();
 
   const {q = ""} = queryString.parse(location.search);
-  const {nombre: nombreCategoria} = getCategoriaById(q);
+  const {data, isLoading} = useFetch(`${apiUrl}/catProductos?id=${q}`);
+  const {rows: categoria} = !!data && data;
+
+  const cat = categoria?.find(cat => cat.IdCatProducto === parseInt(q));
+  const {Nombre: nombreCategoria = "none"} = cat || {};
+
   const ofertas = getOfertaByCategoriaProducto(q);
   
   const showError = (q.length > 0) && ofertas.length === 0;
-
 
   return (
     <div className="comp-main-container u-margin-top-navbar">
@@ -27,7 +33,7 @@ export const ProdByCatPage = () => {
           <span className="material-symbols-rounded icon-grey icon--sm">
               arrow_forward_ios
           </span>
-          <p className="paragraph--mid"><b>Productos por categoría: {nombreCategoria}</b></p>
+          <p className="paragraph--mid"><b>Productos por categoría: {isLoading ? "Cargando..." :nombreCategoria}</b></p>
           </div>
           <hr className="hrGeneral"/>
           <div className="u-margin-top-small"></div>

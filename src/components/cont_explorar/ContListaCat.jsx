@@ -5,16 +5,16 @@ export const ContListaCat = ({categorias}) => {
   return (
     <div className="explorarCat__lista">
       {
-        categorias.map(cat => (
+        categorias?.map(cat => (
           <Link 
-            to={`/categoria?q=${cat.id}`} 
-            key={cat.nombre} 
+            to={`/categoria?q=${cat.IdCatProducto}`} 
+            key={cat.IdCatProducto} 
             className="explorarCat__lista__item"
           >
             <span className="material-symbols-rounded icon--sm">
-              {cat.googleCodeRoundedIcon}
+              {cat.GoogleCodeRoundedIcon}
             </span>
-              <p className="paragraph--mid--2">{cat.nombre}</p>
+              <p className="paragraph--mid--2">{cat.Nombre}</p>
           </Link>
         ))
       }
