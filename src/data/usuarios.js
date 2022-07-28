@@ -39,7 +39,7 @@ export const usuariosRegistrados = [
     direccion: "Auskunft-022",
   },
   {
-    id: 4,
+    id: 7,
     tipo: "administrador",
     nombre: "Carlos Duran",
     identificacion: "1205801325",
@@ -78,7 +78,7 @@ export const usuariosRegistrados = [
     direccion: "Calle 23",
   },
   {
-    id: 7,
+    id: 4,
     tipo: "proveedor",
     nombre: "Agrícola S.A.",
     identificacion: "0905801320",

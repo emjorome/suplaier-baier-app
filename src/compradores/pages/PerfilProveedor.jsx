@@ -1,15 +1,31 @@
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 import { ContActividades, ContExplorar, ContFavoritos, OfertaCard } from "../../components"
-import { getOfertaByIdProveedor, getProveedorById } from "../../helpers/getOfertaById";
+import { getOfertaByIdProveedor } from "../../helpers/getOfertaById";
+import { useEffect, useState } from "react";
+import { apiUrl } from "../../apiUrl";
 
 export const PerfilProveedor = () => {
 
   const location = useLocation();
-
   const {q = ""} = queryString.parse(location.search);
-  const proveedor = getProveedorById(parseInt(q));
-  const ofertasProveedor = getOfertaByIdProveedor(proveedor.id);
+
+  const [proveedor, setProveedor] = useState({});
+
+  const getFetch = async() => {
+    const resp = await fetch(`${apiUrl}/proveedores?id=${q}`);
+    const data = await resp.json();
+    const {rows: prov} = data;
+    setProveedor(prov[0])
+  }
+
+  useEffect(() => {
+    getFetch();
+    // eslint-disable-next-line
+  }, [q])
+
+
+  const ofertasProveedor = getOfertaByIdProveedor(q);
   
   const showError = ofertasProveedor.length === 0;
 
@@ -26,29 +42,29 @@ export const PerfilProveedor = () => {
             <span className="material-symbols-rounded icon-grey icon--sm">
                 arrow_forward_ios
             </span>
-            <p className="paragraph--mid"><b>Perfil proveedor: {proveedor.nombre}</b></p>
+            <p className="paragraph--mid"><b>Perfil proveedor: {proveedor.Nombre}</b></p>
           </div>
           <hr className="hrGeneral"/>
           <div className="u-margin-top-small"></div>
 
           <div className="oferta-detalle__productoBox u-margin-top-small">
-            <p className="paragraph">País: {proveedor.pais}</p>
+            <p className="paragraph">País: {proveedor.Pais}</p>
           </div>
 
           <div className="oferta-detalle__productoBox u-margin-top-small">
-            <p className="paragraph">Ciudad: {proveedor.ciudad}</p>
+            <p className="paragraph">Ciudad: {proveedor.Ciudad}</p>
           </div>
 
           <div className="oferta-detalle__productoBox u-margin-top-small">
-            <p className="paragraph">Dirección: {proveedor.direccion}</p>
+            <p className="paragraph">Dirección: {proveedor.Direccion}</p>
           </div>
 
           <div className="oferta-detalle__productoBox u-margin-top-small">
-            <p className="paragraph">E-mail: {proveedor.email}</p>
+            <p className="paragraph">E-mail: {proveedor.Email}</p>
           </div>
 
           <div className="oferta-detalle__productoBox u-margin-top-small">
-            <p className="paragraph">Celular: {proveedor.celular}</p>
+            <p className="paragraph">Celular: {proveedor.Numero}</p>
           </div>
         
           {/* separar usuarios compradores, proveedores y administradores en 

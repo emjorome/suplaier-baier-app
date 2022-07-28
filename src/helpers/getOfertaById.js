@@ -1,5 +1,5 @@
 import { apiUrl } from "../apiUrl";
-import { categorias, listaOfertas, notificaciones, ofertaComprador, productos, tipoNotificacion, usuariosRegistrados } from "../data";
+import { listaOfertas, notificaciones, ofertaComprador, productos, tipoNotificacion, usuariosRegistrados } from "../data";
 import { useFetch } from "../hooks";
 
 export const getOfertaById = (id) => {
@@ -36,9 +36,7 @@ export const getOfertaByCategoriaProducto = (categoria) => {
 }
 
 export const GetCategoriaById = (id) => {
-
-  const {data, isLoading} = useFetch(`${apiUrl}/catProductos?id=${id}`);
-
+  const {data} = useFetch(`${apiUrl}/catProductos?id=${id}`);
   const {rows: categoria} = !!data && data;
   return categoria.Nombre;
 }
@@ -67,3 +65,17 @@ export const getOfertaActivaByIdProveedor = (id) => {
 export const getProductosByIdProveedor = (id) => {
   return productos.filter(prod => prod.nombreProveedor === "Agrícola S.A.");
 }
+
+// export const GetProvFavoritosByIdComprador = (id) => {
+//   const {data, Loading} = useFetch(`${apiUrl}/catProductos?id=${id}`);
+// }
+
+// export const GetProvByIdProveedor = (id) => {
+//   const {data, Loading} = useFetch(`${apiUrl}/proveedores?id=${id}`);
+//   const {rows: proveedor} = !!data && data;
+//   while(Loading){
+//     console.log("cargando")
+//   }
+//   return proveedor;
+// }
+

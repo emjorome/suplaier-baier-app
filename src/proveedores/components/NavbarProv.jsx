@@ -9,9 +9,9 @@ export const NavbarProv = () => {
 
   const nagivate = useNavigate();
 
-  const onClickOfertas = () => {
-    nagivate("/historial_ofertas");
-  }
+  // const onClickOfertas = () => {
+  //   nagivate("/historial_ofertas");
+  // }
 
   const onClickAlertas = () => {
     nagivate("/notificaciones");
@@ -38,7 +38,7 @@ export const NavbarProv = () => {
             </span>
             <p className="paragraph--sm">Alertas</p>
           </div>
-          <div 
+          {/* <div 
             className="navigation__leftButtons__box__ind"
             onClick={onClickOfertas}
           >
@@ -46,7 +46,7 @@ export const NavbarProv = () => {
               import_contacts
             </span>
             <p className="paragraph--sm">Ofertas</p>
-          </div>
+          </div> */}
           <div 
             className="navigation__leftButtons__box__ind"
             onClick={() => logout()}

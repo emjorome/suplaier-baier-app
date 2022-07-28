@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ContActividades, ContExplorar, ProgressBar, ValoracionStar } from "../../components"
+import { ContActividades, ProgressBar, ValoracionStar } from "../../components"
 import { getOfertaById, getProductoById } from "../../helpers/getOfertaById";
 import { ProdOfertaButtonBox } from "../components";
 
@@ -31,7 +31,7 @@ export const OfertaDetalleProv = () => {
   return (
     <div className="comp-main-container u-margin-top-navbar">
       <div className="comp-main-container__izqCont">
-        <ContExplorar/>
+        {/* <ContExplorar/> */}
         <ProdOfertaButtonBox/>
       </div>
       <div className="comp-main-container__divSepIzq"></div>

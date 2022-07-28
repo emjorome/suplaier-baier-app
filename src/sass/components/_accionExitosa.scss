@@ -1,0 +1,34 @@
+.accionExitosa {
+  &__ventana {
+    background-color: $color-white;
+    border-radius: 5px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 36%;
+    height: 40%;
+    top: 20%;
+    left: 28%;
+    
+
+    &__textoBox {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      height: 55%;
+      gap: 2rem;
+      padding-top: 3rem;
+
+      &__icon {
+        color: $color-primary;
+        font-size: 5rem;
+      }
+
+      &__texto {
+        color: $color-green;
+      }
+    }
+   
+  }
+}

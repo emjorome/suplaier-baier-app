@@ -14,7 +14,7 @@ export const LoginPage = () => {
 
   //usuarios de ejemplo
   const usuarioComp = usuariosRegistrados.find(user => user.tipo === "comprador");
-  const usuarioProv = usuariosRegistrados.find(user => user.id === 7);
+  const usuarioProv = usuariosRegistrados.find(user => user.id === 4);
   const usuarioAdm = usuariosRegistrados.find(user => user.tipo === "administrador");
 
   const onLoginAsComprador = (user) => {
