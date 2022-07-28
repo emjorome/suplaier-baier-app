@@ -1,15 +1,28 @@
 import { ContActividades, OfertaCard} from "../../components";
 import {getOfertaByIdProveedor} from "../../helpers/getOfertaById";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../auth";
 import { ProdOfertaButtonBox } from "../components";
+import { apiUrl } from "../../apiUrl";
 
 export const MainProvPage = () => {
 
   const {authState} = useContext(AuthContext);
   const {user} = authState;
 
-  const ofertasProv = getOfertaByIdProveedor(user.id);
+  const [ofertasProv, setOfertasProv] = useState([]);
+
+  const getOfertasProv = async() => {
+    const resp = await fetch(`${apiUrl}/publicaciones?idProveedor=${user.id}`);
+    const data = await resp.json();
+    const {rows: ofertas} = !!data && data;
+    setOfertasProv(ofertas);
+  }
+
+  useEffect(() => {
+    getOfertasProv();
+  }, [authState])
+  
 
   const showEmptyArray = ofertasProv.length === 0;
 
@@ -35,7 +48,7 @@ export const MainProvPage = () => {
           :
           ofertasProv.map(oferta => (
             <OfertaCard 
-              key={oferta.idOferta}
+              key={oferta?.IdPublicacion}
               oferta={oferta}
               esProveedor={true}
             />

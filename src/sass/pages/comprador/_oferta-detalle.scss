@@ -9,6 +9,7 @@
     border-radius: 5px;
     border-color: $color-grey-light-4;
     padding: 1rem;
+    gap: 1rem;
 
     &__twoColumn{
       display: flex;
@@ -25,15 +26,19 @@
     }
 
     &__imgBox{
-
+      position: relative;
+      display: flex;
       width: 50%;
       position: relative;
       min-height: 20rem ;
-      max-height: 35rem;
+      max-height: 20rem;
+      align-self: center;
 
       &__img{
         max-height: 100%;
         max-width: 100%;
+        object-fit: cover;
+        border-radius: 5px;
 
       }
     }

@@ -10,6 +10,8 @@ export const ProdByCatPage = () => {
   const location = useLocation();
 
   const {q = ""} = queryString.parse(location.search);
+
+
   const {data, isLoading} = useFetch(`${apiUrl}/catProductos?id=${q}`);
   const {rows: categoria} = !!data && data;
 
@@ -17,6 +19,20 @@ export const ProdByCatPage = () => {
   const {Nombre: nombreCategoria = "none"} = cat || {};
 
   const ofertas = getOfertaByCategoriaProducto(q);
+
+  // const [ofertas, setOfertas] = useState();
+
+  // const getOfertas = async() => {
+  //   const resp = await fetch(`${apiUrl}/publicaciones`);
+  //   const data = await resp.json();
+  //   const {rows: ofertas} = !!data && data;
+  //   setOfertasTodos(ofertas);
+  // }
+
+  // useEffect(() => {
+  //   getOfertas();
+  // }, [q])
+  
   
   const showError = (q.length > 0) && ofertas.length === 0;
 

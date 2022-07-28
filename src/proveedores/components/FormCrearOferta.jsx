@@ -42,7 +42,6 @@ export const FormCrearOferta = () => {
   
   const onContinuarCrearOferta = (e) => {
     e.preventDefault();
-    console.log(formState);
     setShowResumenOferta(true);
 
   }
