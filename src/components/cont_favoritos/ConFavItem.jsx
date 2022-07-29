@@ -15,7 +15,7 @@ export const ConFavItem = ({fav}) => {
 
   useEffect(() => {
     
-    getFetch();
+    !!fav && getFetch();
     // eslint-disable-next-line
   }, [fav])
 
@@ -28,7 +28,7 @@ export const ConFavItem = ({fav}) => {
       <span className="material-symbols-rounded icon--sm">
         star
       </span>
-      <p className="paragraph--mid--2">{proveedorData.Nombre}</p>
+      <p className="paragraph--mid--2">{proveedorData?.Nombre}</p>
     </Link>
   )
 }

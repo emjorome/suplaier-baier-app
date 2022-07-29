@@ -1,33 +1,46 @@
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 import { ContActividades, ContExplorar, ContFavoritos, OfertaCard } from "../../components"
-import { getOfertaByIdProveedor } from "../../helpers/getOfertaById";
 import { useEffect, useState } from "react";
 import { apiUrl } from "../../apiUrl";
 
 export const PerfilProveedor = () => {
 
   const location = useLocation();
-  const {q = ""} = queryString.parse(location.search);
+  const [q, setQ] = useState("");
+
+  useEffect(() => {
+    setQ(queryString.parse(location.search).q)
+  }, [location])
 
   const [proveedor, setProveedor] = useState({});
+  const [ofertasProv, setOfertasProv] = useState([]);
 
-  const getFetch = async() => {
+  const getProveedor = async() => {
     const resp = await fetch(`${apiUrl}/proveedores?id=${q}`);
     const data = await resp.json();
     const {rows: prov} = data;
     setProveedor(prov[0])
   }
 
+  const getOfertasProv = async() => {
+    const resp = await fetch(`${apiUrl}/publicaciones?idProveedor=${proveedor?.IdProveedor}`);
+    const data = await resp.json();
+    const {rows: ofertas} = data;
+    setOfertasProv(ofertas);
+  }
+
   useEffect(() => {
-    getFetch();
+    !!q && getProveedor();
     // eslint-disable-next-line
   }, [q])
 
-
-  const ofertasProveedor = getOfertaByIdProveedor(q);
+  useEffect(() => {
+    !!proveedor?.IdProveedor && getOfertasProv(); 
+    // eslint-disable-next-line
+  }, [proveedor])
   
-  const showError = ofertasProveedor.length === 0;
+  const showError = ofertasProv?.length === 0;
 
   return (
     <div className="comp-main-container u-margin-top-navbar">
@@ -79,9 +92,9 @@ export const PerfilProveedor = () => {
           <hr className="hrGeneral"/>
 
           <div className="comp-main-container__medCont__ofertas">
-            {ofertasProveedor.map(oferta => (
+            {ofertasProv?.map(oferta => (
               <OfertaCard 
-                key={oferta.idOferta * 100}
+                key={oferta.IdPublicacion}
                 oferta={oferta}
               />
             ))}

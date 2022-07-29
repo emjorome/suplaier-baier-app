@@ -74,7 +74,7 @@ export const OfertaCard = ({oferta, esProveedor = false}) => {
 
   return (
     <div 
-      className="oferta-card u-margin-top-small" 
+      className="oferta-card u-margin-top-small animate__animated animate__fadeIn" 
       onClick={onClickOferta}
     >
       <div className="oferta-card__imgbox">

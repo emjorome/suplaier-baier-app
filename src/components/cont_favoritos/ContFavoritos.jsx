@@ -1,7 +1,6 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { apiUrl } from "../../apiUrl";
 import { AuthContext } from "../../auth";
-import { useFetch } from "../../hooks";
 import { Cargando } from "../generales";
 import { ContFavTitle } from "./ContFavTitle"
 import { ContListaFav } from "./ContListaFav"
@@ -12,9 +11,23 @@ export const ContFavoritos = () => {
   const {authState} = useContext(AuthContext);
   const {user: {id}} = authState;
 
-  const {data, isLoading} = useFetch(`${apiUrl}/provFavoritos?idComprador=${id}`);
-  const {rows: favoritos} = !!data && data;
+  const [favoritos, setFavoritos] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
+  const getFavoritos = async() => {
+    setIsLoading(true);
+    const resp = await fetch(`${apiUrl}/provFavoritos?idComprador=${id}`);
+    const data = await resp.json();
+    const {rows: favoritos} = data;
+    setFavoritos(favoritos);
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    !!id && getFavoritos();
+    // eslint-disable-next-line
+  }, [])
+  
   return (
     <div className="favoritosProv">
       <ContFavTitle/>
