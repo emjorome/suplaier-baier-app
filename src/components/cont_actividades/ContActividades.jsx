@@ -1,11 +1,8 @@
-import { ofertasActivasByUser } from "../../data"
 import { ContListaActProv } from "../../proveedores/components/ContListaActProv"
 import { ContActTitle } from "./ContActTitle"
 import { ContListaAct } from "./ContListaAct"
 
 export const ContActividades = ({esProveedor = false}) => {
-
-  //extraer las ofertas activas por el usuario
 
   return (
     <div className="actividadesRec">
@@ -14,7 +11,7 @@ export const ContActividades = ({esProveedor = false}) => {
       {
         !esProveedor
         ?
-        <ContListaAct ofertasActivasByUser={ofertasActivasByUser}/>
+        <ContListaAct />
         :
         <ContListaActProv />
       }

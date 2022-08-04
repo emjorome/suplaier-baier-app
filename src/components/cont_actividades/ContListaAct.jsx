@@ -1,21 +1,34 @@
+import { useState } from "react";
 import { Link } from "react-router-dom"
+//import { AuthContext } from "../../auth";
 
-export const ContListaAct = ({ofertasActivasByUser}) => {
+export const ContListaAct = () => {
 
-  const producto = {
-    idProducto: 1,
-    nombre: "Manzana",
-    descripcion: "Manzana fresca de tipo ... traída desde ...",
-    costoUnitario: 0.5,
-    nombreProveedor: "Agrícola S.A.",
-    //aqui debe ser un album de Img, abrir nueva tabla de unos a muchos
-    urlImg: "https://t2.ev.ltmcdn.com/es/posts/7/0/2/germinar_semillas_de_manzana_como_hacerlo_y_cuidados_2207_600.jpg",
-  };
+  // const {authState} = useContext(AuthContext);
+  // const {user: comprador} = authState;
+
+  // eslint-disable-next-line
+  const [ofertasActivasByComp, setOfertasActivasByComp] = useState([]);
+
+  // const getOfertasActivasByIdProveedor = async(id) => {
+  //   const resp = await fetch(`${apiUrl}/compras?idProveedor=${id}&idEstadoOferta=1`);
+  //   const data = await resp.json();
+  //   const {rows: ofertasActivas} = !!data && data;
+  //   setOfertasActivasByComp(ofertasActivas);
+  // }
+
+  // useEffect(() => {
+  //   getOfertasActivasByIdProveedor(proveedor.id);
+  // }, [comprador.id])
+
+  const showEmptyArray = ofertasActivasByComp?.length === 0;
 
   return (
     <div className="actividadesRec__lista">
-      {
-        ofertasActivasByUser.map(ofertaActiva => {
+      {showEmptyArray
+        ? <p className="paragraph">No tienes ofertas activas</p>
+        :
+        ofertasActivasByComp?.map(ofertaActiva => {
 
           return <Link 
               to={`/oferta/${ofertaActiva.idOferta}`} 
@@ -26,9 +39,9 @@ export const ContListaAct = ({ofertasActivasByUser}) => {
             <span className="material-symbols-rounded icon--sm actividadesRec__lista__item__delete">
               cancel
             </span>
-            <p className="paragraph--mid--2"><b>{producto.nombre}</b></p>
+            {/* <p className="paragraph--mid--2"><b>{producto.nombre}</b></p>
             <p className="paragraph--mid--2">{producto.nombreProveedor}</p>
-            <p className="paragraph--mid--2">{ofertaActiva.fechaLimite}</p>
+            <p className="paragraph--mid--2">{ofertaActiva.fechaLimite}</p> */}
           </Link>
         })
       }

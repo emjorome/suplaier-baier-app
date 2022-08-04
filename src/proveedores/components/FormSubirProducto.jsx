@@ -1,33 +1,62 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import { apiUrl } from "../../apiUrl";
 import { AuthContext } from "../../auth";
-import { categorias } from "../../data";
 import { useForm } from "../../hooks";
+import { AccionExitosa } from "./AccionExitosa";
+import { ResumenProducto } from "./ResumenProducto";
 
 export const FormSubirProducto = () => {
 
   const {authState} = useContext(AuthContext);
   const {user} = authState;
 
+  const [imgExists, setImgExists] = useState(false);
+  const [imagen, setImagen] = useState();
+  const [showResumenProducto, setShowResumenProducto] = useState(false);
+  const [showAccionExitosa, setShowAccionExitosa] = useState(false);
+  const [categorias, setCategorias] = useState([]);
+
+  const getImg = async (urlImg) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(urlImg);
+    reader.onloadend = () => {
+      const base64data = reader.result;
+      setImagen(base64data);
+    };
+  };
+
   const {
-      formState,
-      nombreProducto,
-      descripcion,
-      costoUnitario,
-      stock,
-      onInputChange} = useForm({
-        nombreProducto: "",
-        descripcion: "",
-        costoUnitario: 0.00,
-        nombreProveedor: user.nombre,
-        stock: 0,
-        categoria: "",
-        urlImg: "",
+      formState, nombreProducto, descripcion, costoUnitario, stock,urlImg, onInputChange} = useForm({
+        nombreProducto: "", descripcion: "", costoUnitario: 0.00, nombreProveedor: user.nombre,
+        stock: 0, categoria: {}, urlImg: "",
       });
+
+  const getCategorias = async() => {
+    const resp = await fetch(`${apiUrl}/catProductos`);
+    const data = await resp.json();
+    const {rows: categorias} = !!data && data;
+    setCategorias(categorias);
+  }
+
+  useEffect(() => {
+    getCategorias();
+  }, [])
+  
+
+  useEffect(() => {
+    //aqui se debe validar el url
+    if(urlImg !== ""){
+      setImgExists(true);
+      getImg(urlImg);
+    } else {
+      setImgExists(false);
+    }
+  }, [urlImg])
+  
   
   const onContinuarSubirProducto = (e) => {
     e.preventDefault();
-    console.log(formState);
-
+    setShowResumenProducto(true);
   }
 
   return (
@@ -92,9 +121,9 @@ export const FormSubirProducto = () => {
                 Seleccionar categoría
               </option> 
               {
-                categorias.map(cat => 
-                  <option value={cat.nombre} key={cat.nombre}>
-                    {cat.nombre}
+                categorias?.map(cat => 
+                  <option value={JSON.stringify(cat)} key={cat.IdCatProducto}>
+                    {cat.Nombre}
                   </option>)
               }
             </select>
@@ -110,6 +139,11 @@ export const FormSubirProducto = () => {
               onChange={onInputChange}
             />
           </div>
+          {imgExists &&
+            <div className="oferta-detalle__productoBox u-margin-top-small">
+              <img src={imagen} alt={urlImg} className="resumenProducto__ventana__img" />
+            </div>
+          }
       </div>
 
       <div className="metodoPago__btnBox">
@@ -117,6 +151,23 @@ export const FormSubirProducto = () => {
           type="submit" 
           className="btn btn--blue"
         >Continuar</button>
+      </div>
+      <div>
+        {
+          showResumenProducto &&
+          <ResumenProducto 
+            formState={formState} 
+            setShowResumenProducto={setShowResumenProducto}
+            setShowAccionExitosa={setShowAccionExitosa}
+          />
+        }
+        {
+          showAccionExitosa &&
+          <AccionExitosa
+            texto={'¡Producto subido con éxito!'}
+            setShowAccionExitosa={setShowAccionExitosa}
+          />
+        }
       </div>
     </form>
   )

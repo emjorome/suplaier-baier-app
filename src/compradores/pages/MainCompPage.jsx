@@ -1,7 +1,24 @@
+import { useEffect, useState } from "react";
+import { apiUrl } from "../../apiUrl";
 import { ContActividades, ContExplorar, ContFavoritos, OfertaCard } from "../../components";
-import { listaOfertas } from "../../data";
 
 export const MainCompPage = () => {
+
+  const [ofertasTodos, setOfertasTodos] = useState();
+
+  const getOfertasTodos = async() => {
+    const resp = await fetch(`${apiUrl}/publicaciones`);
+    const data = await resp.json();
+    const {rows: ofertas} = !!data && data;
+    setOfertasTodos(ofertas);
+  }
+
+  useEffect(() => {
+    getOfertasTodos();
+  }, [])
+
+  const showEmptyArray = ofertasTodos?.length === 0;
+
   return (
     <div className="comp-main-container u-margin-top-navbar">
       <div className="comp-main-container__izqCont">
@@ -11,9 +28,19 @@ export const MainCompPage = () => {
       <div className="comp-main-container__divSepIzq"></div>
       <div className="comp-main-container__medCont">
         <div className="comp-main-container__medCont__ofertas">
-          {listaOfertas.map(oferta => (
+          <div className="explorarCat__title">
+            <span className="material-symbols-rounded icon-grey icon--sm">
+              arrow_forward_ios
+            </span>
+            <p className="paragraph--mid"><b>Ofertas</b></p>
+          </div>
+          <hr className="hrGeneral"/>
+          {showEmptyArray
+          ? <p className="paragraph">Por el momento no hay ofertas disponibles</p>
+          :
+          ofertasTodos?.map(oferta => (
             <OfertaCard 
-              key={oferta.idOferta}
+              key={oferta.IdPublicacion}
               oferta={oferta}
             />
           ))}

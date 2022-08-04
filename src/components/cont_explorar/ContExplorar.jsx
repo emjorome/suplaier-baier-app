@@ -1,12 +1,12 @@
 import { apiUrl } from "../../apiUrl"
 import { useFetch } from "../../hooks"
+import { Cargando } from "../generales"
 import { ContExpTitle } from "./ContExpTitle"
 import { ContListaCat } from "./ContListaCat"
 
 export const ContExplorar = () => {
 
   const {data, isLoading} = useFetch(`${apiUrl}/catProductos`);
-  
   const {rows: categorias} = !!data && data;
 
   return (
@@ -14,7 +14,7 @@ export const ContExplorar = () => {
       <ContExpTitle/>
       <hr className="hrGeneral"/>
       {isLoading
-      ? <p>Cargando</p>
+      ? <Cargando/>
       : <ContListaCat categorias={categorias}/>
       }
       

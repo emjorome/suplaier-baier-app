@@ -1,11 +1,9 @@
-//import { useFetch } from "../hooks/useFetch";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getProductoById, getProveedorById } from "../../helpers/getOfertaById";
+import { apiUrl } from "../../apiUrl";
 import { EtiquetaOferta } from "./EtiquetaOferta"
 import { ProgressBar } from "./ProgressBar";
 
-//Para hacer una ofertaCard, yo solo necesito como param
-//el objeto de la oferta
 export const OfertaCard = ({oferta, esProveedor = false}) => {
 
   const navigate = useNavigate();
@@ -13,59 +11,92 @@ export const OfertaCard = ({oferta, esProveedor = false}) => {
   const onClickOferta = () => {
     !esProveedor 
     ?
-    navigate(`/oferta/${oferta.idOferta}`)
+    navigate(`/oferta/${oferta.IdPublicacion}`)
     :
-    navigate(`/mi_oferta/${oferta.idOferta}`);
+    navigate(`/mi_oferta/${oferta.IdPublicacion}`);
   }
-
-  //aqui con el idProducto, hacer get del producto
-  const {//idProducto,
-        idProveedor, 
-        //cantMin,
-        cantMax,
-        actualProductos,
-        fechaLimite,
-        estado,
+  const {IdProducto,
+        IdProveedor, 
+        Maximo,
+        ActualProductos,
+        FechaLimite,
+        IdEstadoOferta,
       } = oferta;
 
-  //const {data} = useFetch(urlGetImagen);
-  //const {producto} = data;
+  const [producto, setProducto] = useState();
+  const [proveedor, setProveedor] = useState();
+  const [estadoOferta, setEstadoOferta] = useState();
+  const [nombreProveedor, setNombreProveedor] = useState();
+  const [datosProd, setDatosProd] = useState({});
 
-  //const {data} = useFetch(urlGetProveedor);
-  //const {proveedor} = data;
-  //const {nombre} = proveedor;
+  const getProductoOferta = async() => {
+    const resp = await fetch(`${apiUrl}/productos?id=${IdProducto}`);
+    const data = await resp.json();
+    const {rows: producto} = !!data && data;
+    setProducto(producto[0]);
+  }
 
-  const proveedor = getProveedorById(idProveedor);
-  const {nombre: nombreProveedor} = proveedor;
-  const producto = getProductoById(oferta.idProducto);
+  const getProveedorOferta = async() => {
+    const resp = await fetch(`${apiUrl}/proveedores?id=${IdProveedor}`);
+    const data = await resp.json();
+    const {rows: proveedor} = !!data && data;
+    setProveedor(proveedor[0]);
+  }
 
-  const {nombre: nombreProd, costoUnitario: costoU, urlImg} = producto;
+  const getEstadoOferta = async() => {
+    const resp = await fetch(`${apiUrl}/estados?id=${IdEstadoOferta}`);
+    const data = await resp.json();
+    const {rows: estado} = !!data && data;
+    setEstadoOferta(estado[0]);
+  }
+
+  useEffect(() => {
+    getProductoOferta();
+    getProveedorOferta();
+    getEstadoOferta();
+    // eslint-disable-next-line
+  }, [oferta])
+
+  useEffect(() => {
+    setNombreProveedor(proveedor?.Nombre);
+  }, [proveedor])
+  
+  useEffect(() => {
+    setDatosProd({
+      nombreProd: producto?.Name,
+      costoU: producto?.ValorU,
+      urlImg: producto?.UrlImg,
+    })
+  
+  }, [producto])
+  
+
 
   return (
     <div 
-      className="oferta-card" 
+      className="oferta-card u-margin-top-small animate__animated animate__fadeIn" 
       onClick={onClickOferta}
     >
       <div className="oferta-card__imgbox">
-        <img className="oferta-card__imgbox__img" src={urlImg} alt={nombreProd}/>
+        <img className="oferta-card__imgbox__img" src={datosProd?.urlImg} alt={datosProd?.nombreProd}/>
       </div>
       <div className="oferta-card__datosbox">
-        <EtiquetaOferta estado={estado}/>
+        <EtiquetaOferta estado={estadoOferta?.Descripcion}/>
         <div className="oferta-card__datosbox__title u-margin-bottom-small">
-          <p className="paragraph paragraph--bold paragraph--mid">{nombreProd}</p>
+          <p className="paragraph paragraph--bold paragraph--mid">{datosProd?.nombreProd}</p>
           <p className="paragraph">{nombreProveedor}</p>
         </div>
         <div className="oferta-card__datosbox__otros">
           <div className="oferta-card__datosbox__otros__der">
-            <p className="paragraph">En oferta: {cantMax - actualProductos} / { cantMax }</p>
+            <p className="paragraph">En oferta: {Maximo - ActualProductos} / { Maximo }</p>
             <ProgressBar 
-              actualProductos={actualProductos} 
-              cantMax={cantMax}
+              actualProductos={ActualProductos} 
+              cantMax={Maximo}
             />
-            <p className="paragraph">Fecha vigencia: {fechaLimite}</p>
+            <p className="paragraph">Fecha vigencia: {FechaLimite.split("T")[0]}</p>
           </div>
           <div>
-            <p className="paragraph u-padding-right-medium">Precio unitario: {"$" + costoU}</p>
+            <p className="paragraph u-padding-right-medium">Precio unitario: {"$" + datosProd?.costoU}</p>
           </div>
         </div>
       </div>

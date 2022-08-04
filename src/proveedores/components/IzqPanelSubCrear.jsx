@@ -1,5 +1,13 @@
+import { useNavigate } from "react-router-dom"
 
 export const IzqPanelSubCrear = ({esSubirProducto = false, esCrearOferta = false}) => {
+
+  const navigate = useNavigate();
+
+  const onClickCancelar = () => {
+    navigate(`/proveedor`);
+  }
+
   return (
     <div className="explorarCat">
       <div className="explorarCat__title">
@@ -30,7 +38,10 @@ export const IzqPanelSubCrear = ({esSubirProducto = false, esCrearOferta = false
         }
       </div>
       <div className="izqPanelSubCrear__btnBox u-margin-top-huge u-margin-bottom-small">
-        <button className="btn btn--red">
+        <button 
+          className="btn btn--red"
+          onClick={onClickCancelar}
+        >
           Cancelar
         </button>
       </div>

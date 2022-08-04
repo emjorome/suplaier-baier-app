@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "../../auth";
-import { ContActividades, ContExplorar, NotificacionCard } from "../../components"
+import { ContActividades, NotificacionCard } from "../../components"
 import { getNotificacionesByUsuarioId } from "../../helpers/getOfertaById";
 import { ProdOfertaButtonBox } from "../components";
 
@@ -16,7 +16,7 @@ export const NotificacionesProv = () => {
   return (
     <div className="comp-main-container u-margin-top-navbar">
       <div className="comp-main-container__izqCont">
-        <ContExplorar/>
+        {/* <ContExplorar/> */}
         <ProdOfertaButtonBox/>
       </div>
       <div className="comp-main-container__divSepIzq"></div>

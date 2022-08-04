@@ -1,17 +1,46 @@
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 import { ContActividades, ContExplorar, ContFavoritos, OfertaCard } from "../../components"
-import { getOfertaByIdProveedor, getProveedorById } from "../../helpers/getOfertaById";
+import { useEffect, useState } from "react";
+import { apiUrl } from "../../apiUrl";
 
 export const PerfilProveedor = () => {
 
   const location = useLocation();
+  const [q, setQ] = useState("");
 
-  const {q = ""} = queryString.parse(location.search);
-  const proveedor = getProveedorById(parseInt(q));
-  const ofertasProveedor = getOfertaByIdProveedor(proveedor.id);
+  useEffect(() => {
+    setQ(queryString.parse(location.search).q)
+  }, [location])
+
+  const [proveedor, setProveedor] = useState({});
+  const [ofertasProv, setOfertasProv] = useState([]);
+
+  const getProveedor = async() => {
+    const resp = await fetch(`${apiUrl}/proveedores?id=${q}`);
+    const data = await resp.json();
+    const {rows: prov} = data;
+    setProveedor(prov[0])
+  }
+
+  const getOfertasProv = async() => {
+    const resp = await fetch(`${apiUrl}/publicaciones?idProveedor=${proveedor?.IdProveedor}`);
+    const data = await resp.json();
+    const {rows: ofertas} = data;
+    setOfertasProv(ofertas);
+  }
+
+  useEffect(() => {
+    !!q && getProveedor();
+    // eslint-disable-next-line
+  }, [q])
+
+  useEffect(() => {
+    !!proveedor?.IdProveedor && getOfertasProv(); 
+    // eslint-disable-next-line
+  }, [proveedor])
   
-  const showError = ofertasProveedor.length === 0;
+  const showError = ofertasProv?.length === 0;
 
   return (
     <div className="comp-main-container u-margin-top-navbar">
@@ -26,29 +55,29 @@ export const PerfilProveedor = () => {
             <span className="material-symbols-rounded icon-grey icon--sm">
                 arrow_forward_ios
             </span>
-            <p className="paragraph--mid"><b>Perfil proveedor: {proveedor.nombre}</b></p>
+            <p className="paragraph--mid"><b>Perfil proveedor: {proveedor.Nombre}</b></p>
           </div>
           <hr className="hrGeneral"/>
           <div className="u-margin-top-small"></div>
 
           <div className="oferta-detalle__productoBox u-margin-top-small">
-            <p className="paragraph">País: {proveedor.pais}</p>
+            <p className="paragraph">País: {proveedor.Pais}</p>
           </div>
 
           <div className="oferta-detalle__productoBox u-margin-top-small">
-            <p className="paragraph">Ciudad: {proveedor.ciudad}</p>
+            <p className="paragraph">Ciudad: {proveedor.Ciudad}</p>
           </div>
 
           <div className="oferta-detalle__productoBox u-margin-top-small">
-            <p className="paragraph">Dirección: {proveedor.direccion}</p>
+            <p className="paragraph">Dirección: {proveedor.Direccion}</p>
           </div>
 
           <div className="oferta-detalle__productoBox u-margin-top-small">
-            <p className="paragraph">E-mail: {proveedor.email}</p>
+            <p className="paragraph">E-mail: {proveedor.Email}</p>
           </div>
 
           <div className="oferta-detalle__productoBox u-margin-top-small">
-            <p className="paragraph">Celular: {proveedor.celular}</p>
+            <p className="paragraph">Celular: {proveedor.Numero}</p>
           </div>
         
           {/* separar usuarios compradores, proveedores y administradores en 
@@ -63,9 +92,9 @@ export const PerfilProveedor = () => {
           <hr className="hrGeneral"/>
 
           <div className="comp-main-container__medCont__ofertas">
-            {ofertasProveedor.map(oferta => (
+            {ofertasProv?.map(oferta => (
               <OfertaCard 
-                key={oferta.idOferta * 100}
+                key={oferta.IdPublicacion}
                 oferta={oferta}
               />
             ))}

@@ -8,7 +8,9 @@ export const useForm = (initialForm = {}) => {
     const {name, value} = target;
 
     if (name === "urlImg") {
-      const url = target.files[0].name;
+      // const url = target.files[0].name;
+      // console.log(target.files[0]);
+      const url = target.files[0];
       if(!!url) {
         setFormState({
           ...formState,

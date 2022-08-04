@@ -1,7 +1,9 @@
 import { useContext, useEffect, useState } from "react";
+import { apiUrl } from "../../apiUrl";
 import { AuthContext } from "../../auth";
-import { getProductoById, getProductosByIdProveedor } from "../../helpers/getOfertaById";
 import { useForm } from "../../hooks";
+import { AccionExitosa } from "./AccionExitosa";
+import { ResumenOferta } from "./ResumenOferta";
 
 export const FormCrearOferta = () => {
 
@@ -24,25 +26,65 @@ export const FormCrearOferta = () => {
         cantMax: 0,
         descripcion: "",
         actualProductos: 0,
-        fechaLimite: "2022-07-21",
+        fechaLimite: "",
         fechaCreacion: `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`,
-        estado: "En Curso",
+        fechaModificacion: `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`,
+        estado: true,
+        idEstadoOferta: 1,
       });
+
+  const [productosProv, setProductosProv] = useState([]);
+  const [producto, setProducto] = useState({});
+  const [productoExiste, setProductoExiste] = useState(false);
+  const [imagen, setImagen] = useState();
+  const [showResumenOferta, setShowResumenOferta] = useState(false);
+  const [showAccionExitosa, setShowAccionExitosa] = useState(false);
   
   const onContinuarCrearOferta = (e) => {
     e.preventDefault();
-    console.log(formState);
+    setShowResumenOferta(true);
 
   }
 
-  const productosProv = getProductosByIdProveedor(user.id);
-
-  const [producto, setProducto] = useState({});
+  const getProductos = async() => {
+    const resp = await fetch(`${apiUrl}/productos?idProveedor=${user.id}`);
+    const data = await resp.json();
+    const {rows: productos} = !!data && data;
+    setProductosProv(productos);
+  }
 
   useEffect(() => {
-    setProducto(getProductoById(parseInt(idProducto)));
+    getProductos();
+    // eslint-disable-next-line
+  }, [])
   
+  const getProductoSelect = async(id) => {
+    if (id !== "Seleccionar producto" && id !== -1) {
+      const resp = await fetch(`${apiUrl}/productos?id=${id}`);
+      const data = await resp.json();
+      const {rows: producto} = !!data && data;
+      setProductoExiste(true);
+      setProducto(producto[0]);
+    } else {
+      setProductoExiste(false);
+    }
+    
+  }
+
+  const getImg = async (urlImg, id) => {
+    if (id !== "Seleccionar producto" && id !== -1) {
+      setImagen(urlImg);
+    }
+  };
+
+
+  useEffect(() => {
+    getProductoSelect(idProducto);
   }, [idProducto]);
+
+  useEffect(() => {
+    getImg(producto.UrlImg, idProducto);
+  }, [producto, idProducto])
   
 
   return (
@@ -59,27 +101,27 @@ export const FormCrearOferta = () => {
               </option> 
               {
                 productosProv.map(prod => 
-                  <option value={prod.idProducto} key={prod.nombre}>
-                    {prod.nombre}
+                  <option value={prod.IdProducto} key={prod.Name}>
+                    {prod.Name}
                   </option>)
               }
             </select>
           </div>
           {
-          (idProducto !== -1) && 
-          <div className="oferta-detalle__productoBox u-margin-top-small">
-            <div className="oferta-detalle__productoBox__imgBox">
+          productoExiste && 
+          <div className="formCrearOferta__productoBox u-margin-top-small">
+            <div className="formCrearOferta__productoBox__imgBox">
               <img 
-                className="oferta-detalle__productoBox__imgBox__img" 
-                src={producto?.urlImg} 
-                alt={producto?.nombre} 
+                className="formCrearOferta__productoBox__imgBox__img" 
+                src={imagen} 
+                alt={producto?.Name} 
               />
             </div>
             <div className="oferta-detalle__productoBox__desc">
               <div className="oferta-detalle__productoBox__desc__text">
-                <p className="paragraph"><b>{producto?.nombre}</b></p>
-                <p className="paragraph"><b>Precio unitario: $ {producto?.costoUnitario}</b></p>
-                <p className="paragraph">{producto?.descripcion}</p>
+                <p className="paragraph"><b>{producto?.Name}</b></p>
+                <p className="paragraph"><b>Precio unitario: $ {producto?.ValorU}</b></p>
+                <p className="paragraph">{producto?.Descripcion}</p>
               </div>
             </div>
           </div>
@@ -140,6 +182,21 @@ export const FormCrearOferta = () => {
           type="submit" 
           className="btn btn--blue"
         >Continuar</button>
+        {
+          showResumenOferta &&
+          <ResumenOferta 
+            formState={formState} 
+            setShowResumenOferta={setShowResumenOferta}
+            setShowAccionExitosa={setShowAccionExitosa}
+          />
+        }
+        {
+          showAccionExitosa &&
+          <AccionExitosa
+            texto={'¡Oferta creada con éxito!'}
+            setShowAccionExitosa={setShowAccionExitosa}
+          />
+        }
       </div>
     </form>
   )
