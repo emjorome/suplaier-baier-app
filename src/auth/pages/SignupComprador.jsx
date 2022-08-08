@@ -4,11 +4,11 @@ export const SignupComprador = () => {
   return (
     <div className="loginPage">
       <div className="loginPage__centralbox">
-        <div className="loginPage__centralbox__der">
+        <div className="loginPage__centralbox__izq">
           <h1>Signup as comprador</h1>
           <FormRegistrarComprador/>
         </div>
-        <div className="loginPage__centralbox__izq">
+        <div className="loginPage__centralbox__der">
           <img 
             src="suplaier_horizontal celeste.png" 
             alt="logo_suplaier" 
