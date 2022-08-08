@@ -22,14 +22,21 @@
 @import "components/resumenProducto";
 @import "components/accionExitosa";
 @import "components/formCrearOferta";
+@import "components/buscadorAdm";
+@import "components/contNavegarAdm";
+@import "components/cardUsuario";
+@import "components/oferta-card-adm";
 
 @import "layout/navigation";
 @import "layout/footer";
 @import "layout/grid";
 @import "layout/cargando";
 
-//@import "pages/administrador";
+@import "pages/administrador/adm-main";
+@import "pages/administrador/usuarios-page";
+@import "pages/administrador//adm-ofertas-page";
 @import "pages/comprador/comp-main";
 @import "pages/comprador/oferta-detalle";
 @import "pages/authPages/login";
+@import "pages/authPages/signup";
 //@import "pages/proveedor";

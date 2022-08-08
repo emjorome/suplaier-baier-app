@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import { AdmRoutes } from "../administradores";
-import { AuthContext, LoginPage, SignupPage } from "../auth";
+import { AuthContext, LoginPage, SignupComprador, SignupPage, SignupProveedor } from "../auth";
 import { CompRoutes } from "../compradores";
 import { ProvRoutes } from "../proveedores";
 import { PrivateRoute } from "./PrivateRoute";
@@ -35,9 +35,19 @@ export const AppRouter = () => {
             <SignupPage/>
           </PublicRoute>
         }/>
+        <Route path="/signup_comprador" element={
+          <PublicRoute>
+            <SignupComprador/>
+          </PublicRoute>
+        }/>
+        <Route path="/signup_proveedor" element={
+          <PublicRoute>
+            <SignupProveedor/>
+          </PublicRoute>
+        }/>
         <Route path="/*" element={
           <PrivateRoute>
-            {getRoutesByTypeOfUser(authState?.user?.tipo)}
+            {getRoutesByTypeOfUser(authState?.user?.Rol)}
           </PrivateRoute>
         }/>
       </Routes>

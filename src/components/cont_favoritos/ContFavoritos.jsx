@@ -9,14 +9,14 @@ export const ContFavoritos = () => {
 
   //cargar lista de favoritos por comprador
   const {authState} = useContext(AuthContext);
-  const {user: {id}} = authState;
+  const {user: {IdUsuario}} = authState;
 
   const [favoritos, setFavoritos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const getFavoritos = async() => {
     setIsLoading(true);
-    const resp = await fetch(`${apiUrl}/provFavoritos?idComprador=${id}`);
+    const resp = await fetch(`${apiUrl}/provFavoritos?idUsuarioComp=${IdUsuario}`);
     const data = await resp.json();
     const {rows: favoritos} = data;
     setFavoritos(favoritos);
@@ -24,9 +24,9 @@ export const ContFavoritos = () => {
   }
 
   useEffect(() => {
-    !!id && getFavoritos();
+    getFavoritos();
     // eslint-disable-next-line
-  }, [])
+  }, [IdUsuario])
   
   return (
     <div className="favoritosProv">

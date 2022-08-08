@@ -1,14 +1,28 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import { apiUrl } from "../../apiUrl";
 import { AuthContext } from "../../auth";
 import { ContActividades, ContExplorar, ContFavoritos, NotificacionCard } from "../../components"
-import { getNotificacionesByUsuarioId } from "../../helpers/getOfertaById";
 
 export const Notificaciones = () => {
 
   const {authState} = useContext(AuthContext);
   const {user} = authState;
+  const [notificaciones, setNotificaciones] = useState([])
+
+  const getNotificacionesByUser = async() => {
+    const resp = await fetch(`${apiUrl}/notificaciones?idUsuario=${user.IdUsuario}`);
+    const data = await resp.json();
+    const {rows: ofertas} = !!data && data;
+    setNotificaciones(ofertas);
+  }
+
+  useEffect(() => {
+    getNotificacionesByUser();
+    // eslint-disable-next-line
+  }, [authState])
   
-  const notificaciones = getNotificacionesByUsuarioId(user.id);
+
+  const showEmptyArray = notificaciones?.length === 0;
 
   return (
     <div className="comp-main-container u-margin-top-navbar">
@@ -27,11 +41,13 @@ export const Notificaciones = () => {
           </div>
           <hr className="hrGeneral"/>
           <div className="u-margin-top-small"></div>
-          {
-            notificaciones.map(
-              notif => <NotificacionCard 
-                          key={notif.id * 10} 
-                          notificacion={notif}/>)
+          {showEmptyArray
+          ? <p className="paragraph">Por el momento no ha recibido notificaciones</p>
+          :
+          notificaciones.map(
+            notif => <NotificacionCard 
+                        key={notif.id * 10} 
+                        notificacion={notif}/>)
           }
         </div>
       </div>

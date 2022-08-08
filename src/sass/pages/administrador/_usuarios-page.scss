@@ -1,0 +1,16 @@
+.usuariosContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+  position: relative;
+
+  &--col {
+    border-color: $color-grey-light-3;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+    padding: 1rem;
+    width: 49%;
+  }
+}

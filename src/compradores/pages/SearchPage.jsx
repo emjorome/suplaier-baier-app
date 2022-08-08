@@ -1,15 +1,28 @@
 import queryString from "query-string";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { apiUrl } from "../../apiUrl";
 import { ContActividades, ContExplorar, ContFavoritos, OfertaCard } from "../../components";
-import { getOfertaByNombreProducto } from "../../helpers/getOfertaById";
 
 export const SearchPage = () => {
 
   const location = useLocation();
   const {q = ""} = queryString.parse(location.search);
-  const ofertas = getOfertaByNombreProducto(q);
+  const [ofertasBusqueda, setOfertasBusqueda] = useState([]);
 
-  const showError = (q.length > 0) && ofertas.length === 0;
+  const getOfertasTodos = async() => {
+    const resp = await fetch(`${apiUrl}/ofertaByProducto?q=${q}`);
+    const data = await resp.json();
+    const {rows: ofertas} = !!data && data;
+    setOfertasBusqueda(ofertas);
+  }
+
+  useEffect(() => {
+    getOfertasTodos();
+    // eslint-disable-next-line
+  }, [q])
+
+  const showError = (q.length > 0) && ofertasBusqueda.length === 0;
 
   return (
     <div className="comp-main-container u-margin-top-navbar">
@@ -28,7 +41,7 @@ export const SearchPage = () => {
           </div>
           <hr className="hrGeneral"/>
           <div className="u-margin-top-small"></div>
-          {ofertas.map(oferta => (
+          {ofertasBusqueda.map(oferta => (
             <OfertaCard
               key={oferta.idOferta}
               oferta={oferta}
@@ -36,7 +49,7 @@ export const SearchPage = () => {
           ))}
           <div 
             className="busqueda__errorBusqueda" 
-            style={{display : showError ? '' : 'none'}}
+            style={{display : (showError || q === "") ? '' : 'none'}}
           >
             <p className="paragraph"> No se han encontrado ofertas</p>
           </div>

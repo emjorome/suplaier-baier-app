@@ -1,102 +1,155 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { usuariosRegistrados } from "../../data/usuarios";
+import { apiUrl } from "../../apiUrl";
+import { useForm } from "../../hooks/useForm";
 import { AuthContext } from "../context";
-import { 
-  validarLoginAdministradorById, 
-  validarLoginCompradorById, 
-  validarLoginProveedorById } from "../helpers";
 
 export const LoginPage = () => {
 
   const navigate = useNavigate();
   const {login} = useContext(AuthContext);
 
-  //usuarios de ejemplo
-  const usuarioComp = usuariosRegistrados.find(user => user.tipo === "comprador");
-  const usuarioProv = usuariosRegistrados.find(user => user.id === 4);
-  const usuarioAdm = usuariosRegistrados.find(user => user.tipo === "administrador");
+  const [isGoingToSignup, setIsGoingToSignup] = useState(false);
 
-  const onLoginAsComprador = (user) => {
+  const {username, password, onInputChange} = useForm({username: "", password: ""})
+  const [usernameIsValid, setUsernameIsValid] = useState(true);
 
-    if (validarLoginCompradorById(user.id)){
-
-      login(user);
-
-      navigate("/comprador", {
-        replace: true,
-      }); 
-    } 
-    
-    else {
-      console.log("Usuario comprador no registrado");
+  const getAuthResponse = async() => {
+    const body = { 
+      usuario: username,
+      pass: password,
     }
+    const resp = await fetch(`${apiUrl}/auth`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    });
+    const data = await resp.json();
+
+    if (data.length === 0){    
+      setUsernameIsValid(false);
+      return null;
+    }
+    else {
+      return data[0];
+    } 
     
   }
 
-  const onLoginAsProveedor = (user) => {
+  const onSubmitLogin = (e) => {
+    e.preventDefault();
+    getAuthResponse()
+      .then(user => {
+        if(!!user) {
+          login(user);
+          switch (user.Rol) {
+          //comprador
+          case "comprador":
+            navigate("/comprador", {
+              replace: true,
+            }); 
+            return;
+          //proveedor
+          case "proveedor":
+            navigate("/proveedor", {
+              replace: true,
+            }); 
+            return;
+          //administrador
+          default:
+            navigate("/administrador", {
+              replace: true,
+            }); 
+            return;
+        }
 
-    if (validarLoginProveedorById(user.id)){
-
-      login(user);
-
-      navigate("/proveedor", {
-        replace: true,
-      }); 
-    } 
-    
-    else {
-      console.log("Usuario proveedor no registrado");
-    }
+        }
+      });
   }
 
-  const onLoginAsAdministrador = (user) => {
-
-    if (validarLoginAdministradorById(user.id)){
-
-      login(user);
-
-      navigate("/administrador", {
+  const onClickRegistro = () => {
+    setIsGoingToSignup(true);
+    setTimeout(() => {
+      navigate("/signup", {
         replace: true,
       }); 
-    } 
-    
-    else {
-      console.log("Usuario administrador no registrado");
-    }
+    }, 500);
   }
+
+  useEffect(() => {
+    setUsernameIsValid(true);
+  }, [username])
+  
 
   return (
     <div className="loginPage">
       {/* div central */}
-      <div className="loginPage__centralbox">
+      <div className={ isGoingToSignup ? "loginPage__centralbox animate__animated animate__fadeOutUpBig" : "loginPage__centralbox"}>
         <div className="loginPage__centralbox__izq">
-          <h1 className="paragraph--white paragraph--md">SUPPLAIER</h1>
-          <h3 className="paragraph--white paragraph">Inicia sesión para acceder a la aplicación</h3>
-          <img src="/login.png" alt="login" className="loginPage__centralbox__izq__img" />
+          <img 
+            src="suplaier_horizontal celeste.png" 
+            alt="logo_suplaier" 
+            className="loginPage__centralbox__izq__logoImg" 
+          />
+          <img 
+            src="/login.png" 
+            alt="login" 
+            className="loginPage__centralbox__izq__img" 
+          />
         </div>
         <div className="loginPage__centralbox__der">
-          <h1>Iniciar Sesión</h1>
-          <hr className="hrGeneral"/>
-          <div className="u-margin-top-small loginPage__centralbox__der__buttons">
+          <h1 className="loginPage__title">Iniciar Sesión</h1>
+          <p className="paragraph paragraph--primary">Inicia sesión para acceder a la aplicación</p>
+          <div className="loginPage__centralbox__der__loginBox">
+            <form onSubmit={onSubmitLogin}>
+              <div className="loginPage__centralbox__der__loginBox__entryBox">
+                <label htmlFor="username">
+                  <p className="paragraph paragraph--sm paragraph--blue">Usuario</p>
+                </label>
+                <input 
+                  type="text" 
+                  id="username" 
+                  name="username" 
+                  placeholder="Example"
+                  className="loginPage__centralbox__der__loginBox__entryBox__input"
+                  onChange={onInputChange} 
+                  required
+                />
+                {
+                  !usernameIsValid &&
+                  <p className="paragraph--red">Usuario no válido</p>
+                }
+              </div>
+              <div  className="loginPage__centralbox__der__loginBox__entryBox">
+                <label htmlFor="password">
+                  <p className="paragraph paragraph--sm paragraph--blue">Contraseña</p>
+                </label>
+                <input 
+                  type="password" 
+                  id="password" 
+                  name="password" 
+                  className="loginPage__centralbox__der__loginBox__entryBox__input"
+                  placeholder="Password"
+                  onChange={onInputChange}
+                  required
+                />
+              </div>
+              <div className="loginPage__centralbox__der__loginBox__btnBox">
+                <button 
+                  type="submit"
+                  className="btn btn--blue"
+                >Iniciar sesión</button>
+              </div>
+            </form>
+          </div>
+          <div className="loginPage__centralbox__der__signupBox">
+            <p className="paragraph paragraph--sm paragraph--green">¿Primera vez por aquí?</p>
             <button 
-              className="btn btn--blue u-margin-right-medium"
-              onClick={() => onLoginAsComprador(usuarioComp)}
-            >
-              Comprador
-            </button>
-            <button 
-              className="btn btn--green u-margin-right-medium"
-              onClick={() => onLoginAsProveedor(usuarioProv)}
-            >
-              Proveedor
-            </button>
-            <button 
-              className="btn btn--red"
-              onClick={() => onLoginAsAdministrador(usuarioAdm)}
-            >
-              Administrador
-            </button>
+              onClick={onClickRegistro}
+              className="btn btn--green"
+            >Registrarme</button>
           </div>
         </div>
       </div>

@@ -1,9 +1,9 @@
 import queryString from "query-string";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { apiUrl } from "../../apiUrl";
 import { AuthContext } from "../../auth";
-import { ContActividades, ContExplorar, OfertaCard } from "../../components";
-import { getOfertaByNombreProducto } from "../../helpers/getOfertaById";
+import { ContActividades, OfertaCard } from "../../components";
 import { ProdOfertaButtonBox } from "../components";
 
 export const SearchPageProv = () => {
@@ -13,16 +13,26 @@ export const SearchPageProv = () => {
 
   const location = useLocation();
   const {q = ""} = queryString.parse(location.search);
-  const ofertasProv = getOfertaByNombreProducto(q);
+  
+  const [ofertasBusqueda, setOfertasBusqueda] = useState([]);
 
-  const ofertas = ofertasProv.filter(oferta => oferta.idProveedor === user.id);
+  const getOfertasBusqueda = async() => {
+    const resp = await fetch(`${apiUrl}/ofertaByProducto?q=${q}&idProveedor=${user.IdUsuario}`);
+    const data = await resp.json();
+    const {rows: ofertas} = !!data && data;
+    setOfertasBusqueda(ofertas);
+  }
 
-  const showError = (q.length > 0) && ofertas.length === 0;
+  useEffect(() => {
+    getOfertasBusqueda();
+    // eslint-disable-next-line
+  }, [q])
+
+  const showError = (q.length > 0) && ofertasBusqueda.length === 0;
 
   return (
     <div className="comp-main-container u-margin-top-navbar">
       <div className="comp-main-container__izqCont">
-        <ContExplorar/>
         <ProdOfertaButtonBox/>
       </div>
       <div className="comp-main-container__divSepIzq"></div>
@@ -36,7 +46,7 @@ export const SearchPageProv = () => {
           </div>
           <hr className="hrGeneral"/>
           <div className="u-margin-top-small"></div>
-          {ofertas.map(oferta => (
+          {ofertasBusqueda.map(oferta => (
             <OfertaCard
               key={oferta.idOferta}
               oferta={oferta}
@@ -45,7 +55,7 @@ export const SearchPageProv = () => {
           ))}
           <div 
             className="busqueda__errorBusqueda" 
-            style={{display : showError ? '' : 'none'}}
+            style={{display : (showError ||  q === "") ? '' : 'none'}}
           >
             <p className="paragraph"> No se han encontrado ofertas</p>
           </div>

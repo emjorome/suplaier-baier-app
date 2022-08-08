@@ -1,7 +1,7 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import { apiUrl } from "../../apiUrl";
 import { AuthContext } from "../../auth";
 import { ContActividades, NotificacionCard } from "../../components"
-import { getNotificacionesByUsuarioId } from "../../helpers/getOfertaById";
 import { ProdOfertaButtonBox } from "../components";
 
 export const NotificacionesProv = () => {
@@ -9,9 +9,22 @@ export const NotificacionesProv = () => {
   const {authState} = useContext(AuthContext);
   const {user} = authState;
   
-  const notificaciones = getNotificacionesByUsuarioId(user.id);
+  const [notificaciones, setNotificaciones] = useState([])
 
-  const showError = notificaciones.length === 0;
+  const getNotificacionesByUser = async() => {
+    const resp = await fetch(`${apiUrl}/notificaciones?idUsuario=${user.IdUsuario}`);
+    const data = await resp.json();
+    const {rows: ofertas} = !!data && data;
+    setNotificaciones(ofertas);
+  }
+
+  useEffect(() => {
+    getNotificacionesByUser();
+    // eslint-disable-next-line
+  }, [authState])
+  
+
+  const showEmptyArray = notificaciones?.length === 0;
 
   return (
     <div className="comp-main-container u-margin-top-navbar">
@@ -38,7 +51,7 @@ export const NotificacionesProv = () => {
           }
           <div 
             className="busqueda__errorBusqueda" 
-            style={{display : showError ? '' : 'none'}}
+            style={{display : showEmptyArray ? '' : 'none'}}
           >
             <p className="paragraph"> No ha recibido notificaciones por el momento</p>
           </div>

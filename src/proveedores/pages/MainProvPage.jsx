@@ -1,5 +1,4 @@
 import { ContActividades, OfertaCard} from "../../components";
-import {getOfertaByIdProveedor} from "../../helpers/getOfertaById";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../auth";
 import { ProdOfertaButtonBox } from "../components";
@@ -13,7 +12,7 @@ export const MainProvPage = () => {
   const [ofertasProv, setOfertasProv] = useState([]);
 
   const getOfertasProv = async() => {
-    const resp = await fetch(`${apiUrl}/publicaciones?idProveedor=${user.id}`);
+    const resp = await fetch(`${apiUrl}/ofertas?idProveedor=${user.IdUsuario}`);
     const data = await resp.json();
     const {rows: ofertas} = !!data && data;
     setOfertasProv(ofertas);
@@ -21,6 +20,7 @@ export const MainProvPage = () => {
 
   useEffect(() => {
     getOfertasProv();
+    // eslint-disable-next-line
   }, [authState])
   
 
