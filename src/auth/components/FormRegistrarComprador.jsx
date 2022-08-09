@@ -133,145 +133,172 @@ export const FormRegistrarComprador = () => {
   return (
     <form onSubmit={onRegistrarComprador}>
     <div className="compraProducto__box">
-        <div className="formSubirProducto u-margin-top-small">
-          <label htmlFor="compradorUsuario">Usuario</label>
-          <input
-            id="compradorUsuario"
-            type="text"
-            placeholder="jrodriguez"
-            className="formSubirProducto__input paragraph"
-            name="Usuario"
-            value={Usuario}
-            onChange={onInputChange}
-            required
-          />
+      <p className="paragraph">Ingresar los siguientes datos:</p>
+      <hr className="hrGeneral"/>
+      <div className="u-margin-top-small"></div> 
+      <div className="formRegistrarComp__twoInputsBox">
+        <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
+          <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
+            <label htmlFor="compradorUsuario" className="paragraph--sm">Usuario</label>
+            <input
+              id="compradorUsuario"
+              type="text"
+              placeholder="jrodriguez"
+              className="formSubirProducto__input paragraph"
+              name="Usuario"
+              value={Usuario}
+              onChange={onInputChange}
+              required
+            />
+          </div>
           {
             !esUsuarioValido &&
             <p className="paragraph--red">Usuario no válido</p>
           }
         </div>
-        <div className="formSubirProducto u-margin-top-small">
-          <label htmlFor="compradorContrasena">Contraseña</label>
-          <input
-            id="compradorContrasena"
-            type="password"
-            placeholder="contrasena123!"
-            className="formSubirProducto__input paragraph"
-            name="Contrasena"
-            value={Contrasena}
-            onChange={onInputChange}
-            required
-          />
+        <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
+          <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
+            <label htmlFor="compradorContrasena" className="paragraph--sm">Contraseña</label>
+            <input
+              id="compradorContrasena"
+              type="password"
+              placeholder="contrasena123!"
+              className="formSubirProducto__input paragraph"
+              name="Contrasena"
+              value={Contrasena}
+              onChange={onInputChange}
+              required
+            />
+          </div>
           {
             !esContrasenaValido &&
-            <p className="paragraph--red">Su contraseña debe contener al menos 1 dígito, 1 letra mayúscula, 1 letra minúscula y ser mayor a 8 caracteres.</p>
+            <p className="paragraph--red">Su contraseña debe contener al menos 1 dígito, 1 letra mayúscula y minúscula y ser mayor a 8 caracteres.</p>
           }
         </div>
-        <div className="formSubirProducto u-margin-top-small">
-          <label htmlFor="compradorName">Nombre y Apellido</label>
-          <input
-            id="compradorName"
-            type="text"
-            placeholder="Juan Rodríguez"
-            className="formSubirProducto__input paragraph"
-            name="Nombre"
-            value={Nombre}
-            onChange={onInputChange}
-            required
-          />
+      </div>
+        
+      <div className="formRegistrarComp__twoInputsBox">
+        <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
+          <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
+            <label htmlFor="compradorName" className="paragraph--sm">Nombre y Apellido</label>
+            <input
+              id="compradorName"
+              type="text"
+              placeholder="Juan Rodríguez"
+              className="formSubirProducto__input paragraph"
+              name="Nombre"
+              value={Nombre}
+              onChange={onInputChange}
+              required
+            />
+          </div>
           {
             !esNombreValido &&
             <p className="paragraph--red">Nombre y apellido no válidos</p>
           }
         </div>
-        <div className="formSubirProducto u-margin-top-small">
-          <label htmlFor="compradorIdentificacion">C.I.</label>
-          <input
-            id="compradorIdentificacion"
-            type="text"
-            placeholder="0987654321"
-            className="formSubirProducto__input paragraph"
-            name="Identificacion"
-            value={Identificacion}
-            onChange={onInputChange}
-            required
-          />
+        <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
+          <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
+            <label htmlFor="compradorIdentificacion" className="paragraph--sm">C.I.</label>
+            <input
+              id="compradorIdentificacion"
+              type="text"
+              placeholder="0987654321"
+              className="formSubirProducto__input paragraph"
+              name="Identificacion"
+              value={Identificacion}
+              onChange={onInputChange}
+              required
+            />
+          </div>
           {
             !esIdentificacionValido &&
             <p className="paragraph--red">C.I. no válida</p>
           }
         </div>
-        <div className="formSubirProducto u-margin-top-small">
-          <label htmlFor="compradorEmail">E-mail</label>
-          <input
-            id="compradorEmail"
-            type="text"
-            placeholder="example@gmail.com"
-            className="formSubirProducto__input paragraph"
-            name="Email"
-            value={Email}
-            onChange={onInputChange}
-            required
-          />
+      </div>
+      <div className="formRegistrarComp__twoInputsBox">
+        <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
+          <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
+            <label htmlFor="compradorEmail" className="paragraph--sm">E-mail</label>
+            <input
+              id="compradorEmail"
+              type="text"
+              placeholder="example@gmail.com"
+              className="formSubirProducto__input paragraph"
+              name="Email"
+              value={Email}
+              onChange={onInputChange}
+              required
+            />
+          </div>
           {
             !esEmailValido &&
             <p className="paragraph--red">Email no válido</p>
           }
         </div>
-        <div className="formSubirProducto u-margin-top-small">
-          <label htmlFor="compradorCelular">Celular</label>
-          <input
-            id="compradorCelular"
-            type="text"
-            placeholder="0998950947"
-            className="formSubirProducto__input paragraph"
-            name="Numero"
-            value={Numero}
-            onChange={onInputChange}
-            required
-          />
+        <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
+          <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
+            <label htmlFor="compradorCelular" className="paragraph--sm">Celular</label>
+            <input
+              id="compradorCelular"
+              type="text"
+              placeholder="0998950947"
+              className="formSubirProducto__input paragraph"
+              name="Numero"
+              value={Numero}
+              onChange={onInputChange}
+              required
+            />
+          </div>
           {
             !esNumeroValido &&
             <p className="paragraph--red">Número no válido</p>
           }
         </div>
-        <div className="formRegistrarComprador">
-          <div className="formSubirProducto u-margin-top-small">
-            <label htmlFor="compradorPais">País</label>
-            <select 
-              name="Pais"
-              className="formSubirProducto__input paragraph"
-              onChange={onInputChange}
-            >
-              <option defaultValue={"none"}>
-                Seleccionar País
-              </option> 
-              {
-                listaPaises?.map(pais => 
-                  <option value={pais} key={pais}>
-                    {pais}
-                  </option>)
-              }
-            </select>
-          </div>
-          { esEcuador &&
-            <div className="formSubirProducto u-margin-top-small">
-  `           <label htmlFor="compradorCiudad">Ciudad</label>
+      </div>
+        <div className="formRegistrarComp__twoInputsBox">
+          <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
+            <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
+              <label htmlFor="compradorPais" className="paragraph--sm">País</label>
               <select 
-                name="Ciudad"
+                name="Pais"
                 className="formSubirProducto__input paragraph"
                 onChange={onInputChange}
               >
                 <option defaultValue={"none"}>
-                  Seleccionar Ciudad
+                  Seleccionar País
                 </option> 
                 {
-                  listaCiudadesEcuador?.map(ciudad => 
-                    <option value={ciudad.city} key={ciudad.city}>
-                      {ciudad.city}
+                  listaPaises?.map(pais => 
+                    <option value={pais} key={pais}>
+                      {pais}
                     </option>)
                 }
               </select>
+            </div>
+          </div>
+          { esEcuador &&
+            <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
+              <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
+                <label htmlFor="compradorCiudad" className="paragraph--sm">Ciudad</label>
+                <select 
+                  id="compradorCiudad"
+                  name="Ciudad"
+                  className="formSubirProducto__input paragraph"
+                  onChange={onInputChange}
+                >
+                  <option defaultValue={"none"}>
+                    Seleccionar Ciudad
+                  </option> 
+                  {
+                    listaCiudadesEcuador?.map(ciudad => 
+                      <option value={ciudad.city} key={ciudad.city}>
+                        {ciudad.city}
+                      </option>)
+                  }
+                </select>
+              </div>
               {
                 (!esCiudadValido || Ciudad === "Seleccionar Ciudad") &&
                 <p className="paragraph--red">Ciudad no válida</p>
@@ -280,18 +307,20 @@ export const FormRegistrarComprador = () => {
             
           }
           {!esEcuador && 
-            <div className="formSubirProducto u-margin-top-small">
-              <label htmlFor="compradorCiudad">Ciudad</label>
-              <input
-                id="compradorCiudad"
-                type="text"
-                placeholder="Ingresar ciudad"
-                className="formSubirProducto__input paragraph"
-                name="Ciudad"
-                value={Ciudad}
-                onChange={onInputChange}
-                required
-              />
+            <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
+              <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
+                <label htmlFor="compradorCiudad" className="paragraph--sm">Ciudad</label>
+                <input
+                  id="compradorCiudad"
+                  type="text"
+                  placeholder="Ingresar ciudad"
+                  className="formSubirProducto__input paragraph"
+                  name="Ciudad"
+                  value={Ciudad}
+                  onChange={onInputChange}
+                  required
+                />
+              </div>
               {
                 !esCiudadValido &&
                 <p className="paragraph--red">Ciudad no válida</p>
@@ -299,18 +328,20 @@ export const FormRegistrarComprador = () => {
             </div>
           }
         </div>
-        <div className="formSubirProducto u-margin-top-small">
-          <label htmlFor="compradorDireccion">Dirección</label>
-          <textarea
-            id="compradorDireccion"
-            type="text"
-            placeholder="Sauces 8 Calle 13"
-            className="formSubirProducto__textArea paragraph"
-            name="Direccion"
-            value={direccion}
-            onChange={onInputChange}
-            required
-          />
+        <div className="formRegistrarComp__twoInputsBox__one u-margin-top-small">
+          <div className="formRegistrarComp__twoInputsBox__one__labelInput"> 
+            <label htmlFor="compradorDireccion" className="paragraph--sm">Dirección</label>
+            <textarea
+              id="compradorDireccion"
+              type="text"
+              placeholder="Sauces 8 Calle 13"
+              className="formRegistrarComp__textArea paragraph"
+              name="Direccion"
+              value={direccion}
+              onChange={onInputChange}
+              required
+            />
+          </div>
         </div>
     </div>
 

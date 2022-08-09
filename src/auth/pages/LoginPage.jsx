@@ -9,8 +9,6 @@ export const LoginPage = () => {
   const navigate = useNavigate();
   const {login} = useContext(AuthContext);
 
-  const [isGoingToSignup, setIsGoingToSignup] = useState(false);
-
   const {username, password, onInputChange} = useForm({username: "", password: ""})
   const [usernameIsValid, setUsernameIsValid] = useState(true);
 
@@ -70,12 +68,9 @@ export const LoginPage = () => {
   }
 
   const onClickRegistro = () => {
-    setIsGoingToSignup(true);
-    setTimeout(() => {
-      navigate("/signup", {
-        replace: true,
-      }); 
-    }, 500);
+    navigate("/signup", {
+      replace: true,
+    }); 
   }
 
   useEffect(() => {
@@ -86,7 +81,7 @@ export const LoginPage = () => {
   return (
     <div className="loginPage">
       {/* div central */}
-      <div className={ isGoingToSignup ? "loginPage__centralbox animate__animated animate__fadeOutUpBig" : "loginPage__centralbox"}>
+      <div className="loginPage__centralbox">
         <div className="loginPage__centralbox__izq">
           <img 
             src="suplaier_horizontal celeste.png" 

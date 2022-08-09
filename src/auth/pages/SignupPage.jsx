@@ -3,41 +3,55 @@ import { Link } from "react-router-dom"
 export const SignupPage = () => {
 
   return (
-    <div className="loginPage">
-      <div className="loginPage__centralbox animate__animated animate__fadeInUpBig">
-        <div className="loginPage__centralbox__izq">
-          <img 
-            src="suplaier_horizontal celeste.png" 
-            alt="logo_suplaier" 
-            className="loginPage__centralbox__izq__logoImg" 
-          />
-          <img 
-            src="/login.png" 
-            alt="login" 
-            className="loginPage__centralbox__izq__img" 
-          />
+    <div className="signupPage">
+      <div className="signupPage__centralbox">
+        <div className="signupPage__centralbox__titleBox">
+          <div className="signupPage__centralbox__titleBox__logoBox">
+            <img 
+              src="suplaier_horizontal celeste.png" 
+              alt="logo_suplaier" 
+              className="signupPage__centralbox__titleBox__logoBox__logoImg" 
+            />
+          </div>
+          <p className="paragraph paragraph--white paragraph--mid">Registro</p>
+          <span className="material-symbols-rounded icon-white icon--sm">
+          arrow_forward_ios
+          </span>
+          <p className="paragraph paragraph--white paragraph--mid">Selecciona tu rol</p>
         </div>
-        <div className="loginPage__centralbox__der">
-          <h2>Selecciona tu rol</h2>
-          <Link
-            to={`/signup_comprador`}
-          >
-            <button 
-              className="btn btn--blue"
+        <div className="signupPage__centralbox__contentBox">
+          <div className="signupPage__centralbox__contentBox__izq">
+            <img 
+              src="cash_desk.jpg" 
+              alt="logo_suplaier" 
+              className="signupPage__centralbox__contentBox__izq__img" 
+            />
+            <Link
+              to={`/signup_comprador`}
             >
-              Comprador
-            </button>
-          </Link>
-          <Link
-            to={`/signup_proveedor`}
-          >
-            <button 
-              className="btn btn--green"
+              <button 
+                className="btn btn--blue"
+              >
+                Comprador
+              </button>
+            </Link>
+          </div>
+          <div className="signupPage__centralbox__contentBox__der">
+            <img 
+              src="business_man.jpg" 
+              alt="logo_suplaier" 
+              className="signupPage__centralbox__contentBox__der__img" 
+            />
+            <Link
+              to={`/signup_proveedor`}
             >
-              Proveedor
-            </button>
-          </Link>
-
+              <button 
+                className="btn btn--green"
+              >
+                Proveedor
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>
