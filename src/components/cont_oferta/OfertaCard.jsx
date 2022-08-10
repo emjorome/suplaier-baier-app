@@ -11,16 +11,16 @@ export const OfertaCard = ({oferta, esProveedor = false}) => {
   const onClickOferta = () => {
     !esProveedor 
     ?
-    navigate(`/oferta/${oferta.IdPublicacion}`)
+    navigate(`/oferta/${oferta.IdOferta}`)
     :
-    navigate(`/mi_oferta/${oferta.IdPublicacion}`);
+    navigate(`/mi_oferta/${oferta.IdOferta}`);
   }
   const {IdProducto,
         IdProveedor, 
         Maximo,
         ActualProductos,
         FechaLimite,
-        IdEstadoOferta,
+        IdEstadosOferta,
       } = oferta;
 
   const [producto, setProducto] = useState();
@@ -37,14 +37,14 @@ export const OfertaCard = ({oferta, esProveedor = false}) => {
   }
 
   const getProveedorOferta = async() => {
-    const resp = await fetch(`${apiUrl}/proveedores?id=${IdProveedor}`);
+    const resp = await fetch(`${apiUrl}/usuarios?idUsuario=${IdProveedor}`);
     const data = await resp.json();
     const {rows: proveedor} = !!data && data;
     setProveedor(proveedor[0]);
   }
 
   const getEstadoOferta = async() => {
-    const resp = await fetch(`${apiUrl}/estados?id=${IdEstadoOferta}`);
+    const resp = await fetch(`${apiUrl}/estados?id=${IdEstadosOferta}`);
     const data = await resp.json();
     const {rows: estado} = !!data && data;
     setEstadoOferta(estado[0]);
@@ -64,12 +64,11 @@ export const OfertaCard = ({oferta, esProveedor = false}) => {
   useEffect(() => {
     setDatosProd({
       nombreProd: producto?.Name,
-      costoU: producto?.ValorU,
+      costoU: oferta.ValorUProducto,
       urlImg: producto?.UrlImg,
     })
   
-  }, [producto])
-  
+  }, [producto, oferta])
 
 
   return (

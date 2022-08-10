@@ -16,19 +16,21 @@ export const ResumenOferta = ({formState: ofertaData, setShowResumenOferta, setS
   }
 
   const uploadOferta = async() => {
+    //IdProducto, IdProveedor, IdEstadosOferta, Minimo, Maximo, Descripcion, ActualProductos, FechaLimite, Estado, ValorUProducto
     const body = {
-      IdProducto: parseInt(ofertaData.idProducto), 
+      IdProducto: parseInt(ofertaData.idProducto),
+      IdProveedor: user.IdUsuario,
+      IdEstadosOferta: ofertaData.idEstadoOferta, 
       Minimo: parseInt(ofertaData.cantMin), 
       Maximo: parseInt(ofertaData.cantMax), 
       Descripcion: ofertaData.descripcion, 
       ActualProductos: 0, 
       FechaLimite: ofertaData.fechaLimite, 
       Estado: ofertaData.estado, 
-      IdEstadoOferta: ofertaData.idEstadoOferta,
-      IdProveedor: user.id,
+      ValorUProducto: ofertaData.costoUnitario
     }
 
-    const resp = await fetch(`${apiUrl}/publicaciones`, {
+    const resp = await fetch(`${apiUrl}/ofertas`, {
       method: 'POST',
       headers: {
         "Content-Type": "application/json"
@@ -76,7 +78,7 @@ export const ResumenOferta = ({formState: ofertaData, setShowResumenOferta, setS
               </div>
             </div> */}
             <div className="oferta-detalle__productoBox u-margin-top-small">
-              <p className="paragraph">Costo unitario: $ {producto?.ValorU}</p>
+              <p className="paragraph">Costo unitario: $ {ofertaData?.costoUnitario}</p>
             </div>
             <div className="oferta-detalle__productoBox u-margin-top-small">
               <p className="paragraph">Descripción oferta: {ofertaData?.descripcion}</p>

@@ -15,7 +15,7 @@ export const ContListaActProvItem = ({ofertaActiva}) => {
   }
 
   const getProveedor = async() => {
-    const resp = await fetch(`${apiUrl}/proveedores?id=${ofertaActiva.IdProveedor}`);
+    const resp = await fetch(`${apiUrl}/usuarios?idUsuario=${ofertaActiva.IdProveedor}`);
     const data = await resp.json();
     const {rows: proveedor} = !!data && data;
     setProveedor(proveedor[0]);
@@ -29,8 +29,8 @@ export const ContListaActProvItem = ({ofertaActiva}) => {
   
   return (
     <Link 
-      to={`/mi_oferta/${ofertaActiva.IdPublicacion}`} 
-      key={ofertaActiva.IdPublicacion} 
+      to={`/mi_oferta/${ofertaActiva.IdOferta}`} 
+      key={ofertaActiva.IdOferta} 
       className="actividadesRec__lista__item"
     >
       <div className="actividadesRec__lista__item__enCurso"></div>

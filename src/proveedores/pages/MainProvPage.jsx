@@ -48,7 +48,7 @@ export const MainProvPage = () => {
           :
           ofertasProv.map(oferta => (
             <OfertaCard 
-              key={oferta?.IdPublicacion}
+              key={oferta?.IdOferta}
               oferta={oferta}
               esProveedor={true}
             />

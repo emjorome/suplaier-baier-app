@@ -27,7 +27,7 @@ export const ContListaActProv = () => {
         ofertasActivasByProv?.map(ofertaActiva => 
           <ContListaActProvItem 
             ofertaActiva={ofertaActiva}
-            key={ofertaActiva.IdPublicacion}
+            key={ofertaActiva.IdOferta}
           />)
       }
     </div>
