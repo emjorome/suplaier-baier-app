@@ -1,6 +1,6 @@
 import { useForm } from "../../hooks";
 
-export const MetodoPago = ({setShowMetodoPago, setShowPagoReserva, setShowPagoAnticipado}) => {
+export const MetodoPago = ({setShowMetodoPago, setShowPagoReserva, setShowPagoAnticipado, setTipoPago}) => {
 
   const PayPalIcon = "https://1000marcas.net/wp-content/uploads/2019/12/logo-Paypal.png";
 
@@ -8,11 +8,19 @@ export const MetodoPago = ({setShowMetodoPago, setShowPagoReserva, setShowPagoAn
 
   const onMetodoSubmit = (e) =>{
     e.preventDefault();
-    if (metodo_pago === "pago_anticipado")
+    if (metodo_pago === "pago_anticipado"){
+      setTipoPago(metodo_pago);
       setShowPagoAnticipado(true);
-    else
+      setShowMetodoPago(false);
+    }
+    else if (metodo_pago === "pago_reserva"){
+      setTipoPago(metodo_pago);
       setShowPagoReserva(true);
-    setShowMetodoPago(false);
+      setShowMetodoPago(false);
+    }
+    else {
+      console.log("seleccione metodo de pago")
+    }
   }
 
   return (
@@ -21,7 +29,7 @@ export const MetodoPago = ({setShowMetodoPago, setShowPagoReserva, setShowPagoAn
         <div className="metodoPago__barraSup"></div>
         
         <form onSubmit={onMetodoSubmit} className="metodoPago__form">
-          <p className="paragraph">Seleccionar método de pago: </p>
+          <p className="paragraph">Seleccione método de pago: </p>
           <img src={PayPalIcon} alt="PayPal" className="metodoPago__paypalIcon" />
           <div className="metodoPago__form__inputBox">
             <div className="metodoPago__form__inputBox__inputInd">

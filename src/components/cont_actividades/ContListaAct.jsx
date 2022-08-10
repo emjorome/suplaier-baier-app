@@ -1,25 +1,28 @@
-import { useState } from "react";
-import { Link } from "react-router-dom"
-//import { AuthContext } from "../../auth";
+import { useContext, useEffect, useState } from "react";
+import { apiUrl } from "../../apiUrl";
+import { AuthContext } from "../../auth";
+import { ContListaActItem } from "./ContListaActItem";
 
 export const ContListaAct = () => {
 
-  // const {authState} = useContext(AuthContext);
-  // const {user: comprador} = authState;
+  const {authState} = useContext(AuthContext);
+  const {user} = authState;
 
   // eslint-disable-next-line
   const [ofertasActivasByComp, setOfertasActivasByComp] = useState([]);
 
-  // const getOfertasActivasByIdProveedor = async(id) => {
-  //   const resp = await fetch(`${apiUrl}/compras?idProveedor=${id}&idEstadoOferta=1`);
-  //   const data = await resp.json();
-  //   const {rows: ofertasActivas} = !!data && data;
-  //   setOfertasActivasByComp(ofertasActivas);
-  // }
+  const getComprasByComprador = async() => {
+    const resp = await fetch(`${apiUrl}/compras?idComprador=${user.IdUsuario}`);
+    const data = await resp.json();
+    const {rows: compras} = !!data && data;
+    setOfertasActivasByComp(compras);
+  }
 
-  // useEffect(() => {
-  //   getOfertasActivasByIdProveedor(proveedor.id);
-  // }, [comprador.id])
+  useEffect(() => {
+    getComprasByComprador();
+    // eslint-disable-next-line
+  }, [])
+  
 
   const showEmptyArray = ofertasActivasByComp?.length === 0;
 
@@ -29,20 +32,7 @@ export const ContListaAct = () => {
         ? <p className="paragraph">No tienes ofertas activas</p>
         :
         ofertasActivasByComp?.map(ofertaActiva => {
-
-          return <Link 
-              to={`/oferta/${ofertaActiva.idOferta}`} 
-              key={ofertaActiva.idOferta} 
-              className="actividadesRec__lista__item"
-            >
-            <div className="actividadesRec__lista__item__enCurso"></div>
-            <span className="material-symbols-rounded icon--sm actividadesRec__lista__item__delete">
-              cancel
-            </span>
-            {/* <p className="paragraph--mid--2"><b>{producto.nombre}</b></p>
-            <p className="paragraph--mid--2">{producto.nombreProveedor}</p>
-            <p className="paragraph--mid--2">{ofertaActiva.fechaLimite}</p> */}
-          </Link>
+          return <ContListaActItem ofertaActiva={ofertaActiva} key={ofertaActiva.IdCompra}/>
         })
       }
     </div>

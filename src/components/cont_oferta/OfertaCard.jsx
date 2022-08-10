@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiUrl } from "../../apiUrl";
+import { AuthContext } from "../../auth";
 import { EtiquetaOferta } from "./EtiquetaOferta"
 import { ProgressBar } from "./ProgressBar";
 
 export const OfertaCard = ({oferta, esProveedor = false}) => {
 
   const navigate = useNavigate();
+  const {authState} = useContext(AuthContext);
+  const {user} = authState;
 
   const onClickOferta = () => {
     !esProveedor 
@@ -28,6 +31,7 @@ export const OfertaCard = ({oferta, esProveedor = false}) => {
   const [estadoOferta, setEstadoOferta] = useState();
   const [nombreProveedor, setNombreProveedor] = useState();
   const [datosProd, setDatosProd] = useState({});
+  const [yaSeHaUnido, setYaSeHaUnido] = useState(false);
 
   const getProductoOferta = async() => {
     const resp = await fetch(`${apiUrl}/productos?id=${IdProducto}`);
@@ -54,6 +58,7 @@ export const OfertaCard = ({oferta, esProveedor = false}) => {
     getProductoOferta();
     getProveedorOferta();
     getEstadoOferta();
+    checkSiSeHaUnido();
     // eslint-disable-next-line
   }, [oferta])
 
@@ -70,6 +75,25 @@ export const OfertaCard = ({oferta, esProveedor = false}) => {
   
   }, [producto, oferta])
 
+  const getComprasByComprador = async() => {
+    const resp = await fetch(`${apiUrl}/compras?idComprador=${user.IdUsuario}`);
+    const data = await resp.json();
+    const {rows: compras} = !!data && data;
+    return compras;
+  }
+
+  const checkSiSeHaUnido = () => {
+    //obtener lista de compras del usuario y si concide con esta oferta, disable = true
+    getComprasByComprador()
+    .then(res => {
+      res.forEach(compra => {
+        if(compra.IdOferta === oferta.IdOferta){
+          setYaSeHaUnido(true);
+        }
+      });
+    })
+  }
+
 
   return (
     <div 
@@ -81,6 +105,10 @@ export const OfertaCard = ({oferta, esProveedor = false}) => {
       </div>
       <div className="oferta-card__datosbox">
         <EtiquetaOferta estado={estadoOferta?.Descripcion}/>
+        {
+          !esProveedor && yaSeHaUnido &&
+          <EtiquetaOferta estado={"Unido"} styleName="oferta-card__etiqueta2"/>
+        }
         <div className="oferta-card__datosbox__title u-margin-bottom-small">
           <p className="paragraph paragraph--bold paragraph--mid">{datosProd?.nombreProd}</p>
           <p className="paragraph">{nombreProveedor}</p>

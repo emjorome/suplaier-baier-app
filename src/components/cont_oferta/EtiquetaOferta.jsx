@@ -1,7 +1,7 @@
 
-export const EtiquetaOferta = ({estado, styleName}) => {
+export const EtiquetaOferta = ({estado, styleName = "oferta-card__etiqueta"}) => {
   return (
-    <div className="oferta-card__etiqueta">
+    <div className={styleName}>
       <p className="paragraph">{estado}</p>
     </div>
   )

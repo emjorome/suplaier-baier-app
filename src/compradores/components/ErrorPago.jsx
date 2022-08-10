@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const PagoExito = ({tipoPago, setShowPagoExito}) => {
-
-  const [pagoNombre, setPagoNombre] = useState("");
+export const ErrorPago = ({tipoPago, setShowErrorPago}) => {
 
   const navigate = useNavigate();
+  const [pagoNombre, setPagoNombre] = useState("");
 
   useEffect(() => {
     tipoPago === "pago_reserva" ? setPagoNombre("Reserva") : setPagoNombre("Anticipado");
   }, [tipoPago])
-  
 
   const onClickAceptar = () => {
-    setShowPagoExito(false);
+    setShowErrorPago(false);
     navigate("/comprador",{
       replace: true,
     })
@@ -23,8 +21,8 @@ export const PagoExito = ({tipoPago, setShowPagoExito}) => {
     <div className="metodoPago animate__animated animate__fadeIn">
       <div className="metodoPago__ventana animate__animated animate__slideInDown">
         <div className="metodoPago__barraSup"></div>
-        <p className="paragraph">El pago de tipo {pagoNombre} se ha realizado con éxito!</p>
-        <p className="paragraph">Se ha unido correctamente a la oferta</p>
+        <p className="paragraph">Lo sentimos, hubo un error al momento de procesar el pago de tipo {pagoNombre}</p>
+        <p className="paragraph">Intenta de nuevo más tarde</p>
         <div className="metodoPago__btnBox">
           <button 
             type="button"

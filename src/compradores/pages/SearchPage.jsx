@@ -43,13 +43,13 @@ export const SearchPage = () => {
           <div className="u-margin-top-small"></div>
           {ofertasBusqueda.map(oferta => (
             <OfertaCard
-              key={oferta.idOferta}
+              key={oferta.IdOferta}
               oferta={oferta}
             />
           ))}
           <div 
             className="busqueda__errorBusqueda" 
-            style={{display : (showError || q === "") ? '' : 'none'}}
+            style={{display : (showError) ? '' : 'none'}}
           >
             <p className="paragraph"> No se han encontrado ofertas</p>
           </div>

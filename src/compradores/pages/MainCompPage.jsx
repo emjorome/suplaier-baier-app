@@ -40,7 +40,7 @@ export const MainCompPage = () => {
           :
           ofertasTodos?.map(oferta => (
             <OfertaCard 
-              key={oferta.IdPublicacion}
+              key={oferta.IdOferta}
               oferta={oferta}
             />
           ))}

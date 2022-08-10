@@ -36,7 +36,7 @@ export const PerfilProveedor = () => {
   }, [q])
 
   useEffect(() => {
-    !!proveedor?.IdProveedor && getOfertasProv(); 
+    !!proveedor?.IdUsuario && getOfertasProv(); 
     // eslint-disable-next-line
   }, [proveedor])
   
@@ -94,7 +94,7 @@ export const PerfilProveedor = () => {
           <div className="comp-main-container__medCont__ofertas">
             {ofertasProv?.map(oferta => (
               <OfertaCard 
-                key={oferta.IdPublicacion}
+                key={oferta.IdOferta}
                 oferta={oferta}
               />
             ))}
