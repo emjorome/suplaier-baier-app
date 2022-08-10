@@ -5,7 +5,7 @@ import { AuthContext } from "../../auth";
 export const ResumenProducto = ({formState: productData, setShowResumenProducto, setShowAccionExitosa}) => {
 
   const [imagen, setImagen] = useState();
-  const d = new Date();
+  //const d = new Date();
 
   const {authState: {user}} = useContext(AuthContext);
 
@@ -23,13 +23,9 @@ export const ResumenProducto = ({formState: productData, setShowResumenProducto,
     const body = { 
       Name: productData.nombreProducto,
       Descripcion: productData.descripcion, 
-      Stock: productData.stock, 
-      ValorU: parseFloat(productData.costoUnitario), 
       Activo: true, 
-      FechaCreacion: `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`,
-      FechaModificacion: `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`, 
       Valoracion: 5, 
-      IdProveedor: user.id,
+      IdProveedor: user.IdUsuario,
       IdCatProducto: JSON.parse(productData.categoria).IdCatProducto, 
       UrlImg: imagen,
     }
@@ -46,7 +42,10 @@ export const ResumenProducto = ({formState: productData, setShowResumenProducto,
   }
 
   useEffect(() => {
-    getImg(productData.urlImg);
+    if(productData.urlImg !== "no-img.jpeg")
+      getImg(productData.urlImg)
+    else
+      setImagen("no-img.jpeg")
   }, [productData])
   
   const onSubirProducto = (e) => {
@@ -70,29 +69,34 @@ export const ResumenProducto = ({formState: productData, setShowResumenProducto,
           <hr className="hrGeneral"/>
           <div className="compraProducto__box">
             <div className="oferta-detalle__productoBox u-margin-top-small">
-              <img src={imagen} alt={"producto"} className="resumenProducto__ventana__img" />
+              { imagen !== ""
+                ?
+                <img src={imagen} alt={"producto"} className="resumenProducto__ventana__img" />
+                :
+                <p className="paragraph paragraph--grey">Sin imagen</p>
+              }
               <div className="resumenProducto__ventana__descBox">
                 <div className="resumenProducto__ventana__descBox__texto">
-                  <p className="paragraph">{productData.descripcion}</p>
+                  <p className="paragraph"><b>Descripción: </b>{productData.descripcion}</p>
                 </div>
               </div>
             </div>
             <div className="oferta-detalle__productoBox u-margin-top-small">
-              <p className="paragraph">Nombre: {productData.nombreProducto}</p>
+              <p className="paragraph"><b>Nombre:</b> {productData.nombreProducto}</p>
             </div>
             
             <div className="oferta-detalle__productoBox u-margin-top-small">
-              <p className="paragraph">Categoría: {JSON.parse(productData.categoria).Nombre}</p>
+              <p className="paragraph"><b>Categoría:</b> {JSON.parse(productData.categoria).Nombre}</p>
             </div>
             <div className="oferta-detalle__productoBox u-margin-top-small">
-              <p className="paragraph">Proveedor: {productData.nombreProveedor}</p>
+              <p className="paragraph"><b>Proveedor:</b> {productData.nombreProveedor}</p>
             </div>
-            <div className="oferta-detalle__productoBox u-margin-top-small">
+            {/* <div className="oferta-detalle__productoBox u-margin-top-small">
               <p className="paragraph">Costo unitario: $ {productData.costoUnitario}</p>
             </div>
             <div className="oferta-detalle__productoBox u-margin-top-small">
               <p className="paragraph">Stock: {productData.stock} unidades</p>
-            </div>
+            </div> */}
             
           </div>
 

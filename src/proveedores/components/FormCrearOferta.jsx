@@ -19,16 +19,16 @@ export const FormCrearOferta = () => {
       cantMax,
       descripcion,
       fechaLimite,
+      costoUnitario,
       onInputChange} = useForm({
         idProducto: -1,
-        idProveedor: user.id,
+        idProveedor: user.IdUsuario,
         cantMin: 0,
         cantMax: 0,
+        costoUnitario: 0, 
         descripcion: "",
         actualProductos: 0,
         fechaLimite: "",
-        fechaCreacion: `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`,
-        fechaModificacion: `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`,
         estado: true,
         idEstadoOferta: 1,
       });
@@ -47,9 +47,10 @@ export const FormCrearOferta = () => {
   }
 
   const getProductos = async() => {
-    const resp = await fetch(`${apiUrl}/productos?idProveedor=${user.id}`);
+    const resp = await fetch(`${apiUrl}/productos?idProveedor=${user.IdUsuario}`);
     const data = await resp.json();
     const {rows: productos} = !!data && data;
+    console.log(productos)
     setProductosProv(productos);
   }
 
@@ -100,7 +101,7 @@ export const FormCrearOferta = () => {
                 Seleccionar producto
               </option> 
               {
-                productosProv.map(prod => 
+                productosProv?.map(prod => 
                   <option value={prod.IdProducto} key={prod.Name}>
                     {prod.Name}
                   </option>)
@@ -120,7 +121,6 @@ export const FormCrearOferta = () => {
             <div className="oferta-detalle__productoBox__desc">
               <div className="oferta-detalle__productoBox__desc__text">
                 <p className="paragraph"><b>{producto?.Name}</b></p>
-                <p className="paragraph"><b>Precio unitario: $ {producto?.ValorU}</b></p>
                 <p className="paragraph">{producto?.Descripcion}</p>
               </div>
             </div>
@@ -171,6 +171,18 @@ export const FormCrearOferta = () => {
               name="fechaLimite"
               autoComplete="off"
               value={fechaLimite}
+              onChange={onInputChange}
+              required
+            />
+          </div>
+         <div className="formSubirProducto u-margin-top-small">
+            <input
+              type="number"
+              placeholder="Precio unitario en USD"
+              className="formSubirProducto__input paragraph"
+              name="costoUnitario"
+              autoComplete="off"
+              value={costoUnitario}
               onChange={onInputChange}
               required
             />

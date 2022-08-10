@@ -89,7 +89,7 @@ export const OfertaDetalleProv = () => {
               <img 
                 className="oferta-detalle__productoBox__imgBox__img" 
                 src={producto?.UrlImg} 
-                alt={producto?.Name} 
+                alt={producto?.Name}
               />
             </div>
             <div className="oferta-detalle__productoBox__desc">
