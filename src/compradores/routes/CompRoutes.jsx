@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 import { NavbarComp } from "../components"
-import { HistorialOfertasPage, MainCompPage, MiPerfil, Notificaciones, OfertaDetalle, ProdByCatPage, SearchPage } from "../pages"
+import { CompraIndividualPage, HistorialOfertasPage, MainCompPage, MiPerfil, Notificaciones, OfertaDetalle, ProdByCatPage, SearchPage } from "../pages"
 import { PerfilProveedor } from "../pages/PerfilProveedor"
 
 export const CompRoutes = () => {
@@ -16,6 +16,7 @@ export const CompRoutes = () => {
           <Route path="search" element={<SearchPage/>}/>
           <Route path="notificaciones" element={<Notificaciones/>}/>
           <Route path="perfil_proveedor" element={<PerfilProveedor/>}/>
+          <Route path="oferta_individual/:IdCompra" element={<CompraIndividualPage/>}/>
           <Route path="mi_perfil" element={<MiPerfil/>}/>
 
           <Route path="/*" element={<Navigate to="comprador"/>}/>

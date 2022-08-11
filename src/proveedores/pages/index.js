@@ -6,3 +6,4 @@ export * from "./HistorialOfertasPageProv";
 export * from "./SearchPageProv";
 export * from "./CrearOferta";
 export * from "./SubirProducto";
+export * from "./VentaIndDetalle";

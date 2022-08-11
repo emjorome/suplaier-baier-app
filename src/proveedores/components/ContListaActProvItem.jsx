@@ -34,9 +34,9 @@ export const ContListaActProvItem = ({ofertaActiva}) => {
       className="actividadesRec__lista__item"
     >
       <div className="actividadesRec__lista__item__enCurso"></div>
-      <span className="material-symbols-rounded icon--sm actividadesRec__lista__item__delete">
+      {/* <span className="material-symbols-rounded icon--sm actividadesRec__lista__item__delete">
         cancel
-      </span>
+      </span> */}
       <p className="paragraph--mid--2"><b>{producto?.Name}</b></p>
       <p className="paragraph--mid--2">{proveedor?.Nombre}</p>
       <p className="paragraph--mid--2">{(ofertaActiva.FechaLimite).split("T")[0]}</p>

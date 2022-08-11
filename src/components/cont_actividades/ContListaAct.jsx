@@ -15,7 +15,8 @@ export const ContListaAct = () => {
     const resp = await fetch(`${apiUrl}/compras?idComprador=${user.IdUsuario}`);
     const data = await resp.json();
     const {rows: compras} = !!data && data;
-    setOfertasActivasByComp(compras);
+    //seleccionar ofertas activas (es decir, que no han finalizado)
+    setOfertasActivasByComp(compras.filter(compra => compra.IdEstado !== 9));
   }
 
   useEffect(() => {
