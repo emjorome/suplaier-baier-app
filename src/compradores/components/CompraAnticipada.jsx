@@ -92,7 +92,7 @@ export const CompraAnticipada = ({oferta, costoTotal, setShowPagoAnticipado,setS
             onClick={() => setShowPagoAnticipado(false)}
             className="btn btn--red"
           >Cancelar</button> */}
-          <ContBotonPago price={0}/>
+          <ContBotonPago price={costoTotal}/>
           <button 
             type="button"
             onClick={onSubmitPago}

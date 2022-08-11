@@ -27,8 +27,9 @@ export const ContBotonPago = ({price = 0}) => {
   };
 
   function handlePay() {
+    alert("el pago ha sido exitoso desde la web");
     console.log("el pago ha sido exitoso desde la web");
-    window.location.href = "https://portfolio-arcodez.vercel.app";
+    //window.location.href = "https://portfolio-arcodez.vercel.app";
   }
 
   return (
