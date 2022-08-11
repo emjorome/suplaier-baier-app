@@ -14,24 +14,46 @@
     cursor: pointer;
   }
 
-  &__etiqueta{
+  &__etiquetaBox {
     position: absolute;
-    top: 1.5rem;
+    top: 1.2rem;
     right: 2.5rem;
-    background-color: $color-tag-green;
-    color: $color-white;
-    border-radius: 5px;
-    padding: 0.3rem 0.8rem;
-  }
+    gap: 1rem;
+    display: flex;
+    flex-direction: row-reverse;
 
-  &__etiqueta2{
-    position: absolute;
-    top: 1.5rem;
-    right: 11rem;
-    background-color: $color-tag-blue;
-    color: $color-white;
-    border-radius: 5px;
-    padding: 0.3rem 1.8rem;
+    &__etiqueta{
+      position: relative;
+      color: $color-white;
+      border-radius: 5px;
+      padding: 0.3rem 0.8rem;
+      width: fit-content;
+  
+      &--green {
+        background-color: $color-tag-green;
+      }
+      &--red {
+        background-color: $color-tag-red;
+      }
+      &--purple {
+        background-color: $color-tag-purple;
+      }
+      &--lightblue {
+        background-color: $color-tag-lightblue;
+      }
+      &--grey {
+        background-color: $color-tag-grey;
+      }
+    }
+  
+    &__etiqueta2{
+      position: relative;
+      background-color: $color-tag-blue;
+      color: $color-white;
+      border-radius: 5px;
+      padding: 0.3rem 1.8rem;
+    }
+
   }
 
   &__imgbox {

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { apiUrl } from "../../apiUrl";
-import { ContActividades, ProgressBar, ValoracionStar } from "../../components"
-import { ProdOfertaButtonBox } from "../components";
+import { ContActividades, EtiquetaOferta, ProgressBar, ValoracionStar } from "../../components"
+import { AccionExitosa, CerrarOferta, ProdOfertaButtonBox } from "../components";
 
 export const OfertaDetalleProv = () => {
 
@@ -14,6 +14,7 @@ export const OfertaDetalleProv = () => {
   const [proveedor, setProveedor] = useState();
   const [llegaMinimo, setLlegaMinimo] = useState(false);
   const [showCerrarOferta, setShowCerrarOferta] = useState(false);
+  const [showCierreExitoso, setShowCierreExitoso] = useState(false);
 
   const getOferta = async() => {
     const resp = await fetch(`${apiUrl}/ofertas?id=${idOferta}`);
@@ -79,8 +80,13 @@ export const OfertaDetalleProv = () => {
               arrow_forward_ios
             </span>
             <p className="paragraph--mid"><b>{producto?.Name}</b></p>
-            <div className="oferta-detalle__etiqueta">
-              <p className="paragraph--sm">{estadoOferta?.Descripcion}</p>
+            <div className="oferta-card__etiquetaBox">
+              {estadoOferta?.Descripcion === "Cerrado"
+                ? 
+                <EtiquetaOferta estado={"Verificando pagos"} esOfertaDetalle={true}/>
+                :
+                <EtiquetaOferta estado={estadoOferta?.Descripcion} esOfertaDetalle={true}/>
+              }
             </div>
           </div>
           <hr className="hrGeneral"/>
@@ -155,7 +161,19 @@ export const OfertaDetalleProv = () => {
               </button>
             </div>}
             {
-              showCerrarOferta && <p>Cerrando oferta</p>
+              showCerrarOferta &&
+              <CerrarOferta
+                oferta={oferta}
+                setShowCerrarOferta={setShowCerrarOferta}
+                setShowCierreExitoso={setShowCierreExitoso}
+              />
+            }
+            {
+              showCierreExitoso &&
+              <AccionExitosa 
+                texto="Se ha cerrado su oferta con éxito" 
+                setShowAccionExitosa={setShowCierreExitoso}
+              />
             }
 
           </div>

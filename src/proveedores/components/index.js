@@ -6,3 +6,7 @@ export * from "./FormSubirProducto";
 export * from "./AccionExitosa";
 export * from "./ResumenOferta";
 export * from "./ContListaActProvItem";
+export * from "./CerrarOferta";
+export * from "./ContListaProvCompItem";
+export * from "./ConfirmarPagoProv";
+export * from "./ConfirmarDespachoProv";

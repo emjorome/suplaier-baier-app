@@ -43,14 +43,14 @@ export const ContListaActItem = ({ofertaActiva: compra}) => {
   
   return (
     <Link 
-      to={`/oferta/${compra.IdOferta}`} 
+      to={`/oferta_individual/${compra.IdCompra}`} 
       key={compra.IdOferta} 
       className="actividadesRec__lista__item"
     >
     <div className="actividadesRec__lista__item__enCurso"></div>
-    <span className="material-symbols-rounded icon--sm actividadesRec__lista__item__delete">
+    {/* <span className="material-symbols-rounded icon--sm actividadesRec__lista__item__delete">
       cancel
-    </span>
+    </span> */}
     <p className="paragraph--mid--2"><b>{productoCompra?.Name}</b></p>
     <p className="paragraph--mid--2">{proveedorCompra?.Nombre}</p>
     <p className="paragraph--mid--2">{ofertaCompra?.FechaLimite}</p>

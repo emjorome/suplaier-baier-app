@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 import { NavbarProv } from "../components/NavbarProv"
-import { CrearOferta, HistorialOfertasPageProv, MainProvPage, NotificacionesProv, OfertaDetalleProv, ProdByCatPageProv, SearchPageProv, SubirProducto } from "../pages"
+import { CrearOferta, HistorialOfertasPageProv, MainProvPage, NotificacionesProv, OfertaDetalleProv, ProdByCatPageProv, SearchPageProv, SubirProducto, VentaIndDetalle } from "../pages"
 
 export const ProvRoutes = () => {
   return (
@@ -16,6 +16,7 @@ export const ProvRoutes = () => {
           <Route path="search" element={<SearchPageProv/>}/>
           <Route path="subir_producto" element={<SubirProducto/>}/>
           <Route path="crear_nueva_oferta" element={<CrearOferta/>}/>
+          <Route path="venta_individual/:idCompra" element={<VentaIndDetalle/>}/>
 
           <Route path="/*" element={<Navigate to="proveedor"/>}/>
         </Routes>

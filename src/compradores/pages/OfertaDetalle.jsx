@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { apiUrl } from "../../apiUrl";
 import { AuthContext } from "../../auth";
-import { ContActividades, ContExplorar, ContFavoritos, ProgressBar, ValoracionStar } from "../../components"
+import { ContActividades, ContExplorar, ContFavoritos, EtiquetaOferta, ProgressBar, ValoracionStar } from "../../components"
 import { CompraAnticipada, CompraProductos, CompraReserva, ErrorPago, MetodoPago, PagoExito } from "../components";
 
 export const OfertaDetalle = () => {
@@ -119,16 +119,14 @@ export const OfertaDetalle = () => {
               arrow_forward_ios
             </span>
             <p className="paragraph--mid"><b>{producto?.Name}</b></p>
-            <div className="oferta-detalle__etiqueta">
-              <p className="paragraph--sm">{estadoOferta?.Descripcion}</p>
-            </div>
-            {
-              yaSeHaUnido &&
-              <div className="oferta-detalle__etiqueta2">
-                <p className="paragraph--sm">Unido</p>
-              </div>
-            }
           </div>
+          <div className="oferta-card__etiquetaBox">
+              <EtiquetaOferta estado={estadoOferta?.Descripcion} esOfertaDetalle={true}/>
+              {
+                yaSeHaUnido &&
+                <EtiquetaOferta estado={"Unido"} esOfertaDetalle={true}/>
+              }
+            </div>
           <hr className="hrGeneral"/>
           <div className="oferta-detalle__productoBox u-margin-top-small">
             <div className="oferta-detalle__productoBox__imgBox">

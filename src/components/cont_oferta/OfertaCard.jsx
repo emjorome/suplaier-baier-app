@@ -104,11 +104,16 @@ export const OfertaCard = ({oferta, esProveedor = false}) => {
         <img className="oferta-card__imgbox__img" src={datosProd?.urlImg} alt={datosProd?.nombreProd}/>
       </div>
       <div className="oferta-card__datosbox">
-        <EtiquetaOferta estado={estadoOferta?.Descripcion}/>
+        <div className="oferta-card__etiquetaBox">
+        { esProveedor && estadoOferta?.Descripcion === "Cerrado" 
+          ?<EtiquetaOferta estado={"Verificando pagos"}/>
+          :<EtiquetaOferta estado={estadoOferta?.Descripcion}/>
+        }
         {
           !esProveedor && yaSeHaUnido &&
           <EtiquetaOferta estado={"Unido"} styleName="oferta-card__etiqueta2"/>
         }
+        </div>
         <div className="oferta-card__datosbox__title u-margin-bottom-small">
           <p className="paragraph paragraph--bold paragraph--mid">{datosProd?.nombreProd}</p>
           <p className="paragraph">{nombreProveedor}</p>
