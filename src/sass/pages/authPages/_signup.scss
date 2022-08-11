@@ -1,0 +1,248 @@
+.formRegistrarComprador {
+  display: flex;
+  flex-direction: row;
+}
+
+.formRegistrarComp {
+
+  &__boxError {
+    width: 90%;
+    height: 100%;
+  }
+
+  &__input {
+    width: 100%;
+    position: relative;
+    display: flex;
+    height: 4rem;
+    border-style: solid;
+    border-radius: 5px;
+    border-width: 1px;
+    padding: 1rem;
+    border-color: $color-grey-light-4;
+  }
+
+  &__labelv2 {
+    width: 8%;
+    margin-top: .5rem;
+  }
+
+  &__label {
+    width: 18%;
+    margin-top: .5rem;
+  }
+
+  &__twoInputsBox {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+
+    &__izq {
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+
+      &__labelInput {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        //align-items: center;
+      }
+    }
+
+    &__one {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+
+      &__labelInput {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        //align-items: center;
+      }
+    }
+  }
+
+  &__textArea {
+    width: 100%;
+    position: relative;
+    display: flex;
+    height: 6rem;
+    border-style: solid;
+    border-radius: 5px;
+    border-width: 1px;
+    padding: 1rem;
+    border-color: $color-grey-light-4;
+    resize: none;
+    font-family: "Lato", sans-serif;
+  }
+}
+
+.signupPage {
+  background-image: linear-gradient(to right, $color-green, $color-primary-light,$color-primary-dark);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__centralbox {
+    width: 80%;
+    height: 90%;
+    position: relative;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+
+    &__titleBox {
+      background-image: linear-gradient(to right, $color-primary-light, $color-primary-dark);
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      height: 15%;
+      gap: 2rem;
+
+      &__logoBox {
+        position: relative;
+        max-width: 30%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 1rem;
+
+        &__logoImg {
+          position: relative;
+          height: 100%;
+        }
+      }
+    }
+
+    &__contentBox {
+      display: flex;
+      max-height: 80%;
+      flex-direction: row;
+      background-color: $color-white;
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+
+      &__izq {
+        position: relative;
+        width: 50%;
+        height: 100%;
+        background: $color-grey-light-1;
+        border-bottom-left-radius: 5px;
+        border-right-style: solid;
+        border-right-width: 1px;
+        border-right-color: $color-white;
+        padding: 10%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+
+        &:hover {
+          background-color: $color-white;
+          cursor: pointer;
+        }
+        
+        // & > :not(:last-child) {
+        //   margin-bottom: 2rem;
+        // }
+  
+        &__img {
+          min-height: 100%;
+          min-width: 85%;
+          border-radius: 5px;
+        }
+  
+        // &__logoImg {
+        //   width: 50%;
+        // }
+      }
+      
+      &__der {
+        position: relative;
+        background-color: $color-grey-light-1;
+        width: 50%;
+        height: 100%;
+        border-bottom-right-radius: 5px;
+        padding: 10%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+
+        &__img {
+          //max-width: 80%;
+          min-height: 100%;
+          max-width: 85%;
+          border-radius: 5px;
+          object-fit: cover;
+        }
+
+        &:hover {
+          background-color: $color-white;
+          cursor: pointer;
+        }
+
+      }
+
+      &__comp {
+        width: 100%;
+
+        &__izq {
+          position: relative;
+          width: 65%;
+          padding: 2rem;
+        }
+
+        &__der {
+          width: 35%;
+          background-color: $color-blue;
+          border-bottom-right-radius: 5px;
+          padding: 5rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 3rem;
+
+        }
+      }
+
+      &__prov {
+        width: 100%;
+
+        &__izq {
+          position: relative;
+          width: 65%;
+          padding: 2rem;
+        }
+
+        &__der {
+          width: 35%;
+          background-color: $color-green;
+          border-bottom-right-radius: 5px;
+          padding: 5rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 3rem;
+
+        }
+      }
+    }
+    
+  }
+}

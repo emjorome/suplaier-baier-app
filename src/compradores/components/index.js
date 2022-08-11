@@ -4,3 +4,4 @@ export * from "./CompraProductos";
 export * from "./CompraAnticipada";
 export * from "./CompraReserva";
 export * from "./PagoExito";
+export * from "./ErrorPago";

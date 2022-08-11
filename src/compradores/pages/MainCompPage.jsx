@@ -4,10 +4,10 @@ import { ContActividades, ContExplorar, ContFavoritos, OfertaCard } from "../../
 
 export const MainCompPage = () => {
 
-  const [ofertasTodos, setOfertasTodos] = useState();
+  const [ofertasTodos, setOfertasTodos] = useState([]);
 
   const getOfertasTodos = async() => {
-    const resp = await fetch(`${apiUrl}/publicaciones`);
+    const resp = await fetch(`${apiUrl}/ofertas`);
     const data = await resp.json();
     const {rows: ofertas} = !!data && data;
     setOfertasTodos(ofertas);
@@ -40,7 +40,7 @@ export const MainCompPage = () => {
           :
           ofertasTodos?.map(oferta => (
             <OfertaCard 
-              key={oferta.IdPublicacion}
+              key={oferta.IdOferta}
               oferta={oferta}
             />
           ))}

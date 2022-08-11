@@ -17,14 +17,14 @@ export const PerfilProveedor = () => {
   const [ofertasProv, setOfertasProv] = useState([]);
 
   const getProveedor = async() => {
-    const resp = await fetch(`${apiUrl}/proveedores?id=${q}`);
+    const resp = await fetch(`${apiUrl}/usuarios?idUsuario=${q}`);
     const data = await resp.json();
     const {rows: prov} = data;
     setProveedor(prov[0])
   }
 
   const getOfertasProv = async() => {
-    const resp = await fetch(`${apiUrl}/publicaciones?idProveedor=${proveedor?.IdProveedor}`);
+    const resp = await fetch(`${apiUrl}/ofertas?idProveedor=${proveedor?.IdUsuario}`);
     const data = await resp.json();
     const {rows: ofertas} = data;
     setOfertasProv(ofertas);
@@ -36,7 +36,7 @@ export const PerfilProveedor = () => {
   }, [q])
 
   useEffect(() => {
-    !!proveedor?.IdProveedor && getOfertasProv(); 
+    !!proveedor?.IdUsuario && getOfertasProv(); 
     // eslint-disable-next-line
   }, [proveedor])
   
@@ -94,7 +94,7 @@ export const PerfilProveedor = () => {
           <div className="comp-main-container__medCont__ofertas">
             {ofertasProv?.map(oferta => (
               <OfertaCard 
-                key={oferta.IdPublicacion}
+                key={oferta.IdOferta}
                 oferta={oferta}
               />
             ))}

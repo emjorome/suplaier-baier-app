@@ -1,28 +1,35 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { apiUrl } from "../../apiUrl";
+import { AuthContext } from "../../auth";
 import { ContActividades, ContExplorar, ContFavoritos, ProgressBar, ValoracionStar } from "../../components"
-import { CompraAnticipada, CompraProductos, CompraReserva, MetodoPago, PagoExito } from "../components";
+import { CompraAnticipada, CompraProductos, CompraReserva, ErrorPago, MetodoPago, PagoExito } from "../components";
 
 export const OfertaDetalle = () => {
 
   const {ofertaId:idOferta} = useParams();
+  const {authState} = useContext(AuthContext);
+  const {user} = authState;
 
   const [oferta, setOferta] = useState();
   const [producto, setProducto] = useState();
   const [estadoOferta, setEstadoOferta] = useState();
   const [proveedor, setProveedor] = useState();
+  const [yaSeHaUnido, setYaSeHaUnido] = useState(false);
 
   const [costoTotal, setCostoTotal] = useState(0.00);
+  const [unidadesPetUsuario, setUnidadesPetUsuario] = useState(0);
 
   const [showCompraProductos, setShowCompraProductos] = useState(false);
   const [showMetodoPago, setShowMetodoPago] = useState(false);
   const [showPagoReserva, setShowPagoReserva] = useState(false);
   const [showPagoAnticipado, setShowPagoAnticipado] = useState(false);
   const [showPagoExito, setShowPagoExito] = useState(false);
+  const [showErrorPago, setShowErrorPago] = useState(false);
+  const [tipoPago, setTipoPago] = useState("");
 
   const getOferta = async() => {
-    const resp = await fetch(`${apiUrl}/publicaciones?id=${idOferta}`);
+    const resp = await fetch(`${apiUrl}/ofertas?id=${idOferta}`);
     const data = await resp.json();
     const {rows: oferta} = !!data && data;
     setOferta(oferta[0]);
@@ -36,17 +43,36 @@ export const OfertaDetalle = () => {
   }
 
   const getEstadoOferta = async() => {
-    const resp = await fetch(`${apiUrl}/estados?id=${oferta.IdEstadoOferta}`);
+    const resp = await fetch(`${apiUrl}/estados?id=${oferta.IdEstadosOferta}`);
     const data = await resp.json();
     const {rows: estado} = !!data && data;
     setEstadoOferta(estado[0]);
   }
 
   const getProveedor = async() => {
-    const resp = await fetch(`${apiUrl}/proveedores?id=${oferta.IdProveedor}`);
+    const resp = await fetch(`${apiUrl}/usuarios?idUsuario=${oferta.IdProveedor}`);
     const data = await resp.json();
     const {rows: proveedor} = !!data && data;
     setProveedor(proveedor[0]);
+  }
+
+  const getComprasByComprador = async() => {
+    const resp = await fetch(`${apiUrl}/compras?idComprador=${user.IdUsuario}`);
+    const data = await resp.json();
+    const {rows: compras} = !!data && data;
+    return compras;
+  }
+
+  const checkSiSeHaUnido = () => {
+    //obtener lista de compras del usuario y si concide con esta oferta, disable = true
+    getComprasByComprador()
+    .then(res => {
+      res.forEach(compra => {
+        if(compra.IdOferta === oferta.IdOferta){
+          setYaSeHaUnido(true);
+        }
+      });
+    })
   }
 
   useEffect(() => {
@@ -58,12 +84,25 @@ export const OfertaDetalle = () => {
     !!oferta && getProducto();
     !!oferta && getEstadoOferta();
     !!oferta && getProveedor();
+    !!oferta && checkSiSeHaUnido();
     // eslint-disable-next-line
   }, [oferta])
 
-  const handleClickUnirse = () => {
-    setShowCompraProductos(true);
+  const getOfertaActualizada = async() => {
+    const resp = await fetch(`${apiUrl}/ofertas?id=${oferta?.IdOferta}`);
+    const data = await resp.json();
+    const {rows: ofertaAct} = !!data && data;
+    return(ofertaAct[0].IdEstadosOferta);
+  }
 
+  const handleClickUnirse = () => {
+    getOfertaActualizada().then(res => {
+      if (res !== 1){
+        console.warn("No puede unirse, la oferta ya ha sido cerrada.")
+      } else {
+        setShowCompraProductos(true);
+      }
+    })
   }
 
   return (
@@ -83,13 +122,19 @@ export const OfertaDetalle = () => {
             <div className="oferta-detalle__etiqueta">
               <p className="paragraph--sm">{estadoOferta?.Descripcion}</p>
             </div>
+            {
+              yaSeHaUnido &&
+              <div className="oferta-detalle__etiqueta2">
+                <p className="paragraph--sm">Unido</p>
+              </div>
+            }
           </div>
           <hr className="hrGeneral"/>
           <div className="oferta-detalle__productoBox u-margin-top-small">
             <div className="oferta-detalle__productoBox__imgBox">
               <img 
                 className="oferta-detalle__productoBox__imgBox__img" 
-                src={producto?.UrlImg} 
+                src={producto?.UrlImg === "no-img.jpeg" ? "/no-img.jpeg" : producto?.UrlImg} 
                 alt={producto?.Name} 
               />
             </div>
@@ -110,7 +155,7 @@ export const OfertaDetalle = () => {
             </div>
 
             <div className="oferta-detalle__productoBox u-margin-top-small">
-              <p className="paragraph">Precio unitario {"$" + producto?.ValorU}</p>
+              <p className="paragraph">Precio unitario {"$" + oferta?.ValorUProducto}</p>
             </div>
 
             <div className="oferta-detalle__productoProgress u-margin-top-small">
@@ -148,8 +193,9 @@ export const OfertaDetalle = () => {
             {/* antes de unirse, verificar que haya vinculado el método de pago */}
             { estadoOferta?.Descripcion === "En curso" && 
             <div className="oferta-detalle__btnBox">
-              <button 
-                className="btn btn--blue"
+              <button
+                disabled={yaSeHaUnido}
+                className={yaSeHaUnido ? "btn btn--grey" : "btn btn--blue"}
                 onClick={handleClickUnirse}>
                 Unirse
               </button>
@@ -163,6 +209,7 @@ export const OfertaDetalle = () => {
                 producto={producto}
                 costoTotal={costoTotal}
                 setCostoTotal={setCostoTotal}
+                setUnidadesPetUsuario={setUnidadesPetUsuario}
               />
             }
             {/* ventana para confirmar metodo de pago */}
@@ -171,27 +218,40 @@ export const OfertaDetalle = () => {
                 setShowMetodoPago={setShowMetodoPago}
                 setShowPagoReserva={setShowPagoReserva}
                 setShowPagoAnticipado={setShowPagoAnticipado}
+                setTipoPago={setTipoPago}
               />
             }
             {showPagoAnticipado &&
               <CompraAnticipada
                 setShowPagoAnticipado={setShowPagoAnticipado}
+                unidadesPetUsuario={unidadesPetUsuario}
                 setShowPagoExito={setShowPagoExito}
-                setOfertaActual={setOferta}
+                setShowErrorPago={setShowErrorPago}
                 costoTotal={costoTotal}
+                oferta={oferta}
               />
             }
             {showPagoReserva &&
               <CompraReserva
                 setShowPagoReserva={setShowPagoReserva}
+                unidadesPetUsuario={unidadesPetUsuario}
                 setShowPagoExito={setShowPagoExito}
-                setOfertaActual={setOferta}
+                setShowErrorPago={setShowErrorPago}
                 costoTotal={costoTotal}
+                oferta={oferta}
               />
             }
             {showPagoExito &&
               <PagoExito
+                tipoPago={tipoPago}
                 setShowPagoExito={setShowPagoExito}
+              />
+            }
+            {
+              showErrorPago &&
+              <ErrorPago
+                tipoPago={tipoPago}
+                setShowErrorPago={setShowErrorPago}
               />
             }
           </div>

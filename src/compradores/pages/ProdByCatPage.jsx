@@ -63,7 +63,7 @@ export const ProdByCatPage = () => {
           <div className="u-margin-top-small"></div>
           {ofertas?.map(oferta => (
             <OfertaCard
-              key={oferta.IdPublicacion}
+              key={oferta.IdOferta}
               oferta={oferta}
             />
           ))}

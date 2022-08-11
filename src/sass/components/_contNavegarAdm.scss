@@ -1,0 +1,19 @@
+.contNavegarAdm {
+  background-color: $color-white;
+  border-radius: 5px;
+  padding: 2rem 1rem;
+}
+
+.ContListaNav {
+  &--Item {
+    text-decoration: none;
+    color: $color-grey-dark;
+    padding: 0rem 1rem;
+  }
+
+  &--Item:hover {
+    cursor: pointer;
+    transform: translate(3px);
+    color: $color-tertiary;
+  }
+}

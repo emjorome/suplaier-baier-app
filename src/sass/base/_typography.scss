@@ -27,8 +27,20 @@ body {
     font-size: $default-font-size-sm;
   }
 
+  &--primary {
+    color: $color-primary;
+  }
+
   &--blue {
     color: $color-blue;
+  }
+
+  &--green {
+    color: $color-green;
+  }
+
+  &--red {
+    color: $color-red;
   }
 
   &--white {

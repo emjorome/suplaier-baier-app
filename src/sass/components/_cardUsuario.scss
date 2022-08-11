@@ -1,0 +1,38 @@
+.cardUsuarioContainer {
+  border-style: solid;
+  border-width: 1px;
+  border-color: $color-grey-light-3;
+  border-radius: 5px;
+  margin: 1rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  &--datosUser {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &--botonesBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 35%;
+
+    &--btn {
+      height: 50%;
+      width: 7rem;
+      border: none;
+      border-radius: 2px;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+    }
+
+  }
+}

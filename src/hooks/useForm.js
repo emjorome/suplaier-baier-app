@@ -19,7 +19,7 @@ export const useForm = (initialForm = {}) => {
       } else {
         setFormState({
           ...formState,
-          [name] : "",
+          [name] : "no-img.jpeg",
         });
       }
       return;
@@ -34,12 +34,22 @@ export const useForm = (initialForm = {}) => {
   const onResetForm = () => {
     setFormState(initialForm);
   }
+
+  const setNameValueEmpty = (campo) => {
+    if (campo === "urlImg") {
+      setFormState({
+        ...formState,
+        [campo] : "no-img.jpeg",
+      });
+    }
+  }
   
   return {
     ...formState,
     formState,
     onInputChange,
     onResetForm,
+    setNameValueEmpty,
   }
 
 }

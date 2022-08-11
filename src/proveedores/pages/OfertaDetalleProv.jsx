@@ -16,7 +16,7 @@ export const OfertaDetalleProv = () => {
   const [showCerrarOferta, setShowCerrarOferta] = useState(false);
 
   const getOferta = async() => {
-    const resp = await fetch(`${apiUrl}/publicaciones?id=${idOferta}`);
+    const resp = await fetch(`${apiUrl}/ofertas?id=${idOferta}`);
     const data = await resp.json();
     const {rows: oferta} = !!data && data;
     setOferta(oferta[0]);
@@ -30,14 +30,14 @@ export const OfertaDetalleProv = () => {
   }
 
   const getEstadoOferta = async() => {
-    const resp = await fetch(`${apiUrl}/estados?id=${oferta.IdEstadoOferta}`);
+    const resp = await fetch(`${apiUrl}/estados?id=${oferta.IdEstadosOferta}`);
     const data = await resp.json();
     const {rows: estado} = !!data && data;
     setEstadoOferta(estado[0]);
   }
 
   const getProveedor = async() => {
-    const resp = await fetch(`${apiUrl}/proveedores?id=${oferta.IdProveedor}`);
+    const resp = await fetch(`${apiUrl}/usuarios?idUsuario=${oferta.IdProveedor}`);
     const data = await resp.json();
     const {rows: proveedor} = !!data && data;
     setProveedor(proveedor[0]);
@@ -88,8 +88,8 @@ export const OfertaDetalleProv = () => {
             <div className="oferta-detalle__productoBox__imgBox">
               <img 
                 className="oferta-detalle__productoBox__imgBox__img" 
-                src={producto?.UrlImg} 
-                alt={producto?.Name} 
+                src={producto?.UrlImg === "no-img.jpeg" ? "/no-img.jpeg" : producto?.UrlImg} 
+                alt={producto?.Name}
               />
             </div>
             <div className="oferta-detalle__productoBox__desc">
@@ -109,7 +109,7 @@ export const OfertaDetalleProv = () => {
             </div>
 
             <div className="oferta-detalle__productoBox u-margin-top-small">
-              <p className="paragraph">Precio unitario {"$" + producto?.ValorU}</p>
+              <p className="paragraph">Precio unitario {"$" + oferta?.ValorUProducto}</p>
             </div>
 
             <div className="oferta-detalle__productoProgress u-margin-top-small">

@@ -24,6 +24,16 @@
     padding: 0.3rem 0.8rem;
   }
 
+  &__etiqueta2{
+    position: absolute;
+    top: 1.5rem;
+    right: 11rem;
+    background-color: $color-tag-blue;
+    color: $color-white;
+    border-radius: 5px;
+    padding: 0.3rem 1.8rem;
+  }
+
   &__imgbox {
     position: relative;
     width: 30%;

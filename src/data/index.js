@@ -8,3 +8,4 @@ export * from "./compraIndividual";
 export * from "./ofertaComprador";
 export * from "./notificaciones";
 export * from "./tipoNotificacion";
+export * from "./ecCiudades";

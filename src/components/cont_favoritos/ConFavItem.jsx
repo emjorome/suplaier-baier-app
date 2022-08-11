@@ -7,7 +7,7 @@ export const ConFavItem = ({fav}) => {
   const [proveedorData, setProveedorData] = useState({});
 
   const getFetch = async() => {
-    const resp = await fetch(`${apiUrl}/proveedores?id=${fav.IdProveedor}`);
+    const resp = await fetch(`${apiUrl}/usuarios?idUsuario=${fav.IdUsuarioProv}`);
     const data = await resp.json();
     const {rows: prov} = data;
     setProveedorData(prov[0])
@@ -21,7 +21,7 @@ export const ConFavItem = ({fav}) => {
 
   return (
     <Link 
-      to={`/perfil_proveedor?q=${fav.IdProveedor}`} 
+      to={`/perfil_proveedor?q=${fav.IdUsuarioProv}`} 
       key={fav.IdProvFavorito} 
       className="explorarCat__lista__item"
     >

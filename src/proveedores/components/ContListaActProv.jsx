@@ -11,15 +11,15 @@ export const ContListaActProv = () => {
   const [ofertasActivasByProv, setOfertasActivasByProv] = useState();
 
   const getOfertasActivasByIdProveedor = async(id) => {
-    const resp = await fetch(`${apiUrl}/publicaciones?idProveedor=${id}&idEstadoOferta=1`);
+    const resp = await fetch(`${apiUrl}/ofertas?idProveedor=${id}&idEstadosOferta=1`);
     const data = await resp.json();
     const {rows: ofertasActivas} = !!data && data;
     setOfertasActivasByProv(ofertasActivas);
   }
 
   useEffect(() => {
-    getOfertasActivasByIdProveedor(proveedor.id);
-  }, [proveedor.id])
+    getOfertasActivasByIdProveedor(proveedor.IdUsuario);
+  }, [proveedor])
   
   return (
     <div className="actividadesRec__lista">
@@ -27,7 +27,7 @@ export const ContListaActProv = () => {
         ofertasActivasByProv?.map(ofertaActiva => 
           <ContListaActProvItem 
             ofertaActiva={ofertaActiva}
-            key={ofertaActiva.IdPublicacion}
+            key={ofertaActiva.IdOferta}
           />)
       }
     </div>

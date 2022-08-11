@@ -19,16 +19,16 @@ export const FormCrearOferta = () => {
       cantMax,
       descripcion,
       fechaLimite,
+      costoUnitario,
       onInputChange} = useForm({
         idProducto: -1,
-        idProveedor: user.id,
+        idProveedor: user.IdUsuario,
         cantMin: 0,
         cantMax: 0,
+        costoUnitario: 0, 
         descripcion: "",
         actualProductos: 0,
         fechaLimite: "",
-        fechaCreacion: `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`,
-        fechaModificacion: `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`,
         estado: true,
         idEstadoOferta: 1,
       });
@@ -39,20 +39,106 @@ export const FormCrearOferta = () => {
   const [imagen, setImagen] = useState();
   const [showResumenOferta, setShowResumenOferta] = useState(false);
   const [showAccionExitosa, setShowAccionExitosa] = useState(false);
-  
-  const onContinuarCrearOferta = (e) => {
-    e.preventDefault();
-    setShowResumenOferta(true);
 
+  //validadores
+  const [esProductoValido, setEsProductoValido] = useState(false);
+  const [esValorUnitariValido, setEsValorUnitariValido] = useState(false);
+  const [esDescOfertaValido, setEsDescOfertaValido] = useState(false);
+  const [esUnidadesMinValido, setEsUnidadesMinValido] = useState(false);
+  const [esUnidadesMaxValido, setEsUnidadesMaxValido] = useState(false);
+  const [esFechaValida, setEsFechaValida] = useState(false);
+
+  const checkFechaLimiteisValid = async() => {
+    const resp = await fetch(`${apiUrl}/obtenerahora`);
+    const data = await resp.json();
+    const {rows: ahora} = !!data && data;
+
+    const fechaLocaly1 = d.toLocaleDateString(ahora[0]).split("/");
+    const fechaLocaly2 = `${fechaLocaly1[2]}-${fechaLocaly1[0].length === 1 ? "0"+fechaLocaly1[0] : fechaLocaly1[0]}-${fechaLocaly1[1]}T`
+    
+    const horaLocaly2 = d.toLocaleTimeString(ahora[0]).split(" ");
+    const horaLocalyEsp = horaLocaly2[0].split(":"); //hora min sec
+   
+    let horaLocaly3 = "";
+    horaLocaly2[1] === "AM"
+    ? horaLocaly3 = parseInt(horaLocalyEsp[0])
+    : horaLocaly3 = 12 + parseInt(horaLocalyEsp[0]);
+
+    const horaResult = `${horaLocaly3.toString().length === 1 ? "0"+horaLocaly3 : horaLocaly3}:${horaLocalyEsp[1]}:${horaLocalyEsp[2].length === 1 ? "0"+horaLocalyEsp[2] : horaLocalyEsp[2]}`
+    const horaResultFinal = `${fechaLocaly2}${horaResult}`;
+    const fechaLimiteFinal = `${fechaLimite}:00`;
+    setEsFechaValida(horaResultFinal < fechaLimiteFinal)
+  }
+
+  const validarTodosCampos = () => {
+    return new Promise((resolve, reject) => {
+      
+      checkFechaLimiteisValid();
+      
+      const productoValido = idProducto !== "Seleccionar producto" && idProducto !== -1;
+      const regexDescripcion = /^([a-zA-Z0-9 _-àáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ,.]){3,500}$/;
+      const regexValorUnitario = /^((.\d+)|(\d+(.\d+)?))$/;
+      const regexUnidadesMinMax = /^[1-9]([0-9]+)?$/;
+
+      console.log(productoValido && regexDescripcion.test(descripcion) && regexValorUnitario.test(costoUnitario)
+      && regexUnidadesMinMax.test(cantMin) && regexUnidadesMinMax.test(cantMax) && cantMin <= cantMax)
+
+      if(productoValido && regexDescripcion.test(descripcion) && regexValorUnitario.test(costoUnitario)
+          && regexUnidadesMinMax.test(cantMin) && regexUnidadesMinMax.test(cantMax) && (cantMin <= cantMax)){
+        
+          resolve(true);
+
+      } else {
+        setEsProductoValido(productoValido);
+        setEsValorUnitariValido(regexValorUnitario.test(costoUnitario));
+        setEsDescOfertaValido(regexDescripcion.test(descripcion));
+        setEsUnidadesMinValido(cantMin <= cantMax);
+        setEsUnidadesMaxValido(regexUnidadesMinMax.test(cantMax));
+
+        reject(false);
+      }
+    })
+  }
+
+  const onContinuarCrearOferta = async(e) => {
+    e.preventDefault();
+    await validarTodosCampos()
+       .then(res => setShowResumenOferta(true))
+       .catch(res => console.warn(res));
   }
 
   const getProductos = async() => {
-    const resp = await fetch(`${apiUrl}/productos?idProveedor=${user.id}`);
+    const resp = await fetch(`${apiUrl}/productos?idProveedor=${user.IdUsuario}`);
     const data = await resp.json();
     const {rows: productos} = !!data && data;
     setProductosProv(productos);
   }
 
+  useEffect(() => {
+    setEsFechaValida(true);
+  }, [fechaLimite]);
+
+  useEffect(() => {
+    setEsProductoValido(true);
+  }, [idProducto]);
+  
+  useEffect(() => {
+    setEsValorUnitariValido(true)
+  }, [costoUnitario]);
+  
+  useEffect(() => {
+    setEsUnidadesMinValido(true)
+  }, [cantMin]);
+  
+  useEffect(() => {
+    setEsUnidadesMaxValido(true);
+  }, [cantMax]);
+
+  useEffect(() => {
+    setEsDescOfertaValido(true);
+  }, [descripcion])
+  
+  
   useEffect(() => {
     getProductos();
     // eslint-disable-next-line
@@ -77,7 +163,6 @@ export const FormCrearOferta = () => {
     }
   };
 
-
   useEffect(() => {
     getProductoSelect(idProducto);
   }, [idProducto]);
@@ -91,21 +176,30 @@ export const FormCrearOferta = () => {
     <form onSubmit={onContinuarCrearOferta}>
       <div className="compraProducto__box">
           <div className="formSubirProducto u-margin-top-small">
-            <select 
-              name="idProducto"
-              className="formSubirProducto__input paragraph paragraph"
-              onChange={onInputChange}
-            >
-              <option defaultValue={"none"}>
-                Seleccionar producto
-              </option> 
+            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm formRegistrarComp__label"><b>Producto</b></label>
+            <div className="formRegistrarComp__boxError">
+              <select 
+                id="formOfertaNombreProd"
+                name="idProducto"
+                className="formRegistrarComp__input paragraph"
+                onChange={onInputChange}
+              >
+                <option defaultValue={"none"}>
+                  Seleccionar producto
+                </option> 
+                {
+                  productosProv?.map(prod => 
+                    <option value={prod.IdProducto} key={prod.Name}>
+                      {prod.Name}
+                    </option>)
+                }
+              </select>
               {
-                productosProv.map(prod => 
-                  <option value={prod.IdProducto} key={prod.Name}>
-                    {prod.Name}
-                  </option>)
+                !esProductoValido &&
+                <p className="paragraph--red u-padding-left-small">Por favor seleccione un producto</p>
               }
-            </select>
+            </div>
+            
           </div>
           {
           productoExiste && 
@@ -120,13 +214,30 @@ export const FormCrearOferta = () => {
             <div className="oferta-detalle__productoBox__desc">
               <div className="oferta-detalle__productoBox__desc__text">
                 <p className="paragraph"><b>{producto?.Name}</b></p>
-                <p className="paragraph"><b>Precio unitario: $ {producto?.ValorU}</b></p>
                 <p className="paragraph">{producto?.Descripcion}</p>
               </div>
             </div>
           </div>
           }
           <div className="formSubirProducto u-margin-top-small">
+            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm formRegistrarComp__label"><b>Precio unitario</b></label>
+            <input
+              type="number"
+              placeholder="Precio unitario en USD"
+              className="formSubirProducto__input paragraph"
+              name="costoUnitario"
+              autoComplete="off"
+              value={costoUnitario}
+              onChange={onInputChange}
+              required
+            />
+            {
+              !esValorUnitariValido &&
+              <p className="paragraph--red u-padding-left-small">Costo unitario no válido</p>
+            }
+          </div>
+          <div className="formSubirProducto u-margin-top-small">
+            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm formRegistrarComp__label"><b>Descripción</b></label>
             <textarea
               type="text"
               placeholder="Descripción de la oferta"
@@ -137,8 +248,13 @@ export const FormCrearOferta = () => {
               onChange={onInputChange}
               required
             />
+            {
+              !esDescOfertaValido &&
+              <p className="paragraph--red u-padding-left-small">Descripción no válida</p>
+            }
           </div>
           <div className="formSubirProducto u-margin-top-small">
+            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm formRegistrarComp__label"><b>Cantidad mínima</b></label>
             <input
               type="number"
               placeholder="Unidades mínimas para cerrar la oferta"
@@ -150,8 +266,13 @@ export const FormCrearOferta = () => {
               min={1}
               required
             />
+            {
+              !esUnidadesMinValido &&
+              <p className="paragraph--red u-padding-left-small">Cantidad de unidades mínima no válida</p>
+            }
           </div>
           <div className="formSubirProducto u-margin-top-small">
+            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm formRegistrarComp__label"><b>Cantidad máxima</b></label>
             <input
               type="number"
               placeholder="Unidades en total a vender"
@@ -163,10 +284,15 @@ export const FormCrearOferta = () => {
               min={1}
               required
             />
+            {
+              !esUnidadesMaxValido &&
+              <p className="paragraph--red u-padding-left-small">Cantidad de unidades en total no válida</p>
+            }
           </div>
           <div className="formSubirProducto u-margin-top-small">
+            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm formRegistrarComp__label"><b>Fecha límite</b></label>
             <input
-              type="date"
+              type="datetime-local"
               className="formSubirProducto__input paragraph"
               name="fechaLimite"
               autoComplete="off"
@@ -174,6 +300,10 @@ export const FormCrearOferta = () => {
               onChange={onInputChange}
               required
             />
+            {
+              !esFechaValida &&
+              <p className="paragraph--red u-padding-left-small">Fecha no válida</p>
+            }
           </div>
       </div>
 
