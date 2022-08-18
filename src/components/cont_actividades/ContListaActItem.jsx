@@ -53,7 +53,7 @@ export const ContListaActItem = ({ofertaActiva: compra}) => {
     </span> */}
     <p className="paragraph--mid--2"><b>{productoCompra?.Name}</b></p>
     <p className="paragraph--mid--2">{proveedorCompra?.Nombre}</p>
-    <p className="paragraph--mid--2">{ofertaCompra?.FechaLimite}</p>
+    <p className="paragraph--mid--2">{(ofertaCompra?.FechaLimite)?.split("T")[0]}</p>
   </Link>
   )
 }

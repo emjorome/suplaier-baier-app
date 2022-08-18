@@ -80,11 +80,21 @@ export const FormCrearOferta = () => {
       const regexValorUnitario = /^((.\d+)|(\d+(.\d+)?))$/;
       const regexUnidadesMinMax = /^[1-9]([0-9]+)?$/;
 
+      console.log(cantMin <= cantMax)
+      console.log(parseInt(cantMin))
+      console.log(parseInt(cantMax))
+      console.log(cantMin > cantMax)
+
       console.log(productoValido && regexDescripcion.test(descripcion) && regexValorUnitario.test(costoUnitario)
-      && regexUnidadesMinMax.test(cantMin) && regexUnidadesMinMax.test(cantMax) && cantMin <= cantMax)
+      //&& regexUnidadesMinMax.test(cantMin) 
+      //&& regexUnidadesMinMax.test(cantMax) 
+      && cantMin <= cantMax)
 
       if(productoValido && regexDescripcion.test(descripcion) && regexValorUnitario.test(costoUnitario)
-          && regexUnidadesMinMax.test(cantMin) && regexUnidadesMinMax.test(cantMax) && (cantMin <= cantMax)){
+          && regexUnidadesMinMax.test(cantMin) 
+          && regexUnidadesMinMax.test(cantMax) 
+          //&& (cantMin <= cantMax)
+          ){
         
           resolve(true);
 
@@ -92,7 +102,7 @@ export const FormCrearOferta = () => {
         setEsProductoValido(productoValido);
         setEsValorUnitariValido(regexValorUnitario.test(costoUnitario));
         setEsDescOfertaValido(regexDescripcion.test(descripcion));
-        setEsUnidadesMinValido(cantMin <= cantMax);
+        setEsUnidadesMinValido(regexUnidadesMinMax.test(cantMin));
         setEsUnidadesMaxValido(regexUnidadesMinMax.test(cantMax));
 
         reject(false);

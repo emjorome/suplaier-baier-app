@@ -22,7 +22,7 @@ export const SignupPage = () => {
         <div className="signupPage__centralbox__contentBox">
           <div className="signupPage__centralbox__contentBox__izq">
             <img 
-              src="cash_desk.jpg" 
+              src="comprador_registro.jpeg" 
               alt="logo_suplaier" 
               className="signupPage__centralbox__contentBox__izq__img" 
             />
@@ -38,7 +38,7 @@ export const SignupPage = () => {
           </div>
           <div className="signupPage__centralbox__contentBox__der">
             <img 
-              src="business_man.jpg" 
+              src="proveedor_v2.jpeg" 
               alt="logo_suplaier" 
               className="signupPage__centralbox__contentBox__der__img" 
             />

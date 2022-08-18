@@ -84,15 +84,17 @@ export const CompraAnticipada = ({oferta, costoTotal, setShowPagoAnticipado,setS
     <div className="metodoPago animate__animated animate__fadeIn">
       <div className="metodoPago__ventana animate__animated animate__slideInDown">
         <div className="metodoPago__barraSup"></div>
-        <p className="paragraph">Efectuando Pago Anticipado...</p>
-        <p className="paragraph">$ {costoTotal.toFixed(2)}</p>
+        <p className="paragraph u-margin-top-small"><b>Efectuando Pago Anticipado</b></p>
+        <div className="u-margin-top-small"></div>
+        {/* <p className="paragraph">$ {costoTotal.toFixed(2)}</p> */}
+        <ContBotonPago price={costoTotal.toFixed(2)}/>
         <div className="metodoPago__btnBox">
           {/* <button 
             type="button"
             onClick={() => setShowPagoAnticipado(false)}
             className="btn btn--red"
           >Cancelar</button> */}
-          <ContBotonPago price={costoTotal}/>
+          
           <button 
             type="button"
             onClick={onSubmitPago}

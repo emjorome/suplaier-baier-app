@@ -38,11 +38,8 @@ export const CalificarProducto = ({compra, setShowAccionExitosa}) => {
   }, [compra]);
 
   const changeProductRating = async() => {
-    console.log(producto)
     const nuevoRating = ((producto?.Valoracion + parseInt(rate))/2).toFixed(2);
     const nuevoRating2 = Math.floor(nuevoRating);
-
-    console.log(nuevoRating2);
 
     const body = { 
       idProducto: oferta?.IdProducto,
@@ -63,7 +60,8 @@ export const CalificarProducto = ({compra, setShowAccionExitosa}) => {
 
   const onSubmitValoracion = (e) => {
     e.preventDefault();
-    !!producto && changeProductRating();
+    !!producto && 
+      changeProductRating();
   }
 
   return (

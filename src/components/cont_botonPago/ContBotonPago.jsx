@@ -34,7 +34,7 @@ export const ContBotonPago = ({price = 0}) => {
 
   return (
     <center>
-        <h1>Total a pagar {price} $</h1>
+        <h1>Total a pagar: ${price}</h1>
         <br />
         <PayPalButton
           createOrder={(data, actions) => createOrder(data, actions)}
