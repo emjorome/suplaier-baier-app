@@ -10,11 +10,12 @@ export const MainCompPage = () => {
     const resp = await fetch(`${apiUrl}/ofertas`);
     const data = await resp.json();
     const {rows: ofertas} = !!data && data;
-    setOfertasTodos(ofertas);
+    setOfertasTodos(ofertas.filter(oferta => oferta.IdEstadosOferta === 1));
   }
 
   useEffect(() => {
     getOfertasTodos();
+    // eslint-disable-next-line
   }, [])
 
   const showEmptyArray = ofertasTodos?.length === 0;
@@ -32,7 +33,7 @@ export const MainCompPage = () => {
             <span className="material-symbols-rounded icon-grey icon--sm">
               arrow_forward_ios
             </span>
-            <p className="paragraph--mid"><b>Ofertas</b></p>
+            <p className="paragraph--mid"><b>Ofertas colaborativas en curso</b></p>
           </div>
           <hr className="hrGeneral"/>
           {showEmptyArray

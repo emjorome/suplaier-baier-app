@@ -14,7 +14,7 @@ export const SearchPage = () => {
     const resp = await fetch(`${apiUrl}/ofertaByProducto?q=${q}`);
     const data = await resp.json();
     const {rows: ofertas} = !!data && data;
-    setOfertasBusqueda(ofertas);
+    setOfertasBusqueda(ofertas.filter((oferta) => oferta.IdEstadosOferta === 1));
   }
 
   useEffect(() => {

@@ -1,6 +1,8 @@
+import { useEffect } from "react";
 import { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { AuthContext } from "../auth";
+import { obtainUserPermission } from "../firebase/obtainPermission";
 
 export const PublicRoute = ({children}) => {
 
@@ -16,6 +18,14 @@ export const PublicRoute = ({children}) => {
         return "/administrador";
     }
   }
+
+  useEffect(() => {
+    //Permission for notifications
+    obtainUserPermission()
+    
+    // eslint-disable-next-line
+  }, [authState])
+  
 
   return (
     !authState.logged

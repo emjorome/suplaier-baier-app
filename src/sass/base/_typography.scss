@@ -54,7 +54,26 @@ body {
     color: $color-grey-dark;
   }
 
-
+  &--tag {
+    &--green {
+      color: $color-tag-green;
+    }
+    &--blue {
+      color: $color-tag-blue;
+    }
+    &--red {
+      color: $color-tag-red;
+    }
+    &--purple {
+      color: $color-tag-purple;
+    }
+    &--lightblue {
+      color: $color-tag-lightblue;
+    }
+    &--grey {
+      color: $color-tag-grey;
+    }
+  }
   /*&:not(:last-child) {
     margin-bottom: 1rem;
   }*/

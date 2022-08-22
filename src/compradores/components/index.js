@@ -7,3 +7,4 @@ export * from "./PagoExito";
 export * from "./ErrorPago";
 export * from "./AccionRecibidoExitosa";
 export * from "./CalificarProducto";
+export * from "./ListaOrdenComp";

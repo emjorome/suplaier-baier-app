@@ -2,8 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { apiUrl } from "../../apiUrl";
 import { AuthContext } from "../../auth";
-import { ContActividades, ContExplorar, ContFavoritos, EtiquetaOferta, ProgressBar, ValoracionStar } from "../../components"
-import { CompraAnticipada, CompraProductos, CompraReserva, ErrorPago, MetodoPago, PagoExito } from "../components";
+import { ContExplorar, ContFavoritos, EtiquetaOferta, ProgressBar, ValoracionStar } from "../../components"
+import { ContOfertasSimilares } from "../../components/cont_ofertasSimilares/ContOfertasSimilares";
+import { CompraAnticipada, CompraProductos, CompraReserva, ErrorPago, ListaOrdenComp, MetodoPago, PagoExito } from "../components";
 
 export const OfertaDetalle = () => {
 
@@ -121,12 +122,12 @@ export const OfertaDetalle = () => {
             <p className="paragraph--mid"><b>{producto?.Name}</b></p>
           </div>
           <div className="oferta-card__etiquetaBox">
-              <EtiquetaOferta estado={estadoOferta?.Descripcion} esOfertaDetalle={true}/>
-              {
-                yaSeHaUnido &&
-                <EtiquetaOferta estado={"Unido"} esOfertaDetalle={true}/>
-              }
-            </div>
+            <EtiquetaOferta estado={estadoOferta?.Descripcion} esOfertaDetalle={true}/>
+            {
+              yaSeHaUnido &&
+              <EtiquetaOferta estado={"Unido"} esOfertaDetalle={true}/>
+            }
+          </div>
           <hr className="hrGeneral"/>
           <div className="oferta-detalle__productoBox u-margin-top-small">
             <div className="oferta-detalle__productoBox__imgBox">
@@ -144,31 +145,38 @@ export const OfertaDetalle = () => {
             </div>
           </div>
           <div>
-            <div className="oferta-detalle__productoBox u-margin-top-small">
-              <p className="paragraph"><b>Proveedor: {proveedor?.Nombre}</b></p>
+            <div className="oferta-detalle__productoBox__twoColumn">
+              <div className="oferta-detalle__productoBox u-margin-top-small">
+                <p className="paragraph"><b>Proveedor: {proveedor?.Nombre}</b></p>
+              </div>
+              <div className="oferta-detalle__productoBox u-margin-top-small">
+                <p className="paragraph"><b>Precio unitario:</b> {"$" + oferta?.ValorUProducto}</p>
+              </div>
             </div>
-            
+            <div className="oferta-detalle__productoBox__twoColumn">
+              <div className="oferta-detalle__productoBox u-margin-top-small">
+                <p className="paragraph">Unidades restantes:&nbsp;
+                  {oferta?.Maximo - oferta?.ActualProductos}&nbsp;/&nbsp;
+                  {oferta?.Maximo}
+                </p>
+              </div>
+              <div className="oferta-detalle__productoBox u-margin-top-small">
+                <p className="paragraph">Fecha de cierre: {!!oferta?.FechaLimite && (oferta.FechaLimite).split("T")[0]}</p>
+              </div>
+            </div>
             <div className="oferta-detalle__productoBox u-margin-top-small">
               <p className="paragraph">{oferta?.Descripcion}</p>
             </div>
 
-            <div className="oferta-detalle__productoBox u-margin-top-small">
-              <p className="paragraph">Precio unitario {"$" + oferta?.ValorUProducto}</p>
-            </div>
-
             <div className="oferta-detalle__productoProgress u-margin-top-small">
               <p className="paragraph paragraph--blue">Unidades restantes para completar el mínimo:&nbsp;
-                {oferta?.Minimo - oferta?.ActualProductos}
+                {(oferta?.Minimo - oferta?.ActualProductos) >= 0 
+                ? oferta?.Minimo - oferta?.ActualProductos
+                : 0
+                }
               </p>
             </div>
             
-            <div className="oferta-detalle__productoProgress u-margin-top-small">
-              <p className="paragraph">Unidades restantes:&nbsp;
-                {oferta?.Maximo - oferta?.ActualProductos}&nbsp;/&nbsp;
-                {oferta?.Maximo}
-              </p>
-            </div>
-
             <div className="oferta-detalle__productoProgress u-margin-top-small">
               <p className="paragraph">Progreso de unidades vendidas: </p>
               <div className="oferta-detalle__productoProgress__barbox">
@@ -183,13 +191,9 @@ export const OfertaDetalle = () => {
                 {((oferta?.ActualProductos / oferta?.Maximo) * 100).toFixed(0)}%
               </p>
             </div>
-
-            <div className="oferta-detalle__productoBox u-margin-top-small">
-              <p className="paragraph">Fecha de cierre: {!!oferta?.FechaLimite && (oferta.FechaLimite).split("T")[0]}</p>
-            </div>
             
             {/* antes de unirse, verificar que haya vinculado el método de pago */}
-            { estadoOferta?.Descripcion === "En curso" && 
+            { estadoOferta?.Descripcion === "En curso" && !yaSeHaUnido &&
             <div className="oferta-detalle__btnBox">
               <button
                 disabled={yaSeHaUnido}
@@ -197,7 +201,11 @@ export const OfertaDetalle = () => {
                 onClick={handleClickUnirse}>
                 Unirse
               </button>
-            </div>}
+            </div>
+            }
+            { yaSeHaUnido &&
+              <ListaOrdenComp oferta={oferta}/>
+            }
             {/* ventana para confirmar comprar */}
             {showCompraProductos && 
               <CompraProductos 
@@ -257,7 +265,7 @@ export const OfertaDetalle = () => {
       </div>
       <div className="comp-main-container__divSepDer"></div>
       <div className="comp-main-container__derCont">
-        <ContActividades/>
+        <ContOfertasSimilares nombreProducto={producto?.Name} idOferta={idOferta}/>
       </div>
     </div>
   )

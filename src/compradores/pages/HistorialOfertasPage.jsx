@@ -1,18 +1,51 @@
+import { useEffect, useState } from "react";
 import { useContext } from "react";
+import { apiUrl } from "../../apiUrl";
 import { AuthContext } from "../../auth";
 import { ContActividades, ContExplorar, ContFavoritos, OfertaCard } from "../../components"
-import { getOfertaById, getOfertasIndividualesByCompradorId } from "../../helpers/getOfertaById";
 
 export const HistorialOfertasPage = () => {
 
   const {authState} = useContext(AuthContext);
   const {user} = authState;
-  const ofertaComprador = getOfertasIndividualesByCompradorId(user.id);
-  
-  const ofertas = ofertaComprador.map(oferta => {
-    return getOfertaById(oferta.idOferta);
-  })
 
+  // Compra = Compra individual = Orden de compra
+  // ---- Aqui se deben poner las ofertas colaborativas
+  // ---- a las que se ha unido el comprador (no las ordenes de compra)
+  // ---- entonces, se hacen las peticiones => get oferta by compra individual by usuario
+
+  const [ofertasByCompra, setOfertasByCompra] = useState([]);
+  const [comprasByUser, setComprasByUser] = useState([]);
+
+  const getComprasByUser = async() => {
+    const resp = await fetch(`${apiUrl}/compras?idComprador=${user?.IdUsuario}`);
+    const data = await resp.json();
+    const {rows: compras} = !!data && data;
+    setComprasByUser(compras);
+  }
+
+  const getOfertasByCompra = () => {
+    comprasByUser.forEach(async(compra) => {
+      const resp = await fetch(`${apiUrl}/ofertas?id=${compra?.IdOferta}`);
+      const data = await resp.json();
+      const {rows: oferta} = !!data && data;
+      setOfertasByCompra((ofertas) => {
+        return [oferta[0], ...ofertas];
+      })
+    });
+  }
+
+  useEffect(() => {
+    getComprasByUser();
+    // eslint-disable-next-line
+  }, [])
+  
+  useEffect(() => {
+    setOfertasByCompra([]);
+    !!comprasByUser && getOfertasByCompra();
+    // eslint-disable-next-line
+  }, [comprasByUser])
+  
   return (
     <div className="comp-main-container u-margin-top-navbar">
       <div className="comp-main-container__izqCont">
@@ -26,11 +59,11 @@ export const HistorialOfertasPage = () => {
           <span className="material-symbols-rounded icon-grey icon--sm">
               arrow_forward_ios
           </span>
-          <p className="paragraph--mid"><b>Historial de ofertas</b></p>
+          <p className="paragraph--mid"><b>Historial de ofertas colaborativas</b></p>
           </div>
-          {ofertas.map(oferta => (
+          {ofertasByCompra?.map(oferta => (
             <OfertaCard 
-              key={oferta.idOferta}
+              key={oferta?.IdOferta}
               oferta={oferta}
             />
           ))}

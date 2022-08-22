@@ -1,11 +1,11 @@
 
-export const ContActTitle = () => {
+export const ContOfeSimTitle = () => {
   return (
     <div className="explorarCat__title">
       <span className="material-symbols-rounded icon--md">
-        history
+        grain
       </span>
-      <p className="paragraph--mid--2"><b>Ofertas colaborativas pendientes</b></p>
+      <p className="paragraph--mid--2"><b>Otras ofertas similares</b></p>
     </div>
   )
 }

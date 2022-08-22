@@ -9,7 +9,7 @@ export const CerrarOferta = ({oferta, setShowCerrarOferta, setShowCierreExitoso}
   const cerrarOferta = async() => {
     const body = { 
       IdOferta: oferta.IdOferta,
-      IdEstadosOferta: 10 //Id Estado Cerrado DB
+      IdEstadosOferta: 11 //Id Estado PENDIENTE DB
     }
     const resp = await fetch(`${apiUrl}/cambiarofertaestado`, {
       method: 'PATCH',

@@ -75,7 +75,7 @@ export const OfertaCardAdm = ({oferta, esProveedor = false}) => {
       onClick={onClickOferta}
     >
       <div className="oferta-card-adm__imgbox">
-        <img className="oferta-card-adm__imgbox__img" src={datosProd?.urlImg} alt={datosProd?.nombreProd}/>
+        <img className="oferta-card-adm__imgbox__img" src={datosProd?.UrlImg} alt={datosProd?.nombreProd}/>
       </div>
       <div className="oferta-card__datosbox">
         <EtiquetaOferta estado={estadoOferta?.Descripcion}/>

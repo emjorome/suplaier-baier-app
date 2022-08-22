@@ -27,7 +27,7 @@ export const PerfilProveedor = () => {
     const resp = await fetch(`${apiUrl}/ofertas?idProveedor=${proveedor?.IdUsuario}`);
     const data = await resp.json();
     const {rows: ofertas} = data;
-    setOfertasProv(ofertas);
+    setOfertasProv(ofertas.filter((oferta) => oferta.IdEstadosOferta === 1));
   }
 
   useEffect(() => {
@@ -87,7 +87,7 @@ export const PerfilProveedor = () => {
             <span className="material-symbols-rounded icon-grey icon--sm">
                 arrow_forward_ios
             </span>
-            <p className="paragraph--mid"><b>Ofertas recientes</b></p>
+            <p className="paragraph--mid"><b>Ofertas en curso</b></p>
           </div>
           <hr className="hrGeneral"/>
 

@@ -29,7 +29,7 @@ export const ProdByCatPage = () => {
     const resp = await fetch(`${apiUrl}/pubbycategoria?id=${categoria?.IdCatProducto}`);
     const data = await resp.json();
     const {rows: ofertas} = !!data && data;
-    setOfertas(ofertas);
+    setOfertas(ofertas.filter((oferta) => oferta.IdEstadosOferta === 1));
   }
 
   useEffect(() => {

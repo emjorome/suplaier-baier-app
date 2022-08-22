@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { apiUrl } from '../../apiUrl';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom"
+import { apiUrl } from "../../apiUrl";
 
-export const ContListaActItem = ({ofertaActiva: oferta}) => {
+export const ContOfeSimListaItem = ({ofertaActiva: oferta}) => {
 
   const [productoCompra, setProductoCompra] = useState({});
   const [proveedorCompra, setProveedorCompra] = useState({});
@@ -26,7 +26,7 @@ export const ContListaActItem = ({ofertaActiva: oferta}) => {
     !!oferta && getProveedorById();
     // eslint-disable-next-line
   }, [oferta])
-  
+
   return (
     <Link 
       to={`/oferta/${oferta?.IdOferta}`} 
@@ -38,6 +38,7 @@ export const ContListaActItem = ({ofertaActiva: oferta}) => {
       cancel
     </span> */}
     <p className="paragraph--mid--2"><b>{productoCompra?.Name}</b></p>
+    <p className="paragraph--mid--2">$ {oferta?.ValorUProducto}</p>
     <p className="paragraph--mid--2">{proveedorCompra?.Nombre}</p>
     <p className="paragraph--mid--2">{(oferta?.FechaLimite)?.split("T")[0]}</p>
   </Link>
