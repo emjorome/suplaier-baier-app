@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { apiUrl } from "../../apiUrl";
 import { ContActividades, EtiquetaOferta, ProgressBar, ValoracionStar } from "../../components"
+import { ContMenu } from "../../components/cont_menu/ContMenu";
+import { ListaOrdenComp } from "../../compradores/components";
 import { AccionExitosa, CerrarOferta, ProdOfertaButtonBox } from "../components";
 
 export const OfertaDetalleProv = () => {
@@ -70,6 +72,7 @@ export const OfertaDetalleProv = () => {
     <div className="comp-main-container u-margin-top-navbar">
       <div className="comp-main-container__izqCont">
         {/* <ContExplorar/> */}
+        <ContMenu/>
         <ProdOfertaButtonBox/>
       </div>
       <div className="comp-main-container__divSepIzq"></div>
@@ -106,29 +109,27 @@ export const OfertaDetalleProv = () => {
             </div>
           </div>
           <div>
-            <div className="oferta-detalle__productoBox u-margin-top-small">
-              <p className="paragraph"><b>Proveedor: {proveedor?.Nombre}</b></p>
+            <div className="oferta-detalle__productoBox__twoColumn">
+              <div className="oferta-detalle__productoBox u-margin-top-small">
+                <p className="paragraph"><b>Proveedor: {proveedor?.Nombre}</b></p>
+              </div>
+              <div className="oferta-detalle__productoBox u-margin-top-small">
+                <p className="paragraph"><b>Precio unitario:</b> {"$" + oferta?.ValorUProducto}</p>
+              </div>
             </div>
-            
+            <div className="oferta-detalle__productoBox__twoColumn">
+              <div className="oferta-detalle__productoBox u-margin-top-small">
+                <p className="paragraph">Unidades restantes:&nbsp;
+                  {oferta?.Maximo - oferta?.ActualProductos}&nbsp;/&nbsp;
+                  {oferta?.Maximo}
+                </p>
+              </div>
+              <div className="oferta-detalle__productoBox u-margin-top-small">
+                <p className="paragraph">Fecha de cierre: {!!oferta?.FechaLimite && (oferta.FechaLimite).split("T")[0]}</p>
+              </div>
+            </div>
             <div className="oferta-detalle__productoBox u-margin-top-small">
               <p className="paragraph">{oferta?.Descripcion}</p>
-            </div>
-
-            <div className="oferta-detalle__productoBox u-margin-top-small">
-              <p className="paragraph">Precio unitario {"$" + oferta?.ValorUProducto}</p>
-            </div>
-
-            <div className="oferta-detalle__productoProgress u-margin-top-small">
-              <p className="paragraph paragraph--blue">Unidades restantes para completar el mínimo:&nbsp;
-                {oferta?.Minimo - oferta?.ActualProductos}
-              </p>
-            </div>
-            
-            <div className="oferta-detalle__productoProgress u-margin-top-small">
-              <p className="paragraph">Unidades restantes:&nbsp;
-                {oferta?.Maximo - oferta?.ActualProductos}&nbsp;/&nbsp;
-                {oferta?.Maximo}
-              </p>
             </div>
 
             <div className="oferta-detalle__productoProgress u-margin-top-small">
@@ -146,8 +147,13 @@ export const OfertaDetalleProv = () => {
               </p>
             </div>
 
-            <div className="oferta-detalle__productoBox u-margin-top-small">
-              <p className="paragraph">Fecha de cierre: {!!oferta?.FechaLimite && (oferta.FechaLimite).split("T")[0]}</p>
+            <div className="oferta-detalle__productoProgress u-margin-top-small">
+              <p className="paragraph paragraph--blue">Unidades restantes para completar el mínimo:&nbsp;
+                {(oferta?.Minimo - oferta?.ActualProductos) >= 0 
+                ? oferta?.Minimo - oferta?.ActualProductos
+                : 0
+                }
+              </p>
             </div>
             
             {/* antes de unirse, verificar que haya vinculado el método de pago */}
@@ -160,6 +166,10 @@ export const OfertaDetalleProv = () => {
                 Cerrar oferta
               </button>
             </div>}
+
+            {!!oferta &&
+              <ListaOrdenComp oferta={oferta} esProveedor={true}/>
+            }
             {
               showCerrarOferta &&
               <CerrarOferta

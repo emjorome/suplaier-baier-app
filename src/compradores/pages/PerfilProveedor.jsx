@@ -3,6 +3,7 @@ import queryString from "query-string";
 import { ContActividades, ContExplorar, ContFavoritos, OfertaCard } from "../../components"
 import { useEffect, useState } from "react";
 import { apiUrl } from "../../apiUrl";
+import { ContMenu } from "../../components/cont_menu/ContMenu";
 
 export const PerfilProveedor = () => {
 
@@ -45,6 +46,7 @@ export const PerfilProveedor = () => {
   return (
     <div className="comp-main-container u-margin-top-navbar">
       <div className="comp-main-container__izqCont">
+        <ContMenu/>
         <ContExplorar/>
         <ContFavoritos/>
       </div>

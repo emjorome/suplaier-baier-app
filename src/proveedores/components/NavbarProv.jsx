@@ -1,11 +1,11 @@
-import { useContext } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../auth";
+import { PerfilTooltip } from "../../components";
 import { Buscador } from "../../ui";
 
 export const NavbarProv = () => {
 
-  const {logout} = useContext(AuthContext);
+  const [showPerfilTooltip, setShowPerfilTooltip] = useState(false);
 
   const nagivate = useNavigate();
 
@@ -17,11 +17,19 @@ export const NavbarProv = () => {
     nagivate("/notificaciones");
   }
 
+  const onShowReportarTooltip = () => {
+    setShowPerfilTooltip(true);
+  }
+
+  const onClickOutside = () => {
+    setShowPerfilTooltip(false);
+  }
+
   return (
     <div className="navigation navigation-prov">
       <div className="navigation__icon">
-        <Link to={"/proveedor"} className="navigation__icon__text">
-          <p className="paragraph"> SUPLAIER LOGO </p>
+        <Link to={"/proveedor"} className="navigation__icon__imgBox">
+          <img src="suplaier_horizontal celeste.png" alt="logo_suplaier" className="navigation__icon__imgBox__img" />
         </Link>
       </div>
       <div className="navigation__search">
@@ -49,12 +57,17 @@ export const NavbarProv = () => {
           </div> */}
           <div 
             className="navigation__leftButtons__box__ind"
-            onClick={() => logout()}
+            onClick={onShowReportarTooltip}
           >
             <span className="material-symbols-rounded icon--bg">
               person
             </span>
             <p className="paragraph--sm">Cuenta</p>
+            {showPerfilTooltip &&
+              <PerfilTooltip
+                onClickOutside={onClickOutside}
+              />
+            }
           </div>
         </div>
       </div>

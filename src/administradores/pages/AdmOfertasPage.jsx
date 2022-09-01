@@ -36,7 +36,7 @@ export const AdmOfertasPage = () => {
               :
               ofertasTodos?.map(oferta => (
                 <OfertaCardAdm 
-                  key={oferta.IdPublicacion}
+                  key={oferta.IdOferta}
                   oferta={oferta}
                 />
             ))}

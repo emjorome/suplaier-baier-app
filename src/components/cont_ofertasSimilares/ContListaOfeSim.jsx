@@ -4,6 +4,8 @@ import { ContOfeSimListaItem } from "./ContOfeSimListaItem";
 
 export const ContListaOfeSim = ({nombreProducto, idOferta}) => {
 
+  console.log(nombreProducto)
+
   const [ofertasSimilares, setOfertasSimilares] = useState([]);
 
   const getOfertasSimilares = async() => {
@@ -15,6 +17,8 @@ export const ContListaOfeSim = ({nombreProducto, idOferta}) => {
       && oferta?.IdEstadosOferta === 1 
     ));
   }
+
+  console.log(ofertasSimilares)
 
   useEffect(() => {
     getOfertasSimilares();

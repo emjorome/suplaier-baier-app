@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { apiUrl } from "../../apiUrl";
 import { ContActividades, EtiquetaOferta, ValoracionStar } from "../../components"
+import { ContMenu } from "../../components/cont_menu/ContMenu";
 import { AccionExitosa, ConfirmarDespachoProv, ConfirmarPagoProv, ProdOfertaButtonBox } from "../components";
 
 export const VentaIndDetalle = () => {
@@ -83,6 +84,7 @@ export const VentaIndDetalle = () => {
     <div className="comp-main-container u-margin-top-navbar">
       <div className="comp-main-container__izqCont">
         {/* <ContExplorar/> */}
+        <ContMenu/>
         <ProdOfertaButtonBox/>
       </div>
       <div className="comp-main-container__divSepIzq"></div>
@@ -92,7 +94,7 @@ export const VentaIndDetalle = () => {
             <span className="material-symbols-rounded icon-grey icon--sm">
               arrow_forward_ios
             </span>
-            <p className="paragraph--mid"><b>{producto?.Name}</b></p>
+            <p className="paragraph--mid"><b>Orden de compra: {producto?.Name}</b></p>
             <div className="oferta-card__etiquetaBox">
               <EtiquetaOferta estado={estadoCompra?.Descripcion} esOfertaDetalle={true}/>
             </div>
@@ -114,29 +116,28 @@ export const VentaIndDetalle = () => {
             </div>
           </div>
           <div>
+          <div className="oferta-detalle__productoBox__twoColumn">
             <div className="oferta-detalle__productoBox u-margin-top-small">
               <p className="paragraph"><b>Proveedor: {proveedor?.Nombre}</b></p>
             </div>
-            
-            <div className="oferta-detalle__productoBox u-margin-top-small">
-              <p className="paragraph">{oferta?.Descripcion}</p>
-            </div>
-
             <div className="oferta-detalle__productoBox u-margin-top-small">
               <p className="paragraph">Precio unitario: {"$" + oferta?.ValorUProducto}</p>
             </div>
-
+          </div>
+          <div className="oferta-detalle__productoBox__twoColumn">
             <div className="oferta-detalle__productoBox u-margin-top-small">
               <p className="paragraph">Cantidad de unidades vendidas: {compra?.Cantidad}</p>
             </div>
-
             <div className="oferta-detalle__productoBox u-margin-top-small">
               <p className="paragraph">Total: {"$" + compra?.Total}</p>
             </div>
-
-            <div className="oferta-detalle__productoBox u-margin-top-small">
-              <p className="paragraph">Fecha de cierre: {!!oferta?.FechaLimite && (oferta.FechaLimite).split("T")[0]}</p>
-            </div>
+          </div>
+          <div className="oferta-detalle__productoBox u-margin-top-small">
+            <p className="paragraph">{oferta?.Descripcion}</p>
+          </div>
+          <div className="oferta-detalle__productoBox u-margin-top-small">
+            <p className="paragraph">Fecha de cierre: {!!oferta?.FechaLimite && (oferta.FechaLimite).split("T")[0]}</p>
+          </div>
             { estadoCompra?.Descripcion === "Verificando pagos" && 
             <div className="oferta-detalle__btnBox">
               <button

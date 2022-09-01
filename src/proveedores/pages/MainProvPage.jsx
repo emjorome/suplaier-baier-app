@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../auth";
 import { ProdOfertaButtonBox } from "../components";
 import { apiUrl } from "../../apiUrl";
+import { ContMenu } from "../../components/cont_menu/ContMenu";
 
 export const MainProvPage = () => {
 
@@ -31,6 +32,7 @@ export const MainProvPage = () => {
     <div className="comp-main-container u-margin-top-navbar">
       <div className="comp-main-container__izqCont">
         {/* <ContExplorar/> */}
+        <ContMenu/>
         <ProdOfertaButtonBox/>
       </div>
       <div className="comp-main-container__divSepIzq"></div>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { apiUrl } from "../../apiUrl";
 import { ContActividades, ContExplorar, ContFavoritos, OfertaCard } from "../../components";
+import { ContMenu } from "../../components/cont_menu/ContMenu";
 
 export const MainCompPage = () => {
 
@@ -23,6 +24,7 @@ export const MainCompPage = () => {
   return (
     <div className="comp-main-container u-margin-top-navbar">
       <div className="comp-main-container__izqCont">
+        <ContMenu/>
         <ContExplorar/>
         <ContFavoritos/>
       </div>
@@ -33,7 +35,7 @@ export const MainCompPage = () => {
             <span className="material-symbols-rounded icon-grey icon--sm">
               arrow_forward_ios
             </span>
-            <p className="paragraph--mid"><b>Ofertas colaborativas en curso</b></p>
+            <p className="paragraph--mid"><b>Ofertas en curso</b></p>
           </div>
           <hr className="hrGeneral"/>
           {showEmptyArray

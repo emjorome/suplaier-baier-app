@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { apiUrl } from "../../apiUrl";
 import { AuthContext } from "../../auth";
 import { ContActividades, ContExplorar, ContFavoritos, NotificacionCard } from "../../components"
+import { ContMenu } from "../../components/cont_menu/ContMenu";
 
 export const Notificaciones = () => {
 
@@ -27,6 +28,7 @@ export const Notificaciones = () => {
   return (
     <div className="comp-main-container u-margin-top-navbar">
       <div className="comp-main-container__izqCont">
+        <ContMenu/>
         <ContExplorar/>
         <ContFavoritos/>
       </div>

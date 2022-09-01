@@ -80,16 +80,6 @@ export const FormCrearOferta = () => {
       const regexValorUnitario = /^((.\d+)|(\d+(.\d+)?))$/;
       const regexUnidadesMinMax = /^[1-9]([0-9]+)?$/;
 
-      console.log(cantMin <= cantMax)
-      console.log(parseInt(cantMin))
-      console.log(parseInt(cantMax))
-      console.log(cantMin > cantMax)
-
-      console.log(productoValido && regexDescripcion.test(descripcion) && regexValorUnitario.test(costoUnitario)
-      //&& regexUnidadesMinMax.test(cantMin) 
-      //&& regexUnidadesMinMax.test(cantMax) 
-      && cantMin <= cantMax)
-
       if(productoValido && regexDescripcion.test(descripcion) && regexValorUnitario.test(costoUnitario)
           && regexUnidadesMinMax.test(cantMin) 
           && regexUnidadesMinMax.test(cantMax) 
@@ -230,11 +220,11 @@ export const FormCrearOferta = () => {
           </div>
           }
           <div className="formSubirProducto u-margin-top-small">
-            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm formRegistrarComp__label"><b>Precio unitario</b></label>
+            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm paragraph--bold formSubirProducto__label"><b>Precio unitario</b></label>
             <input
               type="number"
               placeholder="Precio unitario en USD"
-              className="formSubirProducto__input paragraph"
+              className="formSubirProducto__inputBox__input paragraph paragraph--grey--2"
               name="costoUnitario"
               autoComplete="off"
               value={costoUnitario}
@@ -247,11 +237,11 @@ export const FormCrearOferta = () => {
             }
           </div>
           <div className="formSubirProducto u-margin-top-small">
-            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm formRegistrarComp__label"><b>Descripción</b></label>
+            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm paragraph--bold formSubirProducto__label"><b>Descripción</b></label>
             <textarea
               type="text"
               placeholder="Descripción de la oferta"
-              className="formSubirProducto__textArea paragraph"
+              className="formSubirProducto__inputBox__textArea paragraph"
               name="descripcion"
               autoComplete="off"
               value={descripcion}
@@ -264,11 +254,11 @@ export const FormCrearOferta = () => {
             }
           </div>
           <div className="formSubirProducto u-margin-top-small">
-            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm formRegistrarComp__label"><b>Cantidad mínima</b></label>
+            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm paragraph--bold formSubirProducto__label"><b>Cantidad mínima</b></label>
             <input
               type="number"
               placeholder="Unidades mínimas para cerrar la oferta"
-              className="formSubirProducto__input paragraph"
+              className="formSubirProducto__inputBox__input paragraph paragraph--grey--2"
               name="cantMin"
               autoComplete="off"
               value={cantMin}
@@ -282,11 +272,11 @@ export const FormCrearOferta = () => {
             }
           </div>
           <div className="formSubirProducto u-margin-top-small">
-            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm formRegistrarComp__label"><b>Cantidad máxima</b></label>
+            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm paragraph--bold formSubirProducto__label"><b>Cantidad máxima</b></label>
             <input
               type="number"
               placeholder="Unidades en total a vender"
-              className="formSubirProducto__input paragraph"
+              className="formSubirProducto__inputBox__input paragraph paragraph--grey--2"
               name="cantMax"
               autoComplete="off"
               value={cantMax}
@@ -300,10 +290,10 @@ export const FormCrearOferta = () => {
             }
           </div>
           <div className="formSubirProducto u-margin-top-small">
-            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm formRegistrarComp__label"><b>Fecha límite</b></label>
+            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm paragraph--bold formSubirProducto__label"><b>Fecha límite</b></label>
             <input
-              type="datetime-local"
-              className="formSubirProducto__input paragraph"
+              type="date"
+              className="paragraph paragraph--grey--2"
               name="fechaLimite"
               autoComplete="off"
               value={fechaLimite}

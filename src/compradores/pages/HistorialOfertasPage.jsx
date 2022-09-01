@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { apiUrl } from "../../apiUrl";
 import { AuthContext } from "../../auth";
 import { ContActividades, ContExplorar, ContFavoritos, OfertaCard } from "../../components"
+import { ContMenu } from "../../components/cont_menu/ContMenu";
 
 export const HistorialOfertasPage = () => {
 
@@ -49,6 +50,7 @@ export const HistorialOfertasPage = () => {
   return (
     <div className="comp-main-container u-margin-top-navbar">
       <div className="comp-main-container__izqCont">
+        <ContMenu/>
         <ContExplorar/>
         <ContFavoritos/>
       </div>

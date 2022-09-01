@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { apiUrl } from "../../apiUrl";
 import { AuthContext } from "../../auth";
 import { ContExplorar, ContFavoritos, EtiquetaOferta, ProgressBar, ValoracionStar } from "../../components"
+import { ContMenu } from "../../components/cont_menu/ContMenu";
 import { ContOfertasSimilares } from "../../components/cont_ofertasSimilares/ContOfertasSimilares";
 import { CompraAnticipada, CompraProductos, CompraReserva, ErrorPago, ListaOrdenComp, MetodoPago, PagoExito } from "../components";
 
@@ -109,6 +110,7 @@ export const OfertaDetalle = () => {
   return (
     <div className="comp-main-container u-margin-top-navbar">
       <div className="comp-main-container__izqCont">
+        <ContMenu/>
         <ContExplorar/>
         <ContFavoritos/>
       </div>

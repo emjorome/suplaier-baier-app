@@ -10,3 +10,4 @@ export * from "./CerrarOferta";
 export * from "./ContListaProvCompItem";
 export * from "./ConfirmarPagoProv";
 export * from "./ConfirmarDespachoProv";
+export * from "./ContListaMenuProv";

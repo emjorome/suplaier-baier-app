@@ -15,8 +15,8 @@ export const NavbarAdm = () => {
   return (
     <div className="navigation navigation-adm">
       <div className="navigation__icon">
-        <Link to={"/administrador"} className="navigation__icon__text">
-          <p className="paragraph">ADMINISTRADOR</p>
+        <Link to={"/administrador"} className="navigation__icon__imgBox">
+          <img src="suplaier_horizontal celeste.png" alt="logo_suplaier" className="navigation__icon__imgBox__img" />
         </Link>
       </div>
       <div className="buscadorAdm">

@@ -1,0 +1,46 @@
+.reportaOferta {
+ 
+  align-items: center;
+  background-color: $color-white;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  left: 25%;
+  position: absolute;
+  top: 10%;
+  width: 100%;
+  background: green;
+
+
+  &__ventana {
+    background-color: $color-white;
+    border-radius: 5px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 35%;
+    height: fit-content;
+    top: 20%;
+    left: 29%;
+  }
+  
+
+  &__box {
+    display: flex;
+    flex-direction: column;
+    padding: 3rem 0rem;
+    gap: 1rem;
+
+    &__inputBox {
+      width: 100%;
+    }
+  }
+  &__btnBox{
+      margin-top: 3rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+  }
+}

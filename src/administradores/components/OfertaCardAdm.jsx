@@ -1,26 +1,23 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiUrl } from "../../apiUrl";
-import { EtiquetaOferta, ProgressBar } from "../../components"
+import { ProgressBar } from "../../components"
 
-export const OfertaCardAdm = ({oferta, esProveedor = false}) => {
+export const OfertaCardAdm = ({oferta}) => {
 
   const navigate = useNavigate();
 
   const onClickOferta = () => {
-    !esProveedor 
-    ?
-    navigate(`/oferta/${oferta.IdPublicacion}`)
-    :
-    navigate(`/mi_oferta/${oferta.IdPublicacion}`);
+    navigate(`/oferta_detalle/${oferta.IdOferta}`)
   }
+  
   const {IdProducto,
         IdProveedor, 
         Maximo,
         ActualProductos,
         FechaLimite,
-        IdEstadoOferta,
-      } = oferta;
+        IdEstadosOferta,
+      } = !!oferta && oferta;
 
   const [producto, setProducto] = useState();
   const [proveedor, setProveedor] = useState();
@@ -36,23 +33,23 @@ export const OfertaCardAdm = ({oferta, esProveedor = false}) => {
   }
 
   const getProveedorOferta = async() => {
-    const resp = await fetch(`${apiUrl}/proveedores?id=${IdProveedor}`);
+    const resp = await fetch(`${apiUrl}/usuarios?id=${IdProveedor}`);
     const data = await resp.json();
     const {rows: proveedor} = !!data && data;
     setProveedor(proveedor[0]);
   }
 
   const getEstadoOferta = async() => {
-    const resp = await fetch(`${apiUrl}/estados?id=${IdEstadoOferta}`);
+    const resp = await fetch(`${apiUrl}/estados?id=${IdEstadosOferta}`);
     const data = await resp.json();
     const {rows: estado} = !!data && data;
     setEstadoOferta(estado[0]);
   }
 
   useEffect(() => {
-    getProductoOferta();
-    getProveedorOferta();
-    getEstadoOferta();
+    !!oferta && getProductoOferta();
+    !!oferta && getProveedorOferta();
+    !!oferta && getEstadoOferta();
     // eslint-disable-next-line
   }, [oferta])
 
@@ -63,10 +60,10 @@ export const OfertaCardAdm = ({oferta, esProveedor = false}) => {
   useEffect(() => {
     setDatosProd({
       nombreProd: producto?.Name,
-      costoU: producto?.ValorU,
+      costoU: oferta?.ValorUProducto,
       urlImg: producto?.UrlImg,
     })
-  
+    // eslint-disable-next-line
   }, [producto])
   
   return (
@@ -75,12 +72,11 @@ export const OfertaCardAdm = ({oferta, esProveedor = false}) => {
       onClick={onClickOferta}
     >
       <div className="oferta-card-adm__imgbox">
-        <img className="oferta-card-adm__imgbox__img" src={datosProd?.UrlImg} alt={datosProd?.nombreProd}/>
+        <img className="oferta-card-adm__imgbox__img" src={producto?.UrlImg} alt={datosProd?.nombreProd}/>
       </div>
       <div className="oferta-card__datosbox">
-        <EtiquetaOferta estado={estadoOferta?.Descripcion}/>
         <div className="oferta-card-adm__datosbox__title u-margin-bottom-small">
-          <p className="paragraph paragraph--bold paragraph--mid">{datosProd?.nombreProd}</p>
+          <p className="paragraph paragraph--bold paragraph--mid">{producto?.Name}</p>
           <p className="paragraph">{nombreProveedor}</p>
         </div>
         <div className="oferta-card__datosbox__otros">
@@ -91,8 +87,8 @@ export const OfertaCardAdm = ({oferta, esProveedor = false}) => {
               actualProductos={ActualProductos} 
               cantMax={Maximo}
             />
-            <p className="paragraph">Fecha vigencia: {FechaLimite.split("T")[0]}</p>
-            
+            <p className="paragraph">Fecha vigencia: {FechaLimite?.split("T")[0]}</p>
+            <p className="paragraph">Estado: {estadoOferta?.Descripcion}</p>
           </div>
           <div>
             

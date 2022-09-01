@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { apiUrl } from "../../apiUrl";
 import { ContActividades, ContExplorar, ContFavoritos, EtiquetaOferta, ValoracionStar } from "../../components"
+import { ContMenu } from "../../components/cont_menu/ContMenu";
 import { AccionRecibidoExitosa } from "../components/AccionRecibidoExitosa";
 import { ConfirmarProdRecibido } from "../components/ConfirmarProdRecibido";
 
@@ -79,6 +80,7 @@ export const CompraIndividualPage = () => {
   return (
     <div className="comp-main-container u-margin-top-navbar">
     <div className="comp-main-container__izqCont">
+      <ContMenu/>
       <ContExplorar/>
       <ContFavoritos/>
     </div>

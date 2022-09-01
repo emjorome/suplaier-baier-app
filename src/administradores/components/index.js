@@ -5,3 +5,4 @@ export * from "./ContListaNav";
 export * from "./ContNavegar";
 export * from "./CardUsuario";
 export * from "./OfertaCardAdm";
+export * from "./ReporteCard";

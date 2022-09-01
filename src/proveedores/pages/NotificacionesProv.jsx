@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { apiUrl } from "../../apiUrl";
 import { AuthContext } from "../../auth";
 import { ContActividades, NotificacionCard } from "../../components"
+import { ContMenu } from "../../components/cont_menu/ContMenu";
 import { ProdOfertaButtonBox } from "../components";
 
 export const NotificacionesProv = () => {
@@ -30,6 +31,7 @@ export const NotificacionesProv = () => {
     <div className="comp-main-container u-margin-top-navbar">
       <div className="comp-main-container__izqCont">
         {/* <ContExplorar/> */}
+        <ContMenu/>
         <ProdOfertaButtonBox/>
       </div>
       <div className="comp-main-container__divSepIzq"></div>

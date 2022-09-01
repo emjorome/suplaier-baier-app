@@ -15,15 +15,26 @@
     cursor: pointer;
   }
 
-  &__etiqueta{
+  &__etiquetaBox {
     position: absolute;
-    top: 1.5rem;
+    top: 1.2rem;
     right: 2.5rem;
-    background-color: $color-tag-green;
-    color: $color-white;
-    border-radius: 5px;
-    padding: 0.3rem 0.8rem;
+    gap: 1rem;
+    display: flex;
+    flex-direction: row-reverse;
+
+    &__etiqueta{
+      position: absolute;
+      top: 1.5rem;
+      right: 2.5rem;
+      background-color: $color-tag-green;
+      color: $color-white;
+      border-radius: 5px;
+      padding: 0.3rem 0.8rem;
+    }
+
   }
+
 
   &__imgbox {
     position: relative;

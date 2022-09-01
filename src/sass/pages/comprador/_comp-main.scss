@@ -5,7 +5,7 @@
 
   &__divSepIzq {
     position: relative;
-    width: 20%;
+    width: 21%;
   }
   &__divSepDer {
     position: relative;
@@ -31,10 +31,9 @@
   &__medCont {
     position: relative;
     left: 0;
-    width: 50%;
+    width: 55%;
     padding: 1rem;
-    
-
+  
     &__ofertas {
       position: relative;
       background-color: $color-white;
@@ -47,7 +46,7 @@
   &__derCont {
     position: fixed;
     right: 1rem;
-    width: 30%;
+    width: 28%;
     padding: 1rem;
     z-index: 901;
   }

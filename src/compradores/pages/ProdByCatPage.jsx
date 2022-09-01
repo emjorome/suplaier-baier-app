@@ -3,6 +3,7 @@ import queryString from "query-string";
 import { ContActividades, ContExplorar, ContFavoritos, OfertaCard } from "../../components"
 import { apiUrl } from "../../apiUrl";
 import { useEffect, useState } from "react";
+import { ContMenu } from "../../components/cont_menu/ContMenu";
 
 export const ProdByCatPage = () => {
 
@@ -47,6 +48,7 @@ export const ProdByCatPage = () => {
   return (
     <div className="comp-main-container u-margin-top-navbar">
       <div className="comp-main-container__izqCont">
+        <ContMenu/>
         <ContExplorar/>
         <ContFavoritos/>
       </div>

@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 import { NavbarAdm } from "../components"
-import { AdmOfertasPage, MainAdmPage, PagosPage, ReportesPage, SolRegistroPage, UsuariosPage } from "../pages"
+import { AdmOfertasPage, MainAdmPage, OfertaDetalleAdm, PagosPage, ReportesPage, SolRegistroPage, UsuariosPage } from "../pages"
 
 export const AdmRoutes = () => {
   return (
@@ -13,6 +13,7 @@ export const AdmRoutes = () => {
           <Route path="reportes" element={<ReportesPage/>}/>
           <Route path="pagos" element={<PagosPage/>}/>
           <Route path="ofertas" element={<AdmOfertasPage/>}/>
+          <Route path="oferta_detalle/:idOferta" element={<OfertaDetalleAdm/>}/>
           <Route path="solicitudes_registro" element={<SolRegistroPage/>}/>
 
           <Route path="/*" element={<Navigate to="administrador"/>}/>
