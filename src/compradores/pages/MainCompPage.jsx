@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { apiUrl } from "../../apiUrl";
 import { ContActividades, ContExplorar, ContFavoritos, OfertaCard } from "../../components";
 import { ContMenu } from "../../components/cont_menu/ContMenu";
+import { obtainUserPermission } from "../../firebase";
 
 export const MainCompPage = () => {
 
@@ -18,6 +19,8 @@ export const MainCompPage = () => {
     getOfertasTodos();
     // eslint-disable-next-line
   }, [])
+
+  obtainUserPermission();
 
   const showEmptyArray = ofertasTodos?.length === 0;
 

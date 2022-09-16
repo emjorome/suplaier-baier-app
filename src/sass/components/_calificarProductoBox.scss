@@ -2,6 +2,9 @@
   float: left;
   height: 46px;
   padding: 0 10px;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
 }
 
 .calificarProductoBox:not(:checked) > input {
@@ -33,4 +36,12 @@
 .calificarProductoBox > input:checked ~ label:hover ~ label,
 .calificarProductoBox > label:hover ~ input:checked ~ label {
   color: #c59b08;
+}
+
+
+.calificarProductoBox__outer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }

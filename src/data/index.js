@@ -9,3 +9,4 @@ export * from "./ofertaComprador";
 export * from "./notificaciones";
 export * from "./tipoNotificacion";
 export * from "./ecCiudades";
+export * from "./provincias"

@@ -4,7 +4,7 @@ export const MetodoPago = ({setShowMetodoPago, setShowPagoReserva, setShowPagoAn
 
   const PayPalIcon = "https://1000marcas.net/wp-content/uploads/2019/12/logo-Paypal.png";
 
-  const {metodo_pago, onInputChange} = useForm({});
+  const {metodo_pago, onInputChange} = useForm({acepta_terminos: false});
 
   const onMetodoSubmit = (e) =>{
     e.preventDefault();

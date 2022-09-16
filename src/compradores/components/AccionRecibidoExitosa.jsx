@@ -9,9 +9,10 @@ export const AccionRecibidoExitosa = ({compra, texto, setShowAccionExitosa}) => 
           <span className="material-symbols-rounded accionExitosa__ventana__textoBox__icon">
             check_circle
           </span>
-          <p className="paragraph paragraph--bold accionExitosa__ventana__textoBox__texto">{texto}</p>
+          <p className="paragraph paragraph--bold accionExitosa__ventana__textoBox__texto" align="center">{texto}</p>
         </div>
         <CalificarProducto compra={compra} setShowAccionExitosa={setShowAccionExitosa}/>
+        
       </div>
     </div>
   )

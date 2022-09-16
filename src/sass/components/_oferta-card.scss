@@ -10,6 +10,22 @@
   margin-bottom: 0.5rem;
   max-height: 45rem;
 
+  &__logoBox{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    &__imgBox {
+
+      max-width: 2rem;
+      
+      &__img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
   &__etiquetaBox {
     position: absolute;
     top: 1.2rem;

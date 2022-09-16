@@ -22,7 +22,7 @@ export const SignupComprador = () => {
           </span>
           <p className="paragraph paragraph--white paragraph--mid">Comprador</p>
         </div>
-        <div className="signupPage__centralbox__contentBox">
+        <div className="signupPage__centralbox__contentBox">.
           <div className="signupPage__centralbox__contentBox__comp__izq">
             <FormRegistrarComprador/>
           </div>

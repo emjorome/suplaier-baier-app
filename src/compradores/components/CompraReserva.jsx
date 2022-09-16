@@ -83,9 +83,9 @@ export const CompraReserva = ({oferta, costoTotal, setShowPagoReserva, setShowPa
     <div className="metodoPago animate__animated animate__fadeIn">
       <div className="metodoPago__ventana animate__animated animate__slideInDown">
         <div className="metodoPago__barraSup"></div>
-        <p className="paragraph">Efectuando Pago con Reserva...</p>
-        <p className="paragraph">$ {costoTotal.toFixed(2)}</p>
-        <div className="metodoPago__btnBox">
+        <p className="paragraph u-margin-top-mid">Efectuando Pago con Reserva...</p>
+        <p className="paragraph u-margin-top-mid"><b>$ {costoTotal.toFixed(2)}</b></p>
+        <div className="metodoPago__btnBox u-margin-top-mid">
           {/* <button 
             type="button"
             onClick={() => setShowPagoReserva(false)}

@@ -1,6 +1,9 @@
+import { useEffect, useState } from "react";
 import { apiUrl } from "../../apiUrl";
 
 export const ConfirmarProdRecibido = ({compra, setShowConfirmarProdRecibido, setShowRecibidoExitoso}) => {
+
+  const [enviarNotificaciones, setEnviarNotificaciones] = useState(false);
 
   const onConfirmarProdRecibido = async() => {
     const body = { 
@@ -19,7 +22,29 @@ export const ConfirmarProdRecibido = ({compra, setShowConfirmarProdRecibido, set
     console.log(!!data && "cambiando estado compra a despachado");
     setShowConfirmarProdRecibido(false);
     setShowRecibidoExitoso(true);
+    //setEnviarNotificaciones(true);
+    
   }
+
+  const sendNotifications = async() => {
+    //get usuarios de la compra
+    console.log("ejecutando estooooo")
+    const resp = await fetch(`${apiUrl}/enviarNotificacionCompra?idCompra=${compra.IdCompra}`);
+    const data = await resp.json()
+    console.log(!!data && "notificaciones enviadas desde el back!")
+  }
+
+  // useEffect(() => {
+  //   if(enviarNotificaciones) {
+  //     sendNotifications()
+  //     .then((res) => {
+  //       setShowConfirmarProdRecibido(false);
+  //       setShowRecibidoExitoso(true);
+  //     });
+  //   }
+  //   // eslint-disable-next-line
+  // }, [enviarNotificaciones])
+  
 
   return (
     <div className="resumenProducto animate__animated animate__fadeIn">

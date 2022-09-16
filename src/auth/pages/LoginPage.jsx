@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiUrl } from "../../apiUrl";
 import { useForm } from "../../hooks/useForm";
@@ -10,7 +10,10 @@ export const LoginPage = () => {
   const {login} = useContext(AuthContext);
 
   const {username, password, onInputChange} = useForm({username: "", password: ""})
+  const [passwordIsValid, setPasswordIsValid] = useState(true);
   const [usernameIsValid, setUsernameIsValid] = useState(true);
+  const [compareUser, setCompareUser] = useState(false);
+  const [listUsers, setListUsers] = useState([]);
 
   const getAuthResponse = async() => {
     const body = { 
@@ -27,13 +30,53 @@ export const LoginPage = () => {
     const data = await resp.json();
 
     if (data.length === 0){    
-      setUsernameIsValid(false);
+      setPasswordIsValid(false);
       return null;
     }
     else {
       return data[0];
     } 
-    
+  }
+
+  const getUsernames = async() => {
+    const resp = await fetch(`${apiUrl}/usuarios`);
+    const data = await resp.json();
+    const {rows: usuarios} = !!data && data;
+    return usuarios;
+  }
+
+  const ref = useRef(null);
+
+  const onClickOutside = () => {
+    document.removeEventListener('click', handleClickOutside, true);
+    //check if username existas
+    getUsernames()
+    .then((res) => {
+      setListUsers(res);
+      setCompareUser(true);
+    });
+  }
+
+  useEffect(() => {
+    if(compareUser){
+      const result = listUsers.filter((usuario) => usuario.Usuario === username)
+      if (result.length === 0) {
+        setUsernameIsValid(false);
+      }
+    }
+    // eslint-disable-next-line
+  }, [compareUser])
+  
+  
+  const handleClickOutside = (event) => {
+    if (ref.current && !ref.current.contains(event.target)) {
+      onClickOutside && onClickOutside();
+    }
+  };
+
+  const handleOnClickUsername = () => {
+    document.addEventListener('click', handleClickOutside, true);
+    setCompareUser(false);
   }
 
   const onSubmitLogin = (e) => {
@@ -74,6 +117,7 @@ export const LoginPage = () => {
   }
 
   useEffect(() => {
+    setPasswordIsValid(true);
     setUsernameIsValid(true);
   }, [username])
   
@@ -103,7 +147,8 @@ export const LoginPage = () => {
                 <label htmlFor="username">
                   <p className="paragraph paragraph--sm paragraph--blue">Usuario</p>
                 </label>
-                <input 
+                <input
+                  ref={ref} 
                   type="text" 
                   id="username" 
                   name="username" 
@@ -111,10 +156,11 @@ export const LoginPage = () => {
                   className="loginPage__centralbox__der__loginBox__entryBox__input"
                   onChange={onInputChange} 
                   required
+                  onClick={handleOnClickUsername}
                 />
                 {
                   !usernameIsValid &&
-                  <p className="paragraph--red">Usuario no válido</p>
+                  <p className="paragraph--red">Usuario no existe</p>
                 }
               </div>
               <div  className="loginPage__centralbox__der__loginBox__entryBox">
@@ -130,6 +176,10 @@ export const LoginPage = () => {
                   onChange={onInputChange}
                   required
                 />
+                {
+                  !passwordIsValid && usernameIsValid &&
+                  <p className="paragraph--red">Contraseña incorrecta</p>
+                }
               </div>
               <div className="loginPage__centralbox__der__loginBox__btnBox">
                 <button 

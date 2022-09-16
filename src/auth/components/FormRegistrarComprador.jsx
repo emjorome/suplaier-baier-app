@@ -1,16 +1,25 @@
 import { useForm } from "../../hooks";
-import country from "country-list-js";
+//import country from "country-list-js";
 import { useEffect, useState } from "react";
-import { listaCiudades } from "../../data";
+import { provincias } from "../../data";
 import { AccionExitosaAuth } from "./AccionExitosaAuth";
 import { apiUrl } from "../../apiUrl";
+import { useNavigate } from "react-router-dom";
+import { TerminosPage } from "../pages";
+//import { ValidacionCedulaRucService } from "../helpers/validacionesRuc";
 
 export const FormRegistrarComprador = () => {
 
-  const listaPaises = country.names();
-  const listaCiudadesEcuador = listaCiudades;
-  const [esEcuador, setEsEcuador] = useState(false);
+  // const listaPaises = country.names();
+  // const listaCiudadesEcuador = listaCiudades;
+  // const [esEcuador, setEsEcuador] = useState(false);
   const [showAccionExitosa, setShowAccionExitosa] = useState(false);
+  const [listaCiudadesUser, setListaCiudadesUser] = useState([]);
+  const [tipoIdSelected, setTipoIdSelected] = useState("")
+  const [imgExists, setImgExists] = useState(false);
+  const [imagen, setImagen] = useState("no-img.jpeg");
+  const [showTerminos, setShowTerminos] = useState(false);
+  const navigate = useNavigate();
 
   //validaciones
   const [esUsuarioValido, setEsUsuarioValido] = useState(false);
@@ -20,9 +29,10 @@ export const FormRegistrarComprador = () => {
   const [esContrasenaValido, setEsContrasenaValido] = useState(false);
   const [esEmailValido, setEsEmailValido] = useState(false);
   const [esCiudadValido, setEsCiudadValido] = useState(false);
+  const [esConfValido, setEsConfValido] = useState(false);
 
   const {
-    formState, Nombre, Identificacion, Usuario, Contrasena, Email, Numero, Pais, Ciudad, direccion, onInputChange} = useForm({
+    formState, Nombre, Identificacion, Usuario, Contrasena, ContrasenaConf, Email, urlImg, Numero, TipoId, Provincia, Ciudad, direccion, onInputChange, setNameValueEmpty} = useForm({
       IdRol: 1, 
       Nombre: "", 
       Identificacion: "", 
@@ -30,13 +40,25 @@ export const FormRegistrarComprador = () => {
       Contrasena: "", 
       Email: "", 
       Numero: "", 
-      Pais: "", 
+      Pais: "Ecuador",
+      Provincia: "", 
       Ciudad: "", 
       Direccion: "",
+      TipoId:"Cédula",
+      ContrasenaConf: "",
+      urlImg: imagen
     });
 
   const uploadUser = async() => {
-    const body = formState;
+
+    const newBody = {
+      ...formState,
+       // eslint-disable-next-line
+      ["urlImg"] : imagen,
+      
+    }
+
+    const body = newBody;
     const resp = await fetch(`${apiUrl}/usuarios`, {
       method: 'POST',
       headers: {
@@ -48,9 +70,6 @@ export const FormRegistrarComprador = () => {
     console.log(data);
   }
 
-  useEffect(() => {
-    setEsEcuador(Pais === "Ecuador");
-  }, [Pais])
 
   useEffect(() => {
     setEsUsuarioValido(true);
@@ -80,6 +99,12 @@ export const FormRegistrarComprador = () => {
     setEsCiudadValido(true);
   }, [Ciudad])
 
+
+  useEffect(() => {
+    setEsConfValido(true);
+  }, [ContrasenaConf])
+  
+
   //metodos validaciones
   const checkValidUsername = async() => {
     const regexUsername = /^[a-zA-Z0-9_]{3,30}$/;
@@ -106,9 +131,10 @@ export const FormRegistrarComprador = () => {
       const regexContrasena = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
       const regexNombre = /^[a-zA-ZàáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ']+[ -][a-zA-ZàáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ ,.'-]+$/;
       const regexCiudad = /^[a-zA-ZàáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ']+([ -][a-zA-ZàáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ ,.'-]+)?$/;
+
       
       if(esUsuarioValido && regexCiudad.test(Ciudad) && regexCedula.test(Identificacion) && regexNombre.test(Nombre) &&
-      regexEmail.test(Email) && regexNumero.test(Numero) && regexContrasena.test(Contrasena)) {
+      regexEmail.test(Email) && regexNumero.test(Numero) && regexContrasena.test(Contrasena) && (Contrasena === ContrasenaConf)) {
         resolve(true)
       } else {
         setEsCiudadValido(regexCiudad.test(Ciudad));
@@ -116,21 +142,81 @@ export const FormRegistrarComprador = () => {
         setEsNombreValido(regexNombre.test(Nombre));
         setEsEmailValido(regexEmail.test(Email));
         setEsNumeroValido(regexNumero.test(Numero));
-        setEsContrasenaValido(regexContrasena.test(Contrasena));
-
+        setEsContrasenaValido(regexContrasena.test(Contrasena) && (Contrasena !== ContrasenaConf));
+        setEsConfValido(Contrasena === ContrasenaConf)
         reject(false);
       }
     })    
   }
 
+  const getImg = async (urlImg) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(urlImg);
+    reader.onloadend = () => {
+      const base64data = reader.result;
+      setImagen(base64data);
+    };
+  };
+
   const onRegistrarComprador = (e) => {
     e.preventDefault();
     validarTodosCampos()
-      .then(res => uploadUser().then(setShowAccionExitosa(true)))
+      .then(res => {
+        setShowTerminos(true)
+        })
+      //.then(res => uploadUser().then(setShowAccionExitosa(true)))
       .catch(res => {console.warn("Usuario no válido")})
   }
 
+  const printStates =  () => {
+    let childrenArray = [];
+    for(const key in provincias){
+      const nombre_provincia = provincias[key].provincia;
+      const nom = nombre_provincia.charAt(0) + nombre_provincia.substring(1).toLowerCase();
+      childrenArray.push(<option value={nom} key={nom}> {nom}</option>)
+    }
+
+    return childrenArray;
+  }
+
+  useEffect(() => {
+    let lista = []
+    for(const key in provincias){
+      if (provincias[key].provincia === Provincia.toUpperCase()){
+        let resList = provincias[key].cantones;
+        for(const key in resList){
+          const ciudadNombre = resList[key].canton;
+          lista.push(ciudadNombre.charAt(0) + ciudadNombre.substring(1).toLowerCase());
+        }
+      }
+    }
+    setListaCiudadesUser(lista);
+  
+  }, [Provincia])
+
+  useEffect(() => {
+    setTipoIdSelected(TipoId)
+  }, [TipoId])
+
+  useEffect(() => {
+    //aqui se debe validar el url
+    if(urlImg !== "no-img.jpeg"){
+      setImgExists(true);
+      getImg(urlImg);
+    } else {
+      setImgExists(false);
+    }
+  }, [urlImg])
+
+  const onDeleteImg = () => {
+    setImgExists(false);
+    const inp = document.getElementById("formSubirLogo");
+    inp.value = "";
+    setNameValueEmpty("urlImg");
+  }
+
   return (
+    <div>
     <form onSubmit={onRegistrarComprador}>
     <div className="compraProducto__box">
       <p className="paragraph">Ingresar los siguientes datos:</p>
@@ -160,6 +246,30 @@ export const FormRegistrarComprador = () => {
         </div>
         <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
           <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
+            <label htmlFor="compradorName" align="right" className="paragraph--sm formRegistrarComp__label">Nombre</label>
+            <div className="formRegistrarComp__boxError">
+              <input
+                id="compradorName"
+                type="text"
+                placeholder="Juan Rodríguez"
+                className="formRegistrarComp__input paragraph"
+                name="Nombre"
+                value={Nombre}
+                onChange={onInputChange}
+                required
+              />
+              {
+                !esNombreValido &&
+                <p className="paragraph--red u-padding-left-small">Nombre y apellido no válidos</p>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+        
+      <div className="formRegistrarComp__twoInputsBox">
+        <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
+          <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
             <label htmlFor="compradorContrasena" align="right" className="paragraph--sm formRegistrarComp__label">Contraseña</label>
             <div className="formRegistrarComp__boxError">
               <input
@@ -179,39 +289,59 @@ export const FormRegistrarComprador = () => {
             </div>
           </div>
         </div>
-      </div>
-        
-      <div className="formRegistrarComp__twoInputsBox">
         <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
           <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
-            <label htmlFor="compradorName" align="right" className="paragraph--sm formRegistrarComp__label">Nombre</label>
+            <label htmlFor="compradorContrasenaConf" align="right" className="paragraph--sm formRegistrarComp__label">Confirmar</label>
             <div className="formRegistrarComp__boxError">
               <input
-                id="compradorName"
-                type="text"
-                placeholder="Juan Rodríguez"
+                id="compradorContrasenaConf"
+                type="password"
+                placeholder="contrasena123!"
                 className="formRegistrarComp__input paragraph"
-                name="Nombre"
-                value={Nombre}
+                name="ContrasenaConf"
+                value={ContrasenaConf}
                 onChange={onInputChange}
                 required
               />
               {
-                !esNombreValido &&
-                <p className="paragraph--red u-padding-left-small">Nombre y apellido no válidos</p>
+                !esConfValido &&
+                <p className="paragraph--red u-padding-left-small">Contraseñas no coinciden</p>
               }
             </div>
           </div>
+        </div>
 
+
+      </div>
+      <div className="formRegistrarComp__twoInputsBox">
+        <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
+          <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
+            <label htmlFor="identificacionUser" align="right" className="paragraph--sm formRegistrarComp__label">Tipo ID</label>
+            <div className="formRegistrarComp__boxError"> 
+              <select 
+                id="identificacionUser"
+                name="TipoId"
+                className="formRegistrarComp__input paragraph"
+                onChange={onInputChange}
+              >
+                <option defaultValue={"none"}>
+                  Cédula
+                </option> 
+                <option>
+                  RUC
+                </option> 
+              </select>
+            </div>
+          </div>
         </div>
         <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
           <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
-            <label htmlFor="compradorIdentificacion" align="right" className="paragraph--sm formRegistrarComp__label">C.I.</label>
+            <label htmlFor="compradorIdentificacion" align="right" className="paragraph--sm formRegistrarComp__label">{tipoIdSelected}</label>
             <div className="formRegistrarComp__boxError">
               <input
                 id="compradorIdentificacion"
                 type="text"
-                placeholder="0987654321"
+                placeholder={tipoIdSelected === "Cédula" ? "0987650947" : "0987650947-001" }
                 className="formRegistrarComp__input paragraph"
                 name="Identificacion"
                 value={Identificacion}
@@ -220,11 +350,12 @@ export const FormRegistrarComprador = () => {
               />
               {
                 !esIdentificacionValido &&
-                <p className="paragraph--red u-padding-left-small">C.I. no válida</p>
+                <p className="paragraph--red u-padding-left-small">{tipoIdSelected} no válida</p>
               }
             </div>
           </div>
         </div>
+
       </div>
       <div className="formRegistrarComp__twoInputsBox">
         <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
@@ -275,80 +406,54 @@ export const FormRegistrarComprador = () => {
         <div className="formRegistrarComp__twoInputsBox">
           <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
             <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
-              <label htmlFor="compradorPais" align="right" className="paragraph--sm formRegistrarComp__label">País</label>
+              <label htmlFor="compradorPais" align="right" className="paragraph--sm formRegistrarComp__label">Provincia</label>
               <div className="formRegistrarComp__boxError"> 
                 <select 
-                  name="Pais"
+                  name="Provincia"
                   className="formRegistrarComp__input paragraph"
                   onChange={onInputChange}
                 >
                   <option defaultValue={"none"}>
-                    Seleccionar País
+                    Seleccionar Provincia
                   </option> 
                   {
-                    listaPaises?.map(pais => 
-                      <option value={pais} key={pais}>
-                        {pais}
-                      </option>)
+                    printStates()
                   }
                 </select>
+                {
+                  (Provincia === "Seleccionar Provincia") &&
+                  <p className="paragraph--red u-padding-left-small">Seleccione una provincia</p>
+                }
               </div>
             </div>
           </div>
-          { esEcuador &&
-            <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
-              <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
-                <label htmlFor="compradorCiudad" align="right" className="paragraph--sm formRegistrarComp__label">Ciudad</label>
-                <div className="formRegistrarComp__boxError"> 
-                  <select 
-                    id="compradorCiudad"
-                    name="Ciudad"
-                    className="formRegistrarComp__input paragraph"
-                    onChange={onInputChange}
-                  >
-                    <option defaultValue={"none"}>
-                      Seleccionar Ciudad
-                    </option> 
-                    {
-                      listaCiudadesEcuador?.map(ciudad => 
-                        <option value={ciudad.city} key={ciudad.city}>
-                          {ciudad.city}
-                        </option>)
-                    }
-                  </select>
+          <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
+            <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
+              <label htmlFor="compradorCiudad" align="right" className="paragraph--sm formRegistrarComp__label">Ciudad</label>
+              <div className="formRegistrarComp__boxError"> 
+                <select 
+                  id="compradorCiudad"
+                  name="Ciudad"
+                  className="formRegistrarComp__input paragraph"
+                  onChange={onInputChange}
+                >
+                  <option defaultValue={"none"}>
+                    Seleccionar Ciudad
+                  </option> 
                   {
-                    (!esCiudadValido || Ciudad === "Seleccionar Ciudad") &&
-                    <p className="paragraph--red u-padding-left-small">Ciudad no válida</p>
+                    listaCiudadesUser?.map(ciudad => 
+                      <option value={ciudad} key={ciudad}>
+                        {ciudad}
+                      </option>)
                   }
-                </div>
-              </div>
-
-            </div>
-            
-          }
-          {!esEcuador && 
-            <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
-              <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
-                <label htmlFor="compradorCiudad" align="right" className="paragraph--sm formRegistrarComp__label">Ciudad</label>
-                <div className="formRegistrarComp__boxError"> 
-                  <input
-                    id="compradorCiudad"
-                    type="text"
-                    placeholder="Ingresar ciudad"
-                    className="formRegistrarComp__input paragraph"
-                    name="Ciudad"
-                    value={Ciudad}
-                    onChange={onInputChange}
-                    required
-                  />
-                  {
-                    !esCiudadValido &&
-                    <p className="paragraph--red u-padding-left-small">Ciudad no válida</p>
-                  }
-                </div>
+                </select>
+                {
+                  (!esCiudadValido || Ciudad === "Seleccionar Ciudad") &&
+                  <p className="paragraph--red u-padding-left-small">Seleccione una ciudad</p>
+                }
               </div>
             </div>
-          }
+          </div>
         </div>
         <div className="formRegistrarComp__twoInputsBox__one u-margin-top-small">
           <div className="formRegistrarComp__twoInputsBox__one__labelInput"> 
@@ -365,13 +470,43 @@ export const FormRegistrarComprador = () => {
             />
           </div>
         </div>
+        <div className="formRegistrarComp__twoInputsBox">
+          <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
+            <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
+              <label align="right" htmlFor="formSubirLogo" className="paragraph--sm formRegistrarComp__label">Logo</label>
+              <div className="formRegistrarComp__boxError">
+                <input
+                  id="formSubirLogo"
+                  type="file"
+                  placeholder="Subir imagen o foto de su cuenta"
+                  className="formSubirProducto__inputBox__input paragraph paragraph--grey--2"
+                  name="urlImg"
+                  accept="image/*"
+                  onChange={onInputChange}
+                />
+              </div>
+            </div>
+            
+          </div>
+          {imgExists &&
+            <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
+              <label align="right" htmlFor="formSubirProdImagen" className="paragraph--sm paragraph--bold formSubirProducto__label"></label>
+              <div className="formRegistrarComp__twoInputsBox__izq__logoBox">
+                <span className="material-symbols-rounded icon-white deleteIconImg" onClick={onDeleteImg}>
+                cancel
+                </span>
+                <img src={imagen} alt={urlImg} className="formRegistrarComp__twoInputsBox__izq__logoBox__logo" />
+              </div>
+            </div>
+          }
+        </div>
     </div>
 
     <div className="metodoPago__btnBox">
       <button
         type="submit" 
         className="btn btn--blue"
-      >Registrarme</button>
+      >Continuar</button>
     </div>
     <div>
       {
@@ -381,7 +516,17 @@ export const FormRegistrarComprador = () => {
           setShowAccionExitosa={setShowAccionExitosa}
         />
       }
+      
     </div>
   </form>
+  {
+    showTerminos &&
+    <TerminosPage 
+      uploadUser={uploadUser} 
+      setShowAccionExitosa={setShowAccionExitosa}
+      setShowTerminos={setShowTerminos}
+    />
+  }
+  </div>
   )
 }

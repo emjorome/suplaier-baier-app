@@ -17,7 +17,7 @@ export const AccionExitosa = ({texto, setShowAccionExitosa}) => {
           <span className="material-symbols-rounded accionExitosa__ventana__textoBox__icon">
             check_circle
           </span>
-          <p className="paragraph paragraph--bold accionExitosa__ventana__textoBox__texto">{texto}</p>
+          <p className="paragraph paragraph--bold accionExitosa__ventana__textoBox__texto" align="center">{texto}</p>
         </div>
         <div className="metodoPago__btnBox">
           <button 
