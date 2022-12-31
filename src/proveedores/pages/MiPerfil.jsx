@@ -1,30 +1,31 @@
 import { useContext } from "react";
 import { AuthContext } from "../../auth";
-import { ContActividades } from "../../components"
-import { ContMenu } from "../../components/cont_menu/ContMenu"
+import { ContActividades } from "../../components";
+import { ContMenu } from "../../components/cont_menu/ContMenu";
 import { ProdOfertaButtonBox } from "../components";
 
 export const MiPerfil = () => {
-
-  const {authState} = useContext(AuthContext);
-  const {user} = authState;
+  const { authState } = useContext(AuthContext);
+  const { user } = authState;
 
   return (
     <div className="comp-main-container u-margin-top-navbar">
       <div className="comp-main-container__izqCont">
-        <ContMenu/>
-        <ProdOfertaButtonBox/>
+        <ContMenu />
+        <ProdOfertaButtonBox />
       </div>
       <div className="comp-main-container__divSepIzq"></div>
       <div className="comp-main-container__medCont">
         <div className="comp-main-container__medCont__ofertas">
           <div className="explorarCat__title">
             <span className="material-symbols-rounded icon-grey icon--sm">
-                arrow_forward_ios
+              arrow_forward_ios
             </span>
-            <p className="paragraph--mid"><b>Mi perfil: {user?.Nombre}</b></p>
+            <p className="paragraph--mid">
+              <b>Mi perfil: {user?.Nombre}</b>
+            </p>
           </div>
-          <hr className="hrGeneral"/>
+          <hr className="hrGeneral" />
 
           <div className="u-margin-top-small"></div>
 
@@ -32,7 +33,11 @@ export const MiPerfil = () => {
             <div className="perfil__twoColumn">
               <div className="perfil__twoColumn__left">
                 <div className="perfil__imgBox u-margin-top-small">
-                  <img src="user_icon.png" alt="user_icon" className="perfil__imgBox__img"/>
+                  <img
+                    src="user_icon.png"
+                    alt="user_icon"
+                    className="perfil__imgBox__img"
+                  />
                 </div>
               </div>
               <div className="perfil__twoColumn__right">
@@ -60,15 +65,13 @@ export const MiPerfil = () => {
                 </div>
               </div>
             </div>
-
-            
           </div>
         </div>
       </div>
       <div className="comp-main-container__divSepDer"></div>
       <div className="comp-main-container__derCont">
-        <ContActividades esProveedor={true}/>
+        <ContActividades esProveedor={true} />
       </div>
     </div>
-  )
-}
+  );
+};
