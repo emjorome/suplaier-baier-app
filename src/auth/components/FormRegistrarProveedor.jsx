@@ -26,7 +26,7 @@ export const FormRegistrarProveedor = () => {
 
   const {
     formState, Nombre, Identificacion, Usuario, Contrasena, ContrasenaConf, urlImg, TipoId, Provincia, Email, Numero, Ciudad, direccion, onInputChange, setNameValueEmpty} = useForm({
-      IdRol: 1, 
+      IdRol: 2, 
       Nombre: "", 
       Identificacion: "", 
       Usuario: "", 
@@ -41,6 +41,27 @@ export const FormRegistrarProveedor = () => {
       ContrasenaConf: "",
       urlImg: imagen
     });
+  
+    const uploadSolicitud = async() => {
+
+      const newBody = {
+        ...formState,
+         // eslint-disable-next-line
+        ["urlImg"] : imagen,
+        
+      }  
+      const body = newBody;
+      const resp = await fetch(`${apiUrl}/solicitudRegistro`, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+      });
+      const data = await resp.json()
+      console.log(data);
+    }
+  
 
   const uploadUser = async() => {
 
@@ -155,6 +176,13 @@ export const FormRegistrarProveedor = () => {
       .catch(res => {console.warn("Usuario no válido")})
   }
 
+  const onRegistrarSolicitud = (e) => {
+    e.preventDefault();
+    validarTodosCampos()
+      .then(res => uploadSolicitud().then(setShowAccionExitosa(true)))
+      .catch(res => {console.warn("Usuario no válido")})
+  }
+
   const printStates =  () => {
     let childrenArray = [];
     for(const key in provincias){
@@ -203,7 +231,7 @@ export const FormRegistrarProveedor = () => {
   }
 
   return (
-    <form onSubmit={onRegistrarComprador}>
+    <form onSubmit={onRegistrarSolicitud}>
     <div className="compraProducto__box">
       <p className="paragraph">Ingresar los siguientes datos:</p>
       <hr className="hrGeneral"/>
@@ -498,7 +526,7 @@ export const FormRegistrarProveedor = () => {
       {
         showAccionExitosa &&
         <AccionExitosaAuth
-          texto={'¡Se ha registrado exitosamente!'}
+          texto={'¡La solicitud de registro se ha enviado correctamente!'}
           setShowAccionExitosa={setShowAccionExitosa}
         />
       }
