@@ -3,7 +3,6 @@ import { ContNavegar } from "../components/ContNavegar"
 import { CardSolicitudRegistro } from "../components/CardSolicitudRegistro";
 import { useEffect, useState } from "react";
 import { apiUrl } from "../../apiUrl";
-import { TableSolicitudes } from "../components/TableSolicitudes"
 export const SolRegistroPage = () => {
 
   const [solicitudesTodas, setSolicitudesTodas] = useState([]);
