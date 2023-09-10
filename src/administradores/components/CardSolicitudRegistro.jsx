@@ -1,8 +1,15 @@
+import { useNavigate } from "react-router-dom";
+
 export const CardSolicitudRegistro = ({solicitud}) => {
     const dateObj = new Date(solicitud.FechaSolicitud);
+    const navigate = useNavigate();
+    
     const onClickSolicitud = () => {
         console.log("Aceptando solicitud")
+        console.log(solicitud.IdSolicitud)
+        navigate(`/solicitud/${solicitud.IdSolicitud}`);
       }
+    
     const options = {
         year: 'numeric',
         month: 'numeric',
