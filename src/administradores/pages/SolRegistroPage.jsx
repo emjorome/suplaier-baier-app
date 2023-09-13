@@ -9,7 +9,11 @@ export const SolRegistroPage = () => {
   const showEmptySTArray = solicitudesTodas?.length === 0;
 
   const getSolicitudesTodas = async() => {
-    const resp = await fetch(`${apiUrl}/solicitudRegistro`);
+    const resp = await fetch(`${apiUrl}/solicitudRegistro`,{
+      headers: {
+        "Cache-Control": "no-cache"
+      }
+    });
     const data = await resp.json();
     const {rows: solicitudes} = !!data && data;
     setSolicitudesTodas(solicitudes);

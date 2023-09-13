@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import {PopupAceptado} from "./PopupAceptado"
 import React, { useState } from 'react';
+import { apiUrl } from "../../apiUrl";
 export const CardSolicitudRegistro = ({solicitud}) => {
     const dateObj = new Date(solicitud.FechaSolicitud);
     const navigate = useNavigate();
@@ -21,8 +22,8 @@ export const CardSolicitudRegistro = ({solicitud}) => {
   };
     
     const onClickSolicitud = () => {
-        console.log("Aceptando solicitud")
         console.log(solicitud.IdSolicitud)
+        console.log(solicitud)
         navigate(`/solicitud/${solicitud.IdSolicitud}`);
       }
     
@@ -34,30 +35,58 @@ export const CardSolicitudRegistro = ({solicitud}) => {
         minute: 'numeric',
         second: 'numeric',
       };
-
     const onAceptarSolicitud = async() => {
       openPopup();
-      const body = solicitud;
-      const postresp = await fetch(`http://localhost:4000/api/v1/usuarios`, {
+      //const body = solicitud;
+      const postresp = await fetch(`${apiUrl}/usuarios`, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(body)
+        body: JSON.stringify(solicitud)
       });
       const data = await postresp.json()
       console.log(data);
-      const delresp = await fetch(`http://localhost:4000/api/v1/solicitudregistro/${solicitud.IdSolicitud}`, {
-        method: 'DELETE',
+
+      const bodySolicitud = { 
+        IdSolicitud: solicitud.IdSolicitud,
+        Estado: "aprobada", //Id Estado DB
+      }
+      const resp = await fetch(`${apiUrl}/solicitudRegistro`, {
+        method: 'PATCH',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(bodySolicitud)
       });
+      const dataSolicitud = await resp.json()
+      console.log(!!dataSolicitud && "Aceptando solicitud");
+
+      /*const delresp = await fetch(`http://localhost:4000/api/v1/solicitudregistro/${solicitud.IdSolicitud}`, {
+        method: 'DELETE',
+      });*/
       
     }
   
     const onRechazarSolicitud = async() => {
       const body = solicitud;
-      const delresp = await fetch(`http://localhost:4000/api/v1/solicitudregistro/${solicitud.IdSolicitud}`, {
-        method: 'DELETE',
+      
+      const bodySolicitud = { 
+        IdSolicitud: solicitud.IdSolicitud,
+        Estado: "rechazada", //Id Estado DB
+      }
+      const resp = await fetch(`${apiUrl}/solicitudRegistro`, {
+        method: 'PATCH',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
       });
+      const dataSolicitud = await resp.json()
+      console.log(!!dataSolicitud && "Rechazando solicitud");
+      /*const delresp = await fetch(`http://localhost:4000/api/v1/solicitudregistro/${solicitud.IdSolicitud}`, {
+        method: 'DELETE',
+      });*/
     }
   
     return (
