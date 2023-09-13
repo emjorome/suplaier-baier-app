@@ -90,9 +90,9 @@ export const CardSolicitudRegistro = ({solicitud}) => {
     }
   
     return (
-      <div className="cardSolicitudContainer" onClick={onClickSolicitud}>
+      <div className="cardSolicitudContainer" >
          <PopupAceptado isOpen={isPopupOpen} onConfirm={handleConfirm} />
-        <div className="cardSolicitudContainer--datosUser" >
+        <div className="cardSolicitudContainer--datosUser" onClick={onClickSolicitud}>
           <p className="paragraph"><b>{solicitud.Nombre}</b></p>
           <p className="paragraph">{solicitud.Email}</p>
           <p className="paragraph">Fecha solicitud: {dateObj.toLocaleString(undefined, options)} </p>
