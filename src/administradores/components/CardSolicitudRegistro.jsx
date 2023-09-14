@@ -74,7 +74,6 @@ export const CardSolicitudRegistro = ({solicitud}) => {
   
     const onRechazarSolicitud = async() => {
       openModal1();
-      const body = solicitud;
       const bodySolicitud = { 
         IdSolicitud: solicitud.IdSolicitud,
         Estado: "rechazada", //Id Estado DB
@@ -84,7 +83,7 @@ export const CardSolicitudRegistro = ({solicitud}) => {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(body)
+        body: JSON.stringify(bodySolicitud)
       });
       const dataSolicitud = await resp.json()
       console.log(!!dataSolicitud && "Rechazando solicitud");
