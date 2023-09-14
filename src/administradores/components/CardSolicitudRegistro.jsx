@@ -1,26 +1,30 @@
 import { useNavigate } from "react-router-dom";
-import {PopupAceptado} from "./PopupAceptado"
 import React, { useState } from 'react';
 import { apiUrl } from "../../apiUrl";
+import Modal from 'react-modal'
+
 export const CardSolicitudRegistro = ({solicitud}) => {
     const dateObj = new Date(solicitud.FechaSolicitud);
     const navigate = useNavigate();
-
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
-
+    const [isModalOpen, setIsModalOpen] = useState(false); 
+    const [isModalOpen1, setIsModalOpen1] = useState(false); 
+    const openModal = () => {
+      setIsModalOpen(true);
+      
+    };
   
-  const openPopup = () => {
-    setIsPopupOpen(true);
-  };
-
-  const closePopup = () => {
-    setIsPopupOpen(false);
-  };
-
-  const handleConfirm = () => {
-    closePopup();
-  };
-    
+    const closeModal = () => {
+      setIsModalOpen(false);
+      window.location.reload();
+    };
+    const openModal1 = () => {
+      setIsModalOpen1(true);
+    };
+  
+    const closeModal1 = () => {
+      setIsModalOpen1(false);
+      window.location.reload();
+    };
     const onClickSolicitud = () => {
         console.log(solicitud.IdSolicitud)
         console.log(solicitud)
@@ -36,7 +40,7 @@ export const CardSolicitudRegistro = ({solicitud}) => {
         second: 'numeric',
       };
     const onAceptarSolicitud = async() => {
-      openPopup();
+      openModal();
       //const body = solicitud;
       const postresp = await fetch(`${apiUrl}/usuarios`, {
         method: 'POST',
@@ -69,8 +73,8 @@ export const CardSolicitudRegistro = ({solicitud}) => {
     }
   
     const onRechazarSolicitud = async() => {
+      openModal1();
       const body = solicitud;
-      
       const bodySolicitud = { 
         IdSolicitud: solicitud.IdSolicitud,
         Estado: "rechazada", //Id Estado DB
@@ -90,8 +94,110 @@ export const CardSolicitudRegistro = ({solicitud}) => {
     }
   
     return (
+      <div>
+        <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        contentLabel="Modal Label"
+        
+        style={{
+          overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            zIndex: 1000,
+          },
+          content: {
+            width: '20%',  
+      height: '20%', 
+      margin: 'auto', 
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      display: 'flex',
+      flexDirection: 'column', 
+      alignItems: 'center',
+      justifyContent: 'center',
+
+          },
+        }}
+      >
+        
+        <div>
+        <h2 style={{ fontSize: '200%', fontWeight: 'bold' }}>Solicitud Aceptada</h2>
+          
+          <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+      }}
+    >
+      <button className="cardSolicitudContainer--botonesBox--btnAceptar"
+        onClick={closeModal}
+        style={{
+          padding: '12px',
+          fontSize: '16px',
+          fontWeight: 'bold',
+          textAlign: 'center',
+        }}
+      >
+        Ok
+      </button>
+    </div>
+        </div>
+      </Modal>
+
+      <Modal
+        isOpen={isModalOpen1}
+        onRequestClose={closeModal1}
+        contentLabel="Modal Label"
+        
+        style={{
+          overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            zIndex: 1000,
+          },
+          content: {
+            width: '20%',  
+      height: '20%', 
+      margin: 'auto', 
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      display: 'flex',
+      flexDirection: 'column', 
+      alignItems: 'center',
+      justifyContent: 'center',
+
+          },
+        }}
+      >
+        
+        <div>
+        <h2 style={{ fontSize: '200%', fontWeight: 'bold' }}>Solicitud Negada</h2>
+          
+          <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+      }}
+    >
+      <button className="cardSolicitudContainer--botonesBox--btnAceptar"
+        onClick={closeModal1}
+        style={{
+          padding: '12px',
+          fontSize: '16px',
+          fontWeight: 'bold',
+          textAlign: 'center',
+        }}
+      >
+        Ok
+      </button>
+    </div>
+        </div>
+      </Modal>
+    
       <div className="cardSolicitudContainer" >
-         <PopupAceptado isOpen={isPopupOpen} onConfirm={handleConfirm} />
         <div className="cardSolicitudContainer--datosUser" onClick={onClickSolicitud}>
           <p className="paragraph"><b>{solicitud.Nombre}</b></p>
           <p className="paragraph">{solicitud.Email}</p>
@@ -113,5 +219,7 @@ export const CardSolicitudRegistro = ({solicitud}) => {
           </button>
         </div>
       </div>
+      </div>
+      
     )
   }
