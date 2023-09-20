@@ -5,6 +5,7 @@ import { ContActividades, EtiquetaOferta, ProgressBar, ValoracionStar } from "..
 import { ContMenu } from "../../components/cont_menu/ContMenu";
 import { ListaOrdenComp } from "../../compradores/components";
 import { AccionExitosa, CerrarOferta, ProdOfertaButtonBox } from "../components";
+import { ConfirmarCancelarOferta } from "../components/ConfirmarCancelarOferta";
 
 export const OfertaDetalleProv = () => {
 
@@ -16,8 +17,9 @@ export const OfertaDetalleProv = () => {
   const [proveedor, setProveedor] = useState();
   const [llegaMinimo, setLlegaMinimo] = useState(false);
   const [showCerrarOferta, setShowCerrarOferta] = useState(false);
+  const [showConfirmarCancelarOferta, setShowConfirmarCancelarOferta] = useState(false);
   const [showCierreExitoso, setShowCierreExitoso] = useState(false);
-
+  const [showCancelarExitoso, setShowCancelarExitoso] = useState(false);
   const getOferta = async() => {
     const resp = await fetch(`${apiUrl}/ofertas?id=${idOferta}`);
     const data = await resp.json();
@@ -66,6 +68,9 @@ export const OfertaDetalleProv = () => {
 
   const handleClickCerrarOferta = () => {
     setShowCerrarOferta(true);
+  }
+  const handleClickCancelarOferta = () => {
+    setShowConfirmarCancelarOferta(true);
   }
 
   return (
@@ -165,7 +170,33 @@ export const OfertaDetalleProv = () => {
                 onClick={handleClickCerrarOferta}>
                 Cerrar oferta
               </button>
-            </div>}
+
+                <button
+                  className="btn btn--red"
+                  onClick={handleClickCancelarOferta}>
+                  Cancelar oferta
+                </button>
+            </div>
+            
+            }
+
+                  <div>
+        {
+          showConfirmarCancelarOferta &&
+          <ConfirmarCancelarOferta
+            oferta={idOferta} 
+            setShowConfirmarCancelarOferta={setShowConfirmarCancelarOferta}
+            setShowAccionExitosa={setShowCancelarExitoso}
+          />
+        }
+        {
+          showCancelarExitoso &&
+          <AccionExitosa
+            texto='¡Oferta cancelada con éxito!'
+            setShowAccionExitosa={setShowCancelarExitoso}
+          />
+        }
+      </div>
 
             {!!oferta &&
               <ListaOrdenComp oferta={oferta} esProveedor={true}/>

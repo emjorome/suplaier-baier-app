@@ -330,7 +330,7 @@ export const FormRegistrarProveedor = () => {
       <div className="formRegistrarComp__twoInputsBox">
         <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
           <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
-            <label htmlFor="identificacionUser" align="right" className="paragraph--sm formRegistrarComp__label">Tipo ID</label>
+            <label htmlFor="identificacionUser" align="right" className="paragraph--sm formRegistrarComp__label">Identificación</label>
             <div className="formRegistrarComp__boxError"> 
               <select 
                 id="identificacionUser"
@@ -516,10 +516,10 @@ export const FormRegistrarProveedor = () => {
         </div>
     </div>
 
-    <div className="metodoPago__btnBox">
+    <div className="metodoPago__btnBoxProveedor">
       <button
         type="submit" 
-        className="btn btn--green"
+        className="btn-signup btn--green"
       >Continuar</button>
     </div>
     <div>

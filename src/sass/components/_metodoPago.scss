@@ -17,6 +17,13 @@
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
   }
+  &__barraSupProv{
+    width: 100%;
+    background-color: $color-secondary;
+    height: 2rem;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
 
   &__ventana {
     background-color: $color-white;
@@ -33,6 +40,14 @@
 
   &__btnBox{
     padding: 2rem 4rem;
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  &__btnBoxProveedor{
+    padding: 1rem 4rem;
     width: 100%;
     position: relative;
     display: flex;

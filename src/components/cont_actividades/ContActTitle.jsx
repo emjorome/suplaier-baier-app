@@ -5,7 +5,7 @@ export const ContActTitle = () => {
       <span className="material-symbols-rounded icon--md">
         history
       </span>
-      <p className="paragraph--mid--2"><b>Ofertas pendientes</b></p>
+      <p className="paragraph--mid--2"><b>Ofertas activas</b></p>
     </div>
   )
 }

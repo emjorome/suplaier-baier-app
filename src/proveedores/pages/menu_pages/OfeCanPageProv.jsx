@@ -52,7 +52,7 @@ export const OfeCanPageProv = () => {
     </div>
     <div className="comp-main-container__divSepDer"></div>
     <div className="comp-main-container__derCont">
-      <ContActividades/>
+      <ContActividades esProveedor={true}/>
     </div>
   </div>
   )

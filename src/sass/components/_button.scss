@@ -78,6 +78,87 @@
     }
   }
 }
+.btn-signup{
+  &,
+  &:link, 
+  &:visited {
+      text-decoration: none;
+      padding: 1.5rem 2rem;
+      min-width: 15rem;
+      min-height: 2rem;
+      border-radius: 1rem;
+      transition: all .2s;
+      position: relative;
+      font-size: $default-font-size;
+
+      // Change for the <button> element
+      border: none;
+      cursor: pointer;
+  }
+
+  &:hover {
+
+    &::after {
+        transform: scaleX(1.4) scaleY(1.6);
+        opacity: 0;
+    }
+  }
+
+  &:active,
+  &:focus {
+    background-color: $color-grey-dark-2;
+  }
+
+  &--blue {
+    background-color: $color-blue;
+    color: $color-white;
+
+    &::after {
+        background-color: $color-blue;
+    
+    }
+  }
+
+  &--grey {
+    background-color: $color-secondary-light;
+    color: $color-white;
+
+    &::after {
+        background-color: $color-secondary-light;
+    
+    }
+  }
+
+  &--green {
+    background-color: $color-green;
+    color: $color-white;
+
+    &::after {
+      background-color: $color-green;
+      
+    }
+  }
+
+  &--red {
+    background-color: $color-red;
+    color: $color-white;
+
+    &::after {
+      background-color: $color-red;
+      
+    }
+  }
+
+  &--purple {
+    background-color: $color-primary;
+    color: $color-white;
+
+    &::after {
+      background-color: $color-primary;
+      
+    }
+  }
+}
 
 .btn-text {
   &:link,
