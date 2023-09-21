@@ -6,7 +6,8 @@ import { ContMenu } from "../../../components/cont_menu/ContMenu"
 import { ProdOfertaButtonBox } from "../../components";
 
 export const OfePenPageProv = () => {
-
+  const idsEstadosOferta = [3,11]; // IDs que deseas buscar
+  const idsQueryString = idsEstadosOferta.join(',');
   const [ofertasTodos, setOfertasTodos] = useState([]);
   const [ofertasTodos2, setOfertasTodos2] = useState([]);
   const [opcionSeleccionada, setOpcionSeleccionada] = useState('');
@@ -23,46 +24,24 @@ export const OfePenPageProv = () => {
   
   const getOfertasTodos = async() => {
     //ofertas finalizadas
-    const resp = await fetch(`${apiUrl}/ofertas?idProveedor=${user.IdUsuario}&idEstadosOferta=${11}`);
+    const resp = await fetch(`${apiUrl}/ofertas?idProveedor=${user.IdUsuario}&idsEstadosOferta=${idsQueryString}`);
     const data = await resp.json();
     const {rows: ofertas} = !!data && data;
     setOfertasTodos(ofertas);
   }
 
-  const getOfertasTodos2 = async() => {
-    //ofertas finalizadas
-    const resp = await fetch(`${apiUrl}/ofertas?idProveedor=${user.IdUsuario}&idEstadosOferta=${3}`);
-    const data = await resp.json();
-    const {rows: ofertas} = !!data && data;
-    setOfertasTodos2(ofertas);
-  }
-
   const getOfertasPorFechaMayor = async() => {
-    const resp = await fetch(`${apiUrl}/ofertas/orderFechaMayor?idProveedor=${user.IdUsuario}&idEstadosOferta=${11}`);
+    const resp = await fetch(`${apiUrl}/ofertas/orderFechaMayor?idProveedor=${user.IdUsuario}&idsEstadosOferta=${idsQueryString}`);
     const data = await resp.json();
     const {rows: ofertasM} = !!data && data;
     setOfertasTodos(ofertasM);
   }
 
-  const getOfertasPorFechaMayor2 = async() => {
-    const resp = await fetch(`${apiUrl}/ofertas/orderFechaMayor?idProveedor=${user.IdUsuario}&idEstadosOferta=${3}`);
-    const data = await resp.json();
-    const {rows: ofertasM} = !!data && data;
-    setOfertasTodos2(ofertasM);
-  }
-
   const getOfertasPorFechaMenor = async() => {
-    const resp = await fetch(`${apiUrl}/ofertas/orderFechaMenor?idProveedor=${user.IdUsuario}&idEstadosOferta=${11}`);
+    const resp = await fetch(`${apiUrl}/ofertas/orderFechaMenor?idProveedor=${user.IdUsuario}&idsEstadosOferta=${idsQueryString}`);
     const data = await resp.json();
     const {rows: ofertasm} = !!data && data;
     setOfertasTodos(ofertasm);
-  }
-
-  const getOfertasPorFechaMenor2 = async() => {
-    const resp = await fetch(`${apiUrl}/ofertas/orderFechaMenor?idProveedor=${user.IdUsuario}&idEstadosOferta=${3}`);
-    const data = await resp.json();
-    const {rows: ofertasm} = !!data && data;
-    setOfertasTodos2(ofertasm);
   }
 
   const seleccionFilter = async(opcionSeleccionada) => {
@@ -75,7 +54,6 @@ export const OfePenPageProv = () => {
         break;
       default:
         getOfertasTodos();
-        getOfertasTodos2();
       break;
     }
   }
@@ -86,7 +64,6 @@ export const OfePenPageProv = () => {
 
   useEffect(() => {
     getOfertasTodos();
-    getOfertasTodos2();
     // eslint-disable-next-line
   }, [])
 
@@ -127,14 +104,6 @@ export const OfePenPageProv = () => {
               oferta={oferta}
             />
           ))}
-          {
-          ofertasTodos2?.map(oferta => (
-            <OfertaCard 
-              key={oferta.IdOferta}
-              oferta={oferta}
-            />
-          ))
-          }
         </div>
       </div>
       <div className="comp-main-container__divSepDer"></div>
