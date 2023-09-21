@@ -53,6 +53,25 @@
       border-width: 1px;
       padding: 1rem;
       border-color: $color-grey-light-4;
+      &:hover {
+        border-color: $color-grey-light-3; 
+        cursor: pointer;
+      }
+    }
+    &__selectFilter {
+      width: fit-content;
+      position: relative;
+      display: flex;
+      height: 100%;
+      border-style: solid;
+      border-radius: 5px;
+      border-width: 1px;
+      padding: 1rem;
+      border-color: $color-grey-light-3;
+      &:hover {
+        border-color:  $color-blue;
+        cursor: pointer;
+      }
     }
   }
 

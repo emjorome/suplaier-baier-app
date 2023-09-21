@@ -2,6 +2,7 @@ import { ContActividades, OfertaCard} from "../../components";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../auth";
 import { ProdOfertaButtonBox } from "../components";
+import { FiltrarPor } from "../components";
 import { apiUrl } from "../../apiUrl";
 import { ContMenu } from "../../components/cont_menu/ContMenu";
 
@@ -11,6 +12,14 @@ export const MainProvPage = () => {
   const {user} = authState;
 
   const [ofertasProv, setOfertasProv] = useState([]);
+  const [opcionSeleccionada, setOpcionSeleccionada] = useState('');
+
+  const handleSeleccion = (event) => {
+    const opcionSeleccionada = event.target.value;
+    setOpcionSeleccionada(opcionSeleccionada);
+
+    console.log(`Opción seleccionada: ${opcionSeleccionada}`);
+  };
 
   const getOfertasProv = async() => {
     const resp = await fetch(`${apiUrl}/ofertas?idProveedor=${user.IdUsuario}`);
@@ -18,6 +27,45 @@ export const MainProvPage = () => {
     const {rows: ofertas} = !!data && data;
     setOfertasProv(ofertas);
   }
+  const getOfertasPorFechaMayor = async() => {
+    const resp = await fetch(`${apiUrl}/ofertas/orderFechaMayor?idProveedor=${user.IdUsuario}`);
+    const data = await resp.json();
+    const {rows: ofertasM} = !!data && data;
+    setOfertasProv(ofertasM);
+  }
+  const getOfertasPorFechaMenor = async() => {
+    const resp = await fetch(`${apiUrl}/ofertas/orderFechaMenor?idProveedor=${user.IdUsuario}`);
+    const data = await resp.json();
+    const {rows: ofertasm} = !!data && data;
+    setOfertasProv(ofertasm);
+  }
+  const getOfertasSoloCurso = async() => {
+    const resp = await fetch(`${apiUrl}/ofertas?idProveedor=${user.IdUsuario}&idEstadosOferta=${1}`);
+    const data = await resp.json();
+    const {rows: ofertasc} = !!data && data;
+    setOfertasProv(ofertasc);
+  }
+  
+  const seleccionFilter = async(opcionSeleccionada) => {
+    switch (opcionSeleccionada) {
+      case "opcionFechaM":
+        getOfertasPorFechaMayor()
+        break;
+      case "opcionFecham":
+        getOfertasPorFechaMenor()
+        break;
+      case "opcionSoloCurso": 
+        getOfertasSoloCurso()    
+      break;  
+      default:
+        getOfertasProv()
+      break;
+    }
+  }
+
+  useEffect(() => {
+    seleccionFilter(opcionSeleccionada);
+  }, [opcionSeleccionada]);
 
   useEffect(() => {
     getOfertasProv();
@@ -43,6 +91,17 @@ export const MainProvPage = () => {
               arrow_forward_ios
             </span>
             <p className="paragraph--mid"><b>Mis ofertas</b></p>
+              <div></div>
+              <span className="material-symbols-rounded icon-grey icon--bg">
+              filter_list
+            </span>
+                   <select value={opcionSeleccionada} onChange={handleSeleccion} className="formSubirProducto__inputBox__selectFilter">
+                     <option value="todos">Todas</option>
+                     <option value="opcionFechaM">Fecha de cierre - Mayor a menor</option>
+                     <option value="opcionFecham">Fecha de cierre - Menor a mayor</option>
+                     <option value="opcionSoloCurso">Solo en curso</option>
+                   </select>
+                 
           </div>
           <hr className="hrGeneral"/>
           {

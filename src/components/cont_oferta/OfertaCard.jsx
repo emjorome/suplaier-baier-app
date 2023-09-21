@@ -145,7 +145,7 @@ export const OfertaCard = ({oferta, esProveedor = false}) => {
           <div className="oferta-card__logoBox">
             <p className="paragraph">{nombreProveedor}</p>
             <div className="oferta-card__logoBox__imgBox">
-              <img src={proveedor?.UrlLogoEmpresa} alt={proveedor?.Nombre} className="oferta-card__logoBox__imgBox__img" />
+            {/* <img src={proveedor?.UrlLogoEmpresa} alt={proveedor?.Nombre} className="oferta-card__logoBox__imgBox__img" />*/}
             </div>
           </div>
         </div>
