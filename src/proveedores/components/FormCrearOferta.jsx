@@ -15,17 +15,21 @@ export const FormCrearOferta = () => {
   const {
       formState,
       idProducto,
+      idValorInst,
       cantMin,
       cantMax,
       descripcion,
       fechaLimite,
       costoUnitario,
+      costoInstantaneo,
       onInputChange} = useForm({
         idProducto: -1,
         idProveedor: user.IdUsuario,
         cantMin: 0,
         cantMax: 0,
-        costoUnitario: 0, 
+        costoUnitario: 0,
+        idValorInst: "sinInst",
+        costoInstantaneo: 0, 
         descripcion: "",
         actualProductos: 0,
         fechaLimite: "",
@@ -43,6 +47,7 @@ export const FormCrearOferta = () => {
   //validadores
   const [esProductoValido, setEsProductoValido] = useState(false);
   const [esValorUnitariValido, setEsValorUnitariValido] = useState(false);
+  const [esValorInstValido, setEsValorInstValido] = useState(false);
   const [esDescOfertaValido, setEsDescOfertaValido] = useState(false);
   const [esUnidadesMinValido, setEsUnidadesMinValido] = useState(false);
   const [esUnidadesMaxValido, setEsUnidadesMaxValido] = useState(false);
@@ -78,11 +83,13 @@ export const FormCrearOferta = () => {
       const productoValido = idProducto !== "Seleccionar producto" && idProducto !== -1;
       const regexDescripcion = /^([a-zA-Z0-9 _-àáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ,.]){3,500}$/;
       const regexValorUnitario = /^((.\d+)|(\d+(.\d+)?))$/;
+      const regexValorInstantaneo = /^((.\d+)|(\d+(.\d+)?))$/;
       const regexUnidadesMinMax = /^[1-9]([0-9]+)?$/;
 
       if(productoValido && regexDescripcion.test(descripcion) && regexValorUnitario.test(costoUnitario)
           && regexUnidadesMinMax.test(cantMin) 
-          && regexUnidadesMinMax.test(cantMax) 
+          && regexUnidadesMinMax.test(cantMax)
+          && regexValorInstantaneo.test(costoInstantaneo) 
           //&& (cantMin <= cantMax)
           ){
         
@@ -91,6 +98,7 @@ export const FormCrearOferta = () => {
       } else {
         setEsProductoValido(productoValido);
         setEsValorUnitariValido(regexValorUnitario.test(costoUnitario));
+        setEsValorInstValido(regexValorInstantaneo.test(costoInstantaneo));
         setEsDescOfertaValido(regexDescripcion.test(descripcion));
         setEsUnidadesMinValido(regexUnidadesMinMax.test(cantMin));
         setEsUnidadesMaxValido(regexUnidadesMinMax.test(cantMax));
@@ -125,6 +133,10 @@ export const FormCrearOferta = () => {
   useEffect(() => {
     setEsValorUnitariValido(true)
   }, [costoUnitario]);
+
+  useEffect(() => {
+    setEsValorInstValido(true)
+  }, [costoInstantaneo]);
   
   useEffect(() => {
     setEsUnidadesMinValido(true)
@@ -236,6 +248,46 @@ export const FormCrearOferta = () => {
               <p className="paragraph--red u-padding-left-small">Costo unitario no válido</p>
             }
           </div>
+          <div className="formSubirProducto u-margin-top-small">
+            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm formRegistrarComp__label"><b>Valor instantáneo</b></label>
+            <div className="formRegistrarComp__boxError">
+              <select 
+                id="formOfertaValorInst"
+                name="idValorInst"
+                className="formRegistrarComp__input paragraph"
+                onChange={onInputChange}
+              >
+                <option value="sinInst">
+                  Sin precio instantáneo
+                </option>
+                <option value="conInst">
+                  Con precio instantáneo
+                </option> 
+              </select>
+          
+            </div>
+            
+          </div>
+          {
+                idValorInst==="conInst" &&            
+          <div className="formSubirProducto u-margin-top-small">
+            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm paragraph--bold formSubirProducto__label"><b>Precio instantáneo</b></label>
+            <input
+              type="number"
+              placeholder="Precio instantáneo en USD"
+              className="formSubirProducto__inputBox__input paragraph paragraph--grey--2"
+              name="costoInstantaneo"
+              autoComplete="off"
+              value={costoInstantaneo}
+              onChange={onInputChange}
+              required
+            />
+            {
+              !esValorInstValido &&
+              <p className="paragraph--red u-padding-left-small">Costo instantáneo no válido</p>
+            }  
+          </div>
+}
           <div className="formSubirProducto u-margin-top-small">
             <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm paragraph--bold formSubirProducto__label"><b>Descripción</b></label>
             <textarea

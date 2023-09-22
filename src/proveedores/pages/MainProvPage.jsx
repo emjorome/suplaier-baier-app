@@ -2,7 +2,6 @@ import { ContActividades, OfertaCard} from "../../components";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../auth";
 import { ProdOfertaButtonBox } from "../components";
-import { FiltrarPor } from "../components";
 import { apiUrl } from "../../apiUrl";
 import { ContMenu } from "../../components/cont_menu/ContMenu";
 
@@ -86,7 +85,7 @@ export const MainProvPage = () => {
       <div className="comp-main-container__divSepIzq"></div>
       <div className="comp-main-container__medCont">
         <div className="comp-main-container__medCont__ofertas">
-          <div className="explorarCat__title">
+          <div className="explorarCat__titleCardOferta">
             <span className="material-symbols-rounded icon-grey icon--sm">
               arrow_forward_ios
             </span>

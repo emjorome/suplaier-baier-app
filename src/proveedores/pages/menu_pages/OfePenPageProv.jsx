@@ -9,7 +9,6 @@ export const OfePenPageProv = () => {
   const idsEstadosOferta = [3,11]; // IDs que deseas buscar
   const idsQueryString = idsEstadosOferta.join(',');
   const [ofertasTodos, setOfertasTodos] = useState([]);
-  const [ofertasTodos2, setOfertasTodos2] = useState([]);
   const [opcionSeleccionada, setOpcionSeleccionada] = useState('');
 
   const {authState} = useContext(AuthContext);
@@ -18,8 +17,6 @@ export const OfePenPageProv = () => {
   const handleSeleccion = (event) => {
     const opcionSeleccionada = event.target.value;
     setOpcionSeleccionada(opcionSeleccionada);
-
-    console.log(`Opción seleccionada: ${opcionSeleccionada}`);
   };
   
   const getOfertasTodos = async() => {
@@ -44,6 +41,22 @@ export const OfePenPageProv = () => {
     setOfertasTodos(ofertasm);
   }
 
+  const getOfertasSoloVerificando = async() => {
+    //ofertas finalizadas
+    const resp = await fetch(`${apiUrl}/ofertas?idProveedor=${user.IdUsuario}&idEstadosOferta=${3}`);
+    const data = await resp.json();
+    const {rows: ofertas} = !!data && data;
+    setOfertasTodos(ofertas);
+  }
+
+  const getOfertasSoloPendiente = async() => {
+    //ofertas finalizadas
+    const resp = await fetch(`${apiUrl}/ofertas?idProveedor=${user.IdUsuario}&idEstadosOferta=${11}`);
+    const data = await resp.json();
+    const {rows: ofertas} = !!data && data;
+    setOfertasTodos(ofertas);
+  }
+
   const seleccionFilter = async(opcionSeleccionada) => {
     switch (opcionSeleccionada) {
       case "opcionFechaM":
@@ -51,6 +64,12 @@ export const OfePenPageProv = () => {
         break;
       case "opcionFecham":
         getOfertasPorFechaMenor()
+        break;
+      case "opcionSoloV":
+        getOfertasSoloVerificando()
+        break;
+      case "opcionSoloP":
+        getOfertasSoloPendiente()
         break;
       default:
         getOfertasTodos();
@@ -60,6 +79,7 @@ export const OfePenPageProv = () => {
 
   useEffect(() => {
     seleccionFilter(opcionSeleccionada);
+    // eslint-disable-next-line
   }, [opcionSeleccionada]);
 
   useEffect(() => {
@@ -79,7 +99,7 @@ export const OfePenPageProv = () => {
       <div className="comp-main-container__divSepIzq"></div>
       <div className="comp-main-container__medCont">
         <div className="comp-main-container__medCont__ofertas">
-          <div className="explorarCat__title">
+          <div className="explorarCat__titleCardOferta">
             <span className="material-symbols-rounded icon-grey icon--sm">
               arrow_forward_ios
             </span>
@@ -92,6 +112,8 @@ export const OfePenPageProv = () => {
                      <option value="todos">Todas</option>
                      <option value="opcionFechaM">Fecha de cierre - Mayor a menor</option>
                      <option value="opcionFecham">Fecha de cierre - Menor a mayor</option>
+                     <option value="opcionSoloV">Solo verificando pagos</option>
+                     <option value="opcionSoloP">Solo pendientes</option>
                    </select>
           </div>
           <hr className="hrGeneral"/>

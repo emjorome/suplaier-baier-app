@@ -122,6 +122,12 @@ export const OfertaDetalleProv = () => {
                 <p className="paragraph"><b>Precio unitario:</b> {"$" + oferta?.ValorUProducto}</p>
               </div>
             </div>
+            {
+              oferta?.ValorUInstantaneo>0 &&
+            <div className="oferta-detalle__productoBox u-margin-top-small">
+              <p className="paragraph"><b>Precio de compra instantánea:</b> {"$" + oferta?.ValorUInstantaneo}</p>
+            </div>
+}
             <div className="oferta-detalle__productoBox__twoColumn">
               <div className="oferta-detalle__productoBox u-margin-top-small">
                 <p className="paragraph">Unidades restantes:&nbsp;
@@ -133,9 +139,11 @@ export const OfertaDetalleProv = () => {
                 <p className="paragraph">Fecha de cierre: {!!oferta?.FechaLimite && (oferta.FechaLimite).split("T")[0]}</p>
               </div>
             </div>
+            
             <div className="oferta-detalle__productoBox u-margin-top-small">
               <p className="paragraph">{oferta?.Descripcion}</p>
             </div>
+
 
             <div className="oferta-detalle__productoProgress u-margin-top-small">
               <p className="paragraph">Progreso de unidades vendidas: </p>

@@ -76,6 +76,7 @@ export const OfertaCard = ({oferta, esProveedor = false}) => {
     setDatosProd({
       nombreProd: producto?.Name,
       costoU: oferta.ValorUProducto,
+      costoInst: oferta.ValorUInstantaneo,
       urlImg: producto?.UrlImg,
     })
   
@@ -160,8 +161,14 @@ export const OfertaCard = ({oferta, esProveedor = false}) => {
           </div>
           <div>
             <p className="paragraph u-padding-right-medium">Precio unitario: {"$" + datosProd?.costoU}</p>
+            {
+              datosProd?.costoInst>0 &&
+            <p className="paragraph u-padding-right-medium">Precio instantáneo: {"$" + datosProd?.costoInst}</p>
+            }  
           </div>
+
         </div>
+
       </div>
       </div>
       {

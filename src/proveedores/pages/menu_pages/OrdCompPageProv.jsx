@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { apiUrl } from "../../../apiUrl";
+import { AuthContext } from "../../../auth";
 import { ContActividades, OrdenCard } from "../../../components"
 import { ContMenu } from "../../../components/cont_menu/ContMenu"
 import { ProdOfertaButtonBox } from "../../components";
@@ -7,6 +8,15 @@ import { ProdOfertaButtonBox } from "../../components";
 export const OrdCompPageProv = () => {
 
   const [comprasPorConf, setComprasPorConf] = useState([]);
+
+  const {authState} = useContext(AuthContext);
+  const {user} = authState;
+
+  const [opcionSeleccionada, setOpcionSeleccionada] = useState('');
+  const handleSeleccion = (event) => {
+    const opcionSeleccionada = event.target.value;
+    setOpcionSeleccionada(opcionSeleccionada);
+  };
 
   const getComprasPorConf = async() => {
     const resp = await fetch(`${apiUrl}/compras?idEstado=${1}`);
@@ -31,11 +41,19 @@ export const OrdCompPageProv = () => {
     <div className="comp-main-container__divSepIzq"></div>
     <div className="comp-main-container__medCont">
       <div className="comp-main-container__medCont__ofertas">
-        <div className="explorarCat__title">
+        <div className="explorarCat__titleCardOferta">
           <span className="material-symbols-rounded icon-grey icon--sm">
             arrow_forward_ios
           </span>
           <p className="paragraph--mid"><b>Órdenes de compra</b></p>
+          <span className="material-symbols-rounded icon-grey icon--bg">
+              filter_list
+            </span>
+                   <select value={opcionSeleccionada} onChange={handleSeleccion} className="formSubirProducto__inputBox__selectFilter">
+                     <option value="todos">Todas</option>
+                     <option value="opcionFechaM">Fecha - Mayor a menor</option>
+                     <option value="opcionFecham">Fecha - Menor a mayor</option>
+                   </select>
         </div>
         <hr className="hrGeneral"/>
         {

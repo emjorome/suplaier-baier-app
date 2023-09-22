@@ -27,7 +27,8 @@ export const ResumenOferta = ({formState: ofertaData, setShowResumenOferta, setS
       ActualProductos: 0, 
       FechaLimite: ofertaData.fechaLimite, 
       Estado: ofertaData.estado, 
-      ValorUProducto: ofertaData.costoUnitario
+      ValorUProducto: ofertaData.costoUnitario,
+      ValorUInstantaneo: ofertaData.costoInstantaneo
     }
 
     const resp = await fetch(`${apiUrl}/ofertas`, {
@@ -80,6 +81,18 @@ export const ResumenOferta = ({formState: ofertaData, setShowResumenOferta, setS
             <div className="oferta-detalle__productoBox u-margin-top-small">
               <p className="paragraph">Costo unitario: $ {ofertaData?.costoUnitario}</p>
             </div>
+            {
+            ofertaData?.costoInstantaneo>0 &&
+            <div className="oferta-detalle__productoBox u-margin-top-small">
+              <p className="paragraph">Costo unitario instantáneo: $ {ofertaData?.costoInstantaneo}</p>
+            </div>
+}
+{
+            ofertaData?.costoInstantaneo<=0 &&
+            <div className="oferta-detalle__productoBox u-margin-top-small">
+              <p className="paragraph">Costo unitario instantáneo: Sin costo instantáneo</p>
+            </div>
+}
             <div className="oferta-detalle__productoBox u-margin-top-small">
               <p className="paragraph">Descripción oferta: {ofertaData?.descripcion}</p>
             </div>

@@ -1,27 +1,87 @@
 import { useContext, useEffect, useState } from "react";
 import { apiUrl } from "../../../apiUrl";
+import { AuthContext } from "../../../auth";
 import { ContActividades, OfertaCard } from "../../../components"
 import { ContMenu } from "../../../components/cont_menu/ContMenu"
 import { ProdOfertaButtonBox } from "../../components";
 
 export const OfeCanPageProv = () => {
 
+  const {authState} = useContext(AuthContext);
+  const {user} = authState;
+
+  const idsEstadosOferta = [7,8]; // IDs que deseas buscar
+  const idsQueryString = idsEstadosOferta.join(',');
   const [ofertasTodos, setOfertasTodos] = useState([]);
   const [opcionSeleccionada, setOpcionSeleccionada] = useState('');
   const handleSeleccion = (event) => {
     const opcionSeleccionada = event.target.value;
     setOpcionSeleccionada(opcionSeleccionada);
-
-    console.log(`Opción seleccionada: ${opcionSeleccionada}`);
   };
 
   const getOfertasTodos = async() => {
-    //ofertas por devolver pago
-    const resp = await fetch(`${apiUrl}/ofertas?idEstadosOferta=${7}`);
+    //ofertas finalizadas
+    const resp = await fetch(`${apiUrl}/ofertas?idProveedor=${user.IdUsuario}&idsEstadosOferta=${idsQueryString}`);
     const data = await resp.json();
     const {rows: ofertas} = !!data && data;
     setOfertasTodos(ofertas);
   }
+
+  const getOfertasPorFechaMayor = async() => {
+    const resp = await fetch(`${apiUrl}/ofertas/orderFechaMayor?idProveedor=${user.IdUsuario}&idsEstadosOferta=${idsQueryString}`);
+    const data = await resp.json();
+    const {rows: ofertasM} = !!data && data;
+    setOfertasTodos(ofertasM);
+  }
+
+  const getOfertasPorFechaMenor = async() => {
+    const resp = await fetch(`${apiUrl}/ofertas/orderFechaMenor?idProveedor=${user.IdUsuario}&idsEstadosOferta=${idsQueryString}`);
+    const data = await resp.json();
+    const {rows: ofertasm} = !!data && data;
+    setOfertasTodos(ofertasm);
+  }
+
+  const getOfertasSoloDevolver = async() => {
+    //ofertas finalizadas
+    const resp = await fetch(`${apiUrl}/ofertas?idProveedor=${user.IdUsuario}&idEstadosOferta=${7}`);
+    const data = await resp.json();
+    const {rows: ofertas} = !!data && data;
+    setOfertasTodos(ofertas);
+  }
+
+  const getOfertasSoloDevuelto = async() => {
+    //ofertas finalizadas
+    const resp = await fetch(`${apiUrl}/ofertas?idProveedor=${user.IdUsuario}&idEstadosOferta=${8}`);
+    const data = await resp.json();
+    const {rows: ofertas} = !!data && data;
+    setOfertasTodos(ofertas);
+  }
+
+  const seleccionFilter = async(opcionSeleccionada) => {
+    switch (opcionSeleccionada) {
+      case "opcionFechaM":
+        getOfertasPorFechaMayor()
+        break;
+      case "opcionFecham":
+        getOfertasPorFechaMenor()
+        break;
+      case "opcionDevolver":
+        getOfertasSoloDevolver()
+        break;
+      case "opcionDevuelto":
+        getOfertasSoloDevuelto()
+        break;              
+      default:
+        getOfertasTodos();
+      break;
+    }
+  }
+
+  useEffect(() => {
+    seleccionFilter(opcionSeleccionada);
+    // eslint-disable-next-line
+  }, [opcionSeleccionada]);
+
 
   useEffect(() => {
     getOfertasTodos();
@@ -39,7 +99,7 @@ export const OfeCanPageProv = () => {
     <div className="comp-main-container__divSepIzq"></div>
     <div className="comp-main-container__medCont">
       <div className="comp-main-container__medCont__ofertas">
-        <div className="explorarCat__title">
+        <div className="explorarCat__titleCardOferta">
           <span className="material-symbols-rounded icon-grey icon--sm">
             arrow_forward_ios
           </span>
@@ -52,6 +112,8 @@ export const OfeCanPageProv = () => {
                      <option value="todos">Todas</option>
                      <option value="opcionFechaM">Fecha de cierre - Mayor a menor</option>
                      <option value="opcionFecham">Fecha de cierre - Menor a mayor</option>
+                     <option value="opcionDevolver">Solo por devolver pago</option>
+                     <option value="opcionDevuelto">Solo pago devuelto</option>
                    </select>
                  
         </div>
