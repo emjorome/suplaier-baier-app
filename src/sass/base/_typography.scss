@@ -10,6 +10,7 @@ body {
 
 .paragraph {
   font-size: $default-font-size;
+ 
 
   &--bold{
     font-weight: bold;
@@ -17,6 +18,7 @@ body {
 
   &--mid{
     font-size: $default-font-size-mid;
+
   }
 
   &--mid--2 {

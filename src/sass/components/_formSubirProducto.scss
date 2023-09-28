@@ -68,6 +68,12 @@
       border-width: 1px;
       padding: 1rem;
       border-color: $color-grey-light-3;
+      @media (max-width: 768px) {
+        width: 15rem;
+        height: 3.5rem;
+        font-size: $default-font-size-sm;
+        
+      }
       &:hover {
         border-color:  $color-blue;
         cursor: pointer;

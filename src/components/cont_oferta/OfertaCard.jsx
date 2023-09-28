@@ -160,14 +160,14 @@ export const OfertaCard = ({oferta, esProveedor = false}) => {
             <p className="paragraph">Fecha vigencia: {FechaLimite.split("T")[0]}</p>
           </div>
           <div>
-            <p className="paragraph u-padding-right-medium">Precio unitario: {"$" + datosProd?.costoU}</p>
+            <p className="paragraph u-padding-right-mediumresp">Precio unitario: {"$" + datosProd?.costoU}</p>
             {
               datosProd?.costoInst>0 &&
-            <p className="paragraph u-padding-right-medium">Precio instantáneo: {"$" + datosProd?.costoInst}</p>
+            <p className="paragraph u-padding-right-mediumresp">Precio instantáneo: {"$" + datosProd?.costoInst}</p>
             }
             {
               datosProd?.costoInst<=0 &&
-            <p className="paragraph u-padding-right-medium">Precio instantáneo: -- </p>
+            <p className="paragraph u-padding-right-mediumresp">Precio instantáneo: -- </p>
             }  
           </div>
 

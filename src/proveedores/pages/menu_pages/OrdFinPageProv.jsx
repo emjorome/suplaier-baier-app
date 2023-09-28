@@ -78,11 +78,15 @@ export const OrdFinPageProv = () => {
     <div className="comp-main-container__medCont">
       <div className="comp-main-container__medCont__ofertas">
         <div className="explorarCat__titleCardOferta">
+        <div  className="explorarCat__titleCardOferta__tituloBox">
+
         <span className="material-symbols-rounded icon-grey icon--sm">
               arrow_forward_ios
             </span>
             <p className="paragraph--mid"><b>Ofertas Finalizadas</b></p>
+            </div>
             <div></div>
+            <div className="explorarCat__titleCardOferta__filtrarBox">
               <span className="material-symbols-rounded icon-grey icon--bg">
               filter_list
             </span>
@@ -91,6 +95,7 @@ export const OrdFinPageProv = () => {
                      <option value="opcionFechaM">Fecha de cierre - Mayor a menor</option>
                      <option value="opcionFecham">Fecha de cierre - Menor a mayor</option>
                    </select>
+                   </div>
         </div>
         <hr className="hrGeneral"/>
         {showEmptyArray

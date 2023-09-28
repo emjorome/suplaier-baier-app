@@ -100,11 +100,14 @@ export const OfeCanPageProv = () => {
     <div className="comp-main-container__medCont">
       <div className="comp-main-container__medCont__ofertas">
         <div className="explorarCat__titleCardOferta">
+        <div  className="explorarCat__titleCardOferta__tituloBox">
           <span className="material-symbols-rounded icon-grey icon--sm">
             arrow_forward_ios
           </span>
           <p className="paragraph--mid"><b>Ofertas Canceladas</b></p>
+          </div>
           <div></div>
+          <div className="explorarCat__titleCardOferta__filtrarBox">
               <span className="material-symbols-rounded icon-grey icon--bg">
               filter_list
             </span>
@@ -115,6 +118,7 @@ export const OfeCanPageProv = () => {
                      <option value="opcionDevolver">Solo por devolver pago</option>
                      <option value="opcionDevuelto">Solo pago devuelto</option>
                    </select>
+                   </div>
                  
         </div>
         <hr className="hrGeneral"/>

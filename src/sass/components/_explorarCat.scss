@@ -20,13 +20,33 @@
     flex-direction: row;
     align-items: center;
     margin-bottom: 0.5rem;
+    @media (max-width: 768px) {
+      flex-direction: column;
+      
+    }
+    &__tituloBox  {
+      display: flex;
+      flex-direction: row;
+      flex-grow: 1;
+      align-items: center;
+      & > :not(:last-child) {
+        margin-right: 0.6rem;
+      }
+    }
+    &__filtrarBox  {
+      display: flex;
+      flex-direction: row;
+      flex-grow: 0.3;
+      align-items: center;
+      & > :last-child  {
+        flex-grow: 1;
+      }
+    }
     & > :not(:last-child) {
       margin-right: 0.6rem;
+      margin-bottom: 0.3rem;
     }
-    & > :last-child  {
-      flex-grow: 0.3;
-    }
-    & > :nth-last-child(3)  {
+    & > :nth-last-child(2)  {
       flex-grow: 0.7;
     }
   }

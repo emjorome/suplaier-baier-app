@@ -7,7 +7,9 @@
   flex-direction: row;
   align-items: center;
   border-radius: 8px;
-
+  @media (max-width: 768px) {
+    width: 95%;
+  }
   &__errorBusqueda {
     display: flex;
     position: relative;
@@ -30,6 +32,9 @@
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
     padding-left: 1rem;
+    @media (max-width: 768px) {
+      font-size: $default-font-size-sm;
+    }
   }
 
   &__searchBtn {
@@ -42,11 +47,27 @@
     justify-content: center;
     align-items: center;
     border-style: none;
-
+    @media (max-width: 768px) {
+      width: 23%;
+    }
     &:hover {
       cursor: pointer;
     }
   }
+  
+  /*@media (max-width: 768px) {
+    height: auto; // Ajusta la altura según el contenido
+    padding: 0.3rem; // Cambia el relleno
+    &__input {
+      font-size: xx-small;
+      justify-content: center;
+      margin-top: 0.2rem;
+      width: 70%; // Ocupa el 100% del ancho disponible
+    }
+    &__searchBtn {
+      width: 30%; // Ocupa el 100% del ancho disponible
+    }
+  }*/
 
 }
 

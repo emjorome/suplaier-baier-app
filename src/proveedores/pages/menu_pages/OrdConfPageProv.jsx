@@ -47,10 +47,13 @@ export const OrdConfPageProv = () => {
     <div className="comp-main-container__medCont">
       <div className="comp-main-container__medCont__ofertas">
         <div className="explorarCat__titleCardOferta">
+          <div  className="explorarCat__titleCardOferta__tituloBox">
           <span className="material-symbols-rounded icon-grey icon--sm">
             arrow_forward_ios
           </span>
           <p className="paragraph--mid"><b>Órdenes de compra por confirmar</b></p>
+          </div>
+          <div className="explorarCat__titleCardOferta__filtrarBox">
           <span className="material-symbols-rounded icon-grey icon--bg">
               filter_list
             </span>
@@ -59,6 +62,7 @@ export const OrdConfPageProv = () => {
                      <option value="opcionFechaM">Fecha - Mayor a menor</option>
                      <option value="opcionFecham">Fecha - Menor a mayor</option>
                    </select>
+                   </div>
         </div>
         <hr className="hrGeneral"/>
         {

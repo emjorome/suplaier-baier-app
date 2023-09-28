@@ -11,6 +11,11 @@
 .u-margin-top-mid { margin-top: 2.5rem !important; }
 
 .u-padding-right-medium { padding-right: 4rem !important; }
+.u-padding-right-mediumresp { padding-right: 4rem !important; 
+  @media (max-width: 768px) {
+    padding-right: 0rem
+  }
+}
 
 .u-padding-left-small { padding-left: 1rem !important; }
 
