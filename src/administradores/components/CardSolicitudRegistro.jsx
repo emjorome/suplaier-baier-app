@@ -74,7 +74,7 @@ export const CardSolicitudRegistro = ({solicitud}) => {
   
     const onRechazarSolicitud = async() => {
       openModal1();
-      const bodySolicitud = { 
+            const bodySolicitud = { 
         IdSolicitud: solicitud.IdSolicitud,
         Estado: "rechazada", //Id Estado DB
       }
@@ -91,7 +91,7 @@ export const CardSolicitudRegistro = ({solicitud}) => {
         method: 'DELETE',
       });*/
     }
-  
+
     return (
       <div>
         <Modal

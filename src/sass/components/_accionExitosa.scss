@@ -36,8 +36,12 @@
         color:  $color-grey-dark-3;
       }
     }
-   
+    @media (max-width: 708px) {
+      width: 70%; 
+      margin:auto;
+    }
   }
+  
 }
 
 .accionWarning {

@@ -6,6 +6,7 @@ import { ContMenu } from "../../components/cont_menu/ContMenu";
 import { ListaOrdenComp } from "../../compradores/components";
 import { AccionExitosa, CerrarOferta, ProdOfertaButtonBox } from "../components";
 import { ConfirmarCancelarOferta } from "../components/ConfirmarCancelarOferta";
+import {Historial} from "../components/Historial"
 
 export const OfertaDetalleProv = () => {
 
@@ -20,6 +21,7 @@ export const OfertaDetalleProv = () => {
   const [showConfirmarCancelarOferta, setShowConfirmarCancelarOferta] = useState(false);
   const [showCierreExitoso, setShowCierreExitoso] = useState(false);
   const [showCancelarExitoso, setShowCancelarExitoso] = useState(false);
+  const [showHistorial, setShowHistorial] = useState(false);
   const getOferta = async() => {
     const resp = await fetch(`${apiUrl}/ofertas?id=${idOferta}`);
     const data = await resp.json();
@@ -72,7 +74,9 @@ export const OfertaDetalleProv = () => {
   const handleClickCancelarOferta = () => {
     setShowConfirmarCancelarOferta(true);
   }
-
+  const handleClickHistorial = () => {
+    setShowHistorial(true);
+  }
   return (
     <div className="comp-main-container u-margin-top-navbar">
       <div className="comp-main-container__izqCont">
@@ -172,13 +176,17 @@ export const OfertaDetalleProv = () => {
             {/* antes de unirse, verificar que haya vinculado el método de pago */}
             { estadoOferta?.Descripcion === "En curso" && 
             <div className="oferta-detalle__btnBoxResp">
-              <button
+            <button
                 disabled={!llegaMinimo}
                 className={llegaMinimo ? "btn btn--blue" : "btn btn--grey"}
                 onClick={handleClickCerrarOferta}>
                 Cerrar oferta
               </button>
-
+              <button 
+                class="btn btn--green"
+                onClick={handleClickHistorial}>
+                Ver Historial
+                </button>
                 <button
                   className="btn btn--red"
                   onClick={handleClickCancelarOferta}>
@@ -226,6 +234,13 @@ export const OfertaDetalleProv = () => {
             }
 
           </div>
+        </div>
+        <div>
+        {     showHistorial &&
+              <Historial 
+                setShowHistorial={setShowHistorial}
+              />
+            }
         </div>
       </div>
       <div className="comp-main-container__divSepDer"></div>

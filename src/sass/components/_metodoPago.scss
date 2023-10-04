@@ -45,6 +45,10 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    @media (max-width: 708px) {
+      flex-direction: column; 
+      align-items: center;    
+    }
   }
   &__btnBoxProveedor{
     padding: 1rem 4rem;

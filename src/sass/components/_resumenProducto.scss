@@ -10,6 +10,10 @@
   height: 100%;
 
   &__ventana {
+    @media (max-width: 708px) {
+      width: 80%; 
+      margin:auto;
+    }
     background-color: $color-white;
     border-radius: 5px;
     position: absolute;
