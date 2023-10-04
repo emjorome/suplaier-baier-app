@@ -105,7 +105,7 @@ export const NavbarComp = () => {
       } */}
           </div>
           <div 
-            className="navigation__leftButtons__box__ind"
+            className="navigation__leftButtons__box__indRespHidden"
             onClick={onClickOfertas}
           >
             <span className="material-symbols-rounded icon--bg">

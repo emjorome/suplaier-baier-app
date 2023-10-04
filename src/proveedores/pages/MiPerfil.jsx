@@ -30,8 +30,8 @@ export const MiPerfil = () => {
           <div className="u-margin-top-small"></div>
 
           <div className="perfil">
-            <div className="perfil__twoColumn">
-              <div className="perfil__twoColumn__left">
+            <div className="perfil__twoColumnResp">
+              <div className="perfil__twoColumnResp__left">
                 <div className="perfil__imgBox u-margin-top-small">
                   <img
                     src="user_icon.png"
@@ -40,7 +40,7 @@ export const MiPerfil = () => {
                   />
                 </div>
               </div>
-              <div className="perfil__twoColumn__right">
+              <div className="perfil__twoColumnResp__right">
                 <div className="perfil__dataBox u-margin-top-small">
                   <p className="paragraph">País: {user?.Pais}</p>
                 </div>

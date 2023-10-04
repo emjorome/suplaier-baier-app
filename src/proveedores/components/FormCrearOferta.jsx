@@ -188,7 +188,7 @@ export const FormCrearOferta = () => {
     <form onSubmit={onContinuarCrearOferta}>
       <div className="compraProducto__box">
           <div className="formSubirProducto u-margin-top-small">
-            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm formRegistrarComp__label"><b>Producto</b></label>
+            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--smResp formRegistrarComp__label"><b>Producto</b></label>
             <div className="formRegistrarComp__boxError">
               <select 
                 id="formOfertaNombreProd"
@@ -232,7 +232,7 @@ export const FormCrearOferta = () => {
           </div>
           }
           <div className="formSubirProducto u-margin-top-small">
-            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm paragraph--bold formSubirProducto__label"><b>Precio unitario</b></label>
+            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--smResp paragraph--bold formSubirProducto__label"><b>Precio unitario</b></label>
             <input
               type="number"
               placeholder="Precio unitario en USD"
@@ -249,7 +249,7 @@ export const FormCrearOferta = () => {
             }
           </div>
           <div className="formSubirProducto u-margin-top-small">
-            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm formRegistrarComp__label"><b>Valor instantáneo</b></label>
+            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--smResp formRegistrarComp__label"><b>Valor instantáneo</b></label>
             <div className="formRegistrarComp__boxError">
               <select 
                 id="formOfertaValorInst"
@@ -271,7 +271,7 @@ export const FormCrearOferta = () => {
           {
                 idValorInst==="conInst" &&            
           <div className="formSubirProducto u-margin-top-small">
-            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm paragraph--bold formSubirProducto__label"><b>Precio instantáneo</b></label>
+            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--smResp paragraph--bold formSubirProducto__label"><b>Precio instantáneo</b></label>
             <input
               type="number"
               placeholder="Precio instantáneo en USD"
@@ -289,7 +289,7 @@ export const FormCrearOferta = () => {
           </div>
 }
           <div className="formSubirProducto u-margin-top-small">
-            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm paragraph--bold formSubirProducto__label"><b>Descripción</b></label>
+            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--smResp paragraph--bold formSubirProducto__label"><b>Descripción</b></label>
             <textarea
               type="text"
               placeholder="Descripción de la oferta"
@@ -306,7 +306,7 @@ export const FormCrearOferta = () => {
             }
           </div>
           <div className="formSubirProducto u-margin-top-small">
-            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm paragraph--bold formSubirProducto__label"><b>Cantidad mínima</b></label>
+            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--smResp paragraph--bold formSubirProducto__label"><b>Cantidad mínima</b></label>
             <input
               type="number"
               placeholder="Unidades mínimas para cerrar la oferta"
@@ -324,7 +324,7 @@ export const FormCrearOferta = () => {
             }
           </div>
           <div className="formSubirProducto u-margin-top-small">
-            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm paragraph--bold formSubirProducto__label"><b>Cantidad máxima</b></label>
+            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--smResp paragraph--bold formSubirProducto__label"><b>Cantidad máxima</b></label>
             <input
               type="number"
               placeholder="Unidades en total a vender"
@@ -342,7 +342,7 @@ export const FormCrearOferta = () => {
             }
           </div>
           <div className="formSubirProducto u-margin-top-small">
-            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--sm paragraph--bold formSubirProducto__label"><b>Fecha límite</b></label>
+            <label htmlFor="formOfertaNombreProd" align="right" className="paragraph--smResp paragraph--bold formSubirProducto__label"><b>Fecha límite</b></label>
             <input
               type="date"
               className="paragraph paragraph--grey--2"

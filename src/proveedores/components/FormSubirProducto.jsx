@@ -107,7 +107,7 @@ export const FormSubirProducto = () => {
     <form onSubmit={onContinuarSubirProducto}>
       <div className="compraProducto__box">
           <div className="formSubirProducto u-margin-top-small">
-            <label align="right" htmlFor="formSubirProdNombre" className="paragraph--sm paragraph--bold formSubirProducto__label">Nombre</label>
+            <label align="right" htmlFor="formSubirProdNombre" className="paragraph--smResp paragraph--bold formSubirProducto__label">Nombre</label>
             <div className="formSubirProducto__inputBox">
               <input
                 id="formSubirProdNombre"
@@ -127,7 +127,7 @@ export const FormSubirProducto = () => {
             </div>
           </div>
           <div className="formSubirProducto u-margin-top-small">
-            <label align="right" htmlFor="formSubirProdDescripcion" className="paragraph--sm paragraph--bold formSubirProducto__label">Descripción</label>
+            <label align="right" htmlFor="formSubirProdDescripcion" className="paragraph--smResp paragraph--bold formSubirProducto__label">Descripción</label>
             <div className="formSubirProducto__inputBox">
               <textarea
                 id="formSubirProdDescripcion"
@@ -147,7 +147,7 @@ export const FormSubirProducto = () => {
             </div>
           </div>
           <div className="formSubirProducto u-margin-top-small">
-            <label align="right" htmlFor="formSubirProdCategoria" className="paragraph--sm paragraph--bold formSubirProducto__label">Categoría</label>
+            <label align="right" htmlFor="formSubirProdCategoria" className="paragraph--smResp paragraph--bold formSubirProducto__label">Categoría</label>
             <div className="formSubirProducto__inputBox">
               <select 
                 id="formSubirProdCategoria"
@@ -172,7 +172,7 @@ export const FormSubirProducto = () => {
             </div>
           </div>
           <div className="formSubirProducto u-margin-top-small">
-            <label align="right" htmlFor="formSubirProdImagen" className="paragraph--sm paragraph--bold formSubirProducto__label">Foto o imagen</label>
+            <label align="right" htmlFor="formSubirProdImagen" className="paragraph--smResp paragraph--bold formSubirProducto__label">Foto o imagen</label>
             <div className="formSubirProducto__inputBox">
               <input
                 id="formSubirProdImagen"

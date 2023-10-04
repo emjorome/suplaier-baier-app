@@ -171,7 +171,7 @@ export const OfertaDetalleProv = () => {
             
             {/* antes de unirse, verificar que haya vinculado el método de pago */}
             { estadoOferta?.Descripcion === "En curso" && 
-            <div className="oferta-detalle__btnBox">
+            <div className="oferta-detalle__btnBoxResp">
               <button
                 disabled={!llegaMinimo}
                 className={llegaMinimo ? "btn btn--blue" : "btn btn--grey"}

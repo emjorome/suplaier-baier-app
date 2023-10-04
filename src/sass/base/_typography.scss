@@ -29,6 +29,13 @@ body {
     font-size: $default-font-size-sm;
   }
 
+  &--smResp{
+    font-size: $default-font-size-sm;
+    @media (max-width: 768px) {
+      font-size: 1.1rem
+    }
+  }
+
   &--primary {
     color: $color-primary;
   }
