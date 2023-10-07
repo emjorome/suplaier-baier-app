@@ -1,22 +1,24 @@
-import { useContext } from "react";
+import { useContext} from "react";
 import { Route, Routes } from "react-router-dom";
 import { AdmRoutes } from "../administradores";
-import { AuthContext, LoginPage, SignupComprador, SignupPage, SignupProveedor, TerminosPage } from "../auth";
+import { AuthContext, LoginPage, SignupComprador, SignupPage, SignupProveedor, TerminosPage, ExpirationPage } from "../auth";
 import { CompRoutes } from "../compradores";
 import { ProvRoutes } from "../proveedores";
 import { PrivateRoute } from "./PrivateRoute";
 import { PublicRoute } from "./PublicRoute";
 
+
 export const AppRouter = () => {
 
   const {authState} = useContext(AuthContext);
+
 
   const getRoutesByTypeOfUser = (tipo) => {
     switch (tipo) {
       case "comprador":
         return <CompRoutes/>;
-      case "proveedor":
-        return <ProvRoutes/>;
+      case "proveedor":    
+          return <ProvRoutes/>;
       default:
         return <AdmRoutes/>;
     }
@@ -48,6 +50,11 @@ export const AppRouter = () => {
         <Route path="/terminos_y_condiciones" element={
           <PublicRoute>
             <TerminosPage/>
+          </PublicRoute>
+        }/>
+                <Route path="/sesion_expirada" element={
+          <PublicRoute>
+            <ExpirationPage/>
           </PublicRoute>
         }/>
         <Route path="/*" element={

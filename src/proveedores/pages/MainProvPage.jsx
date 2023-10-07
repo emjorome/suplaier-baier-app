@@ -6,12 +6,18 @@ import { apiUrl } from "../../apiUrl";
 import { ContMenu } from "../../components/cont_menu/ContMenu";
 
 export const MainProvPage = () => {
-
+  
+  let sessionTimer;
   const {authState} = useContext(AuthContext);
   const {user} = authState;
+  
 
   const [ofertasProv, setOfertasProv] = useState([]);
   const [opcionSeleccionada, setOpcionSeleccionada] = useState('');
+  
+
+
+
 
   const handleSeleccion = (event) => {
     const opcionSeleccionada = event.target.value;
@@ -71,6 +77,8 @@ export const MainProvPage = () => {
 
     // eslint-disable-next-line
   }, [authState])
+
+  
   
 
   const showEmptyArray = ofertasProv.length === 0;
@@ -128,4 +136,5 @@ export const MainProvPage = () => {
       </div>
     </div>
   )
+
 }

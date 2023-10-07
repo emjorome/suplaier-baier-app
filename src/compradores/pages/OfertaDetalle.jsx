@@ -155,6 +155,12 @@ export const OfertaDetalle = () => {
                 <p className="paragraph"><b>Precio unitario:</b> {"$" + oferta?.ValorUProducto}</p>
               </div>
             </div>
+            {
+              oferta?.ValorUInstantaneo>0 &&
+            <div className="oferta-detalle__productoBox u-margin-top-small">
+              <p className="paragraph"><b>Precio de compra instantánea:</b> {"$" + oferta?.ValorUInstantaneo}</p>
+            </div>
+}
             <div className="oferta-detalle__productoBox__twoColumn">
               <div className="oferta-detalle__productoBox u-margin-top-small">
                 <p className="paragraph">Unidades restantes:&nbsp;
