@@ -169,8 +169,9 @@ export const OfertaCard = ({oferta, esProveedor = false}) => {
               datosProd?.costoInst<=0 &&
             <p className="paragraph u-padding-right-mediumresp">Precio instantáneo: -- </p>
             }  
+            
           </div>
-
+          
         </div>
 
       </div>

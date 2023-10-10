@@ -5,8 +5,9 @@ import { AuthContext } from "../../auth";
 import { ContExplorar, ContFavoritos, EtiquetaOferta, ProgressBar, ValoracionStar } from "../../components"
 import { ContMenu } from "../../components/cont_menu/ContMenu";
 import { ContOfertasSimilares } from "../../components/cont_ofertasSimilares/ContOfertasSimilares";
-import { CompraAnticipada, CompraProductos, CompraReserva, ErrorPago, ListaOrdenComp, MetodoPago, PagoExito } from "../components";
-
+import { CompraAnticipada,  CompraProductos, CompraReserva, ErrorPago, ListaOrdenComp, MetodoPago, PagoExito } from "../components";
+import { CompraInstantanea } from "../components/CompraInstantanea";
+import {InstantaneaExitosa} from "../components/InstantaneaExitosa";
 export const OfertaDetalle = () => {
 
   const {ofertaId:idOferta} = useParams();
@@ -22,13 +23,15 @@ export const OfertaDetalle = () => {
   const [costoTotal, setCostoTotal] = useState(0.00);
   const [unidadesPetUsuario, setUnidadesPetUsuario] = useState(0);
 
-  const [showCompraProductos, setShowCompraProductos] = useState(false);
+  const [showCompraProductos,  setShowCompraProductos] = useState(false);
+  const [showCompraInstantanea, setShowCompraInstantanea] = useState(false);
   const [showMetodoPago, setShowMetodoPago] = useState(false);
   const [showPagoReserva, setShowPagoReserva] = useState(false);
   const [showPagoAnticipado, setShowPagoAnticipado] = useState(false);
   const [showPagoExito, setShowPagoExito] = useState(false);
   const [showErrorPago, setShowErrorPago] = useState(false);
   const [tipoPago, setTipoPago] = useState("");
+  const [showInstantaneaExitosa, setShowInstantaneaExitosa] = useState(false);
 
   const getOferta = async() => {
     const resp = await fetch(`${apiUrl}/ofertas?id=${idOferta}`);
@@ -103,6 +106,16 @@ export const OfertaDetalle = () => {
         console.warn("No puede unirse, la oferta ya ha sido cerrada.")
       } else {
         setShowCompraProductos(true);
+      }
+    })
+  }
+
+  const handleClickInst = () => {
+    getOfertaActualizada().then(res => {
+      if (res !== 1){
+        console.warn("No puede unirse, la oferta ya ha sido cerrada.")
+      } else {
+        setShowCompraInstantanea(true);
       }
     })
   }
@@ -209,6 +222,9 @@ export const OfertaDetalle = () => {
                 onClick={handleClickUnirse}>
                 Unirse
               </button>
+              <button class="btn btn--green"  disabled={oferta.ValorUInstantaneo==0} onClick={handleClickInst}>
+              Pagar ahora
+            </button>
             </div>
             }
             { yaSeHaUnido &&
@@ -219,6 +235,17 @@ export const OfertaDetalle = () => {
               <CompraProductos 
                 setShowCompraProductos={setShowCompraProductos}
                 setShowMetodoPago={setShowMetodoPago}
+                oferta={oferta}
+                producto={producto}
+                costoTotal={costoTotal}
+                setCostoTotal={setCostoTotal}
+                setUnidadesPetUsuario={setUnidadesPetUsuario}
+              />
+            }
+            {showCompraInstantanea && 
+              <CompraInstantanea 
+                setShowCompraInstantanea={setShowCompraInstantanea}
+                setShowInstantaneaExitosa={setShowInstantaneaExitosa}
                 oferta={oferta}
                 producto={producto}
                 costoTotal={costoTotal}
@@ -259,6 +286,11 @@ export const OfertaDetalle = () => {
               <PagoExito
                 tipoPago={tipoPago}
                 setShowPagoExito={setShowPagoExito}
+              />
+            }
+            {showInstantaneaExitosa &&
+              <InstantaneaExitosa
+                setShowInstantaneaExitosa={setShowInstantaneaExitosa}
               />
             }
             {
