@@ -12,3 +12,5 @@ export * from "./OrdCompPage";
 export * from "./OrdConfPage";
 export * from "./OrdFinPage";
 export * from "./MiPerfil";
+export * from "./SubirProductoComp"
+export * from "./CrearDemanda"

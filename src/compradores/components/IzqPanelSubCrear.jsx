@@ -2,12 +2,12 @@ import { useNavigate } from "react-router-dom";
 
 export const IzqPanelSubCrear = ({
   esSubirProducto = false,
-  esCrearOferta = false,
+  esCrearDemanda = false,
 }) => {
   const navigate = useNavigate();
 
   const onClickCancelar = () => {
-    navigate(`/proveedor`);
+    navigate(`/comprador`);
   };
 
   return (
@@ -19,9 +19,9 @@ export const IzqPanelSubCrear = ({
             <b>Subir producto</b>
           </p>
         )}
-        {esCrearOferta && (
+        {esCrearDemanda && (
           <p className="paragraph--mid--2">
-            <b>Crear oferta</b>
+            <b>Crear demanda</b>
           </p>
         )}
       </div>
@@ -31,7 +31,7 @@ export const IzqPanelSubCrear = ({
         {esSubirProducto && (
           <p className="paragraph paragraph--grey">Datos del producto</p>
         )}
-        {esCrearOferta && <p className="paragraph paragraph--grey">Oferta</p>}
+        {esCrearDemanda && <p className="paragraph paragraph--grey">Demanda</p>}
       </div>
       <div className="izqPanelSubCrear__btnBox u-margin-top-huge u-margin-bottom-small">
         <button className="btn btn--red" onClick={onClickCancelar}>
