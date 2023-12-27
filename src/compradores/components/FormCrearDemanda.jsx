@@ -52,6 +52,11 @@ export const FormCrearDemanda = () => {
   const [esPrecioMinValido, setEsPrecioMinValido] = useState(false);
   const [esFechaValida, setEsFechaValida] = useState(false);
 
+  const [razonPrecioMinInvalido, setRazonPrecioMinInvalido] = useState("");
+  const [razonPrecioMaxInvalido, setRazonPrecioMaxInvalido] = useState("");
+  const [razonUnidadesMinInvalido, setRazonUnidadesMinInvalido] = useState("");
+  const [razonUnidadesMaxInvalido, setRazonUnidadesMaxInvalido] = useState("");
+
   const checkFechaLimiteisValid = async () => {
     const resp = await fetch(`${apiUrl}/obtenerahora`);
     const data = await resp.json();
@@ -78,16 +83,15 @@ export const FormCrearDemanda = () => {
     const horaResultFinal = `${fechaLocaly2}${horaResult}`;
     const fechaLimiteFinal = `${fechaLimite}:00`;
     setEsFechaValida(horaResultFinal < fechaLimiteFinal);
+    return horaResultFinal < fechaLimiteFinal;
   };
 
   const validarTodosCampos = () => {
     return new Promise((resolve, reject) => {
-      checkFechaLimiteisValid();
-
       const productoValido =
         idProducto !== "Seleccionar producto" && idProducto !== -1;
       const regexDescripcion =
-        /^([a-zA-Z0-9 _-àáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ,.]){3,500}$/;
+        /^([a-zA-Z0-9 _-àáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ,.]){5,480}$/;
       const regexPrecioMinMax = /^((.\d+)|(\d+(.\d+)?))$/;
       const regexUnidadesMinMax = /^[1-9]([0-9]+)?$/;
 
@@ -103,6 +107,7 @@ export const FormCrearDemanda = () => {
       ) {
         resolve(true);
       } else {
+        setRazonPrecioMinInvalido("Precio mínimo no válido");
         setEsProductoValido(productoValido);
         setEsPrecioMaxValido(regexPrecioMinMax.test(precioMaximo));
         setEsPrecioMinValido(regexPrecioMinMax.test(precioMinimo));
@@ -114,11 +119,80 @@ export const FormCrearDemanda = () => {
       }
     });
   };
+  const validarRestoCondiciones = () => {
+    let crearDemanda = true;
+    const precioMinimoInt = parseInt(precioMinimo);
+    const precioMaximoInt = parseInt(precioMaximo);
+    const cantMinInt = parseInt(cantMin);
+    const cantMaxInt = parseInt(cantMax);
+    if (precioMinimoInt > precioMaximoInt) {
+      crearDemanda = false;
+      setRazonPrecioMinInvalido(
+        "El precio mínimo debe ser menor o igual al precio máximo"
+      );
+      setRazonPrecioMaxInvalido(
+        "El precio máximo debe ser mayor o igual al precio mínimo"
+      );
+      setEsPrecioMinValido(false);
+      setEsPrecioMaxValido(false);
+    } else if (precioMinimoInt <= 0 || precioMinimoInt > 8000) {
+      crearDemanda = false;
+      setRazonPrecioMinInvalido(
+        "El precio mínimo debe ser mayor a 0 y menor o igual a 8000"
+      );
+      setEsPrecioMinValido(false);
+    }
+    if (precioMaximoInt <= 0 || precioMaximoInt > 8000) {
+      crearDemanda = false;
+      setRazonPrecioMaxInvalido(
+        "El precio máximo debe ser mayor a 0 y menor o igual a 8000"
+      );
+      setEsPrecioMaxValido(false);
+    }
 
+    if (parseInt(cantMinInt) > parseInt(cantMaxInt)) {
+      setRazonUnidadesMinInvalido(
+        "Las unidades mínimas deben ser menor o igual a  las unidades máximas"
+      );
+      setRazonUnidadesMaxInvalido(
+        "Las unidades máximas deben ser mayor o igual a  las unidades mínimas"
+      );
+      setEsUnidadesMinValido(false);
+      setEsUnidadesMaxValido(false);
+      crearDemanda = false;
+    } else if (cantMinInt <= 0 || cantMinInt > 10000) {
+      setRazonUnidadesMinInvalido(
+        "Las unidades mínimas deben ser mayor a 0 y menor o igual a 10000"
+      );
+      setEsUnidadesMinValido(false);
+      crearDemanda = false;
+    }
+    if (cantMaxInt <= 0 || cantMaxInt > 10000) {
+      setRazonUnidadesMaxInvalido(
+        "Las unidades totales deben ser mayor a 0 y menor o igual a 10000"
+      );
+      setEsUnidadesMaxValido(false);
+      crearDemanda = false;
+    }
+    if (crearDemanda === true) {
+      setEsPrecioMaxValido(true);
+      setEsPrecioMinValido(true);
+      setEsUnidadesMinValido(true);
+      setEsUnidadesMaxValido(true);
+      setShowResumenDemanda(true);
+    }
+  };
+  const validarCondicionesCampos = async () => {
+    checkFechaLimiteisValid().then((v) => {
+      if (v === true) {
+        validarRestoCondiciones();
+      }
+    });
+  };
   const onContinuarCrearDemanda = async (e) => {
     e.preventDefault();
     await validarTodosCampos()
-      .then((res) => setShowResumenDemanda(true))
+      .then((res) => validarCondicionesCampos())
       .catch((res) => console.warn(res));
   };
 
@@ -193,19 +267,19 @@ export const FormCrearDemanda = () => {
   return (
     <form onSubmit={onContinuarCrearDemanda}>
       <div className="compraProducto__box">
-        <div className="formSubirProducto u-margin-top-small">
+        <div className="formSubirDemanda u-margin-top-small">
           <label
             htmlFor="formOfertaNombreProd"
             align="right"
-            className="paragraph--smResp formRegistrarComp__label"
+            className="paragraph--smResp formSubirDemanda__label"
           >
             <b>Producto</b>
           </label>
-          <div className="formRegistrarComp__boxError">
+          <div className="formSubirDemanda__inputBox u-margin-top-small">
             <select
               id="formOfertaNombreProd"
               name="idProducto"
-              className="formRegistrarComp__input paragraph"
+              className="formSubirDemanda__inputBox__input paragraph"
               onChange={onInputChange}
             >
               <option defaultValue={"none"}>Seleccionar producto</option>
@@ -216,7 +290,7 @@ export const FormCrearDemanda = () => {
               ))}
             </select>
             {!esProductoValido && (
-              <p className="paragraph--red u-padding-left-small">
+              <p className="formSubirDemanda__inputBox__conditionError paragraph--red u-padding-left-small">
                 Por favor seleccione un producto
               </p>
             )}
@@ -241,55 +315,59 @@ export const FormCrearDemanda = () => {
             </div>
           </div>
         )}
-        <div className="formSubirProducto u-margin-top-small">
+        <div className="formSubirDemanda u-margin-top-small">
           <label
             htmlFor="formOfertaNombreProd"
             align="right"
-            className="paragraph--smResp paragraph--bold formSubirProducto__label"
+            className="paragraph--smResp paragraph--bold formSubirDemanda__label"
           >
             <b>Precio mínimo</b>
           </label>
-          <input
-            type="number"
-            placeholder="Precio mínimo para los productos de la demanda"
-            className="formSubirProducto__inputBox__input paragraph paragraph--grey--2"
-            name="precioMinimo"
-            autoComplete="off"
-            value={precioMinimo}
-            onChange={onInputChange}
-            min={1}
-            required
-          />
-          {!esPrecioMinValido && (
-            <p className="paragraph--red u-padding-left-small">
-              Precio mínimo no válido
-            </p>
-          )}
+          <div className="formSubirDemanda__inputBox u-margin-top-small">
+            <input
+              type="number"
+              placeholder="Precio mínimo para los productos de la demanda"
+              className="formSubirDemanda__inputBox__input paragraph paragraph--grey--2"
+              name="precioMinimo"
+              autoComplete="off"
+              value={precioMinimo}
+              onChange={onInputChange}
+              min={0}
+              required
+            />
+            {!esPrecioMinValido && (
+              <p className="formSubirProducto__inputBox__conditionError paragraph--red u-padding-left-small">
+                {razonPrecioMinInvalido}
+              </p>
+            )}
+          </div>
         </div>
-        <div className="formSubirProducto u-margin-top-small">
+        <div className="formSubirDemanda u-margin-top-small">
           <label
             htmlFor="formOfertaNombreProd"
             align="right"
-            className="paragraph--smResp paragraph--bold formSubirProducto__label"
+            className="paragraph--smResp paragraph--bold formSubirDemanda__label"
           >
             <b>Precio máximo</b>
           </label>
-          <input
-            type="number"
-            placeholder="Precio máximo para los productos de la demanda"
-            className="formSubirProducto__inputBox__input paragraph paragraph--grey--2"
-            name="precioMaximo"
-            autoComplete="off"
-            value={precioMaximo}
-            onChange={onInputChange}
-            min={1}
-            required
-          />
-          {!esPrecioMaxValido && (
-            <p className="paragraph--red u-padding-left-small">
-              Precio máximo no válido
-            </p>
-          )}
+          <div className="formSubirDemanda__inputBox u-margin-top-small">
+            <input
+              type="number"
+              placeholder="Precio máximo para los productos de la demanda"
+              className="formSubirDemanda__inputBox__input paragraph paragraph--grey--2"
+              name="precioMaximo"
+              autoComplete="off"
+              value={precioMaximo}
+              onChange={onInputChange}
+              min={1}
+              required
+            />
+            {!esPrecioMaxValido && (
+              <p className="formSubirDemanda__inputBox__conditionError paragraph--red u-padding-left-small">
+                {razonPrecioMaxInvalido}
+              </p>
+            )}
+          </div>
         </div>
         <div className="formSubirProducto u-margin-top-small">
           <label
@@ -299,94 +377,104 @@ export const FormCrearDemanda = () => {
           >
             <b>Descripción</b>
           </label>
-          <textarea
-            type="text"
-            placeholder="Descripción de la demanda"
-            className="formSubirProducto__inputBox__textArea paragraph"
-            name="descripcion"
-            autoComplete="off"
-            value={descripcion}
-            onChange={onInputChange}
-            required
-          />
-          {!esDescDemandaValido && (
-            <p className="paragraph--red u-padding-left-small">
-              Descripción no válida
-            </p>
-          )}
+          <div className="formSubirProducto__inputBox u-margin-top-small">
+            <textarea
+              type="text"
+              placeholder="Descripción de la demanda"
+              className="formSubirDemanda__inputBox__textArea paragraph"
+              name="descripcion"
+              autoComplete="off"
+              value={descripcion}
+              onChange={onInputChange}
+              required
+            />
+            {!esDescDemandaValido && (
+              <p className="formSubirDemanda__inputBox__conditionError paragraph--red u-padding-left-small">
+                Descripción no válida, no caracteres especiales diferentes a
+                ,._- mínimo 5 y máximo 480 caracteres
+              </p>
+            )}
+          </div>
         </div>
-        <div className="formSubirProducto u-margin-top-small">
+        <div className="formSubirDemanda u-margin-top-small">
           <label
             htmlFor="formOfertaNombreProd"
             align="right"
-            className="paragraph--smResp paragraph--bold formSubirProducto__label"
+            className="paragraph--smResp paragraph--bold formSubirDemanda__label"
           >
             <b>Cantidad mínima</b>
           </label>
-          <input
-            type="number"
-            placeholder="Unidades mínimas para cerrar la demanda"
-            className="formSubirProducto__inputBox__input paragraph paragraph--grey--2"
-            name="cantMin"
-            autoComplete="off"
-            value={cantMin}
-            onChange={onInputChange}
-            min={1}
-            required
-          />
-          {!esUnidadesMinValido && (
-            <p className="paragraph--red u-padding-left-small">
-              Cantidad de unidades mínima no válida
-            </p>
-          )}
+          <div className="formSubirDemanda__inputBox u-margin-top-small">
+            <input
+              type="number"
+              placeholder="Unidades mínimas para cerrar la demanda"
+              className="formSubirDemanda__inputBox__input paragraph paragraph--grey--2"
+              name="cantMin"
+              autoComplete="off"
+              value={cantMin}
+              onChange={onInputChange}
+              min={1}
+              required
+            />
+            {!esUnidadesMinValido && (
+              <p className="formSubirDemanda__inputBox__conditionError paragraph--red u-padding-left-small">
+                {razonUnidadesMinInvalido}
+              </p>
+            )}
+          </div>
         </div>
-        <div className="formSubirProducto u-margin-top-small">
+        <div className="formSubirDemanda u-margin-top-small">
           <label
             htmlFor="formOfertaNombreProd"
             align="right"
-            className="paragraph--smResp paragraph--bold formSubirProducto__label"
+            className="paragraph--smResp paragraph--bold formSubirDemanda__label"
           >
             <b>Cantidad máxima</b>
           </label>
-          <input
-            type="number"
-            placeholder="Unidades en total a demandar"
-            className="formSubirProducto__inputBox__input paragraph paragraph--grey--2"
-            name="cantMax"
-            autoComplete="off"
-            value={cantMax}
-            onChange={onInputChange}
-            min={1}
-            required
-          />
-          {!esUnidadesMaxValido && (
-            <p className="paragraph--red u-padding-left-small">
-              Cantidad de unidades en total no válida
-            </p>
-          )}
+          <div className="formSubirDemanda__inputBox u-margin-top-small">
+            <input
+              type="number"
+              placeholder="Unidades en total a demandar"
+              className="formSubirDemanda__inputBox__input paragraph paragraph--grey--2"
+              name="cantMax"
+              autoComplete="off"
+              value={cantMax}
+              onChange={onInputChange}
+              min={1}
+              required
+            />
+            {!esUnidadesMaxValido && (
+              <p className="formSubirDemanda__inputBox__conditionError paragraph--red u-padding-left-small">
+                {razonUnidadesMaxInvalido}
+              </p>
+            )}
+          </div>
         </div>
-        <div className="formSubirProducto u-margin-top-small">
+        <div className="formSubirDemanda u-margin-top-small">
           <label
             htmlFor="formOfertaNombreProd"
             align="right"
-            className="paragraph--smResp paragraph--bold formSubirProducto__label"
+            className="paragraph--smResp paragraph--bold formSubirDemanda__label"
           >
             <b>Fecha límite</b>
           </label>
-          <input
-            type="date"
-            className="paragraph paragraph--grey--2"
-            name="fechaLimite"
-            autoComplete="off"
-            value={fechaLimite}
-            onChange={onInputChange}
-            required
-          />
-          {!esFechaValida && (
-            <p className="paragraph--red u-padding-left-small">
-              Fecha no válida
-            </p>
-          )}
+          <div className="formSubirDemanda__inputBox u-margin-top-small">
+            <input
+              type="date"
+              className="paragraph paragraph--grey--2"
+              name="fechaLimite"
+              autoComplete="off"
+              value={fechaLimite}
+              onChange={onInputChange}
+              required
+            />
+            {!esFechaValida && (
+              <p className="formSubirDemanda__inputBox__conditionError paragraph--red u-padding-left-small">
+                Fecha no válida, la fecha límite debe ser mayor a la fecha
+                actual
+              </p>
+            )}
+          </div>
         </div>
       </div>
 

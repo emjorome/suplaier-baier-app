@@ -9,6 +9,11 @@
     width: 90%;
     height: 100%;
   }
+  &__boxErrorVertical {
+    width: 90%;
+    height: 100%;
+    flex-direction: column;
+  }
 
   &__input {
     width: 100%;

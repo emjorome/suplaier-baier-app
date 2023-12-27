@@ -1,33 +1,39 @@
 import { useEffect, useState } from "react";
 import { apiUrl } from "../../apiUrl";
-import { ContActividades, ContExplorar, ContFavoritos, OfertaCard } from "../../components"
-import { ContMenu } from "../../components/cont_menu/ContMenu"
-
+import {
+  ContActividades,
+  ContExplorar,
+  ContFavoritos,
+  OfertaCard,
+} from "../../components";
+import { ContMenu } from "../../components/cont_menu/ContMenu";
+import { ProdDemandaButtonBox } from "../components";
 export const OfePenPage = () => {
-
   const [ofertasTodos, setOfertasTodos] = useState([]);
 
-  const getOfertasTodos = async() => {
+  const getOfertasTodos = async () => {
     //ofertas finalizadas
     const resp = await fetch(`${apiUrl}/ofertas?idEstadosOferta=${11}`);
     const data = await resp.json();
-    const {rows: ofertas} = !!data && data;
+    const { rows: ofertas } = !!data && data;
     setOfertasTodos(ofertas);
-  }
+  };
 
   useEffect(() => {
     getOfertasTodos();
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   const showEmptyArray = ofertasTodos?.length === 0;
 
   return (
     <div className="comp-main-container u-margin-top-navbar">
       <div className="comp-main-container__izqCont">
-        <ContMenu/>
-        <ContExplorar/>
-        <ContFavoritos/>
+        <ContMenu />
+        <ProdDemandaButtonBox />
+
+        <ContExplorar />
+        <ContFavoritos />
       </div>
       <div className="comp-main-container__divSepIzq"></div>
       <div className="comp-main-container__medCont">
@@ -36,24 +42,26 @@ export const OfePenPage = () => {
             <span className="material-symbols-rounded icon-grey icon--sm">
               arrow_forward_ios
             </span>
-            <p className="paragraph--mid"><b>Ofertas Pendientes</b></p>
+            <p className="paragraph--mid">
+              <b>Ofertas Pendientes</b>
+            </p>
           </div>
-          <hr className="hrGeneral"/>
-          {showEmptyArray
-          ? <p className="paragraph">Por el momento no hay ofertas pendientes.</p>
-          :
-          ofertasTodos?.map(oferta => (
-            <OfertaCard 
-              key={oferta.IdOferta}
-              oferta={oferta}
-            />
-          ))}
+          <hr className="hrGeneral" />
+          {showEmptyArray ? (
+            <p className="paragraph">
+              Por el momento no hay ofertas pendientes.
+            </p>
+          ) : (
+            ofertasTodos?.map((oferta) => (
+              <OfertaCard key={oferta.IdOferta} oferta={oferta} />
+            ))
+          )}
         </div>
       </div>
       <div className="comp-main-container__divSepDer"></div>
       <div className="comp-main-container__derCont">
-        <ContActividades/>
+        <ContActividades />
       </div>
     </div>
-  )
-}
+  );
+};

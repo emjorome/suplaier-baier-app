@@ -48,6 +48,16 @@
     }
   }
 
+  &--lightPurple {
+    background-color: $color-primary-light;
+    color: $color-white;
+
+    &::after {
+      background-color: $color-primary-light;
+      
+    }
+  }
+
   &--green {
     background-color: $color-green;
     color: $color-white;

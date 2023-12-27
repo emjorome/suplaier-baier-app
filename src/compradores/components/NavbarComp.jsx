@@ -7,42 +7,39 @@ import { Notificaciones } from "../../components/notificaciones/Notificaciones";
 //import { apiUrl } from "../../apiUrl";
 
 export const NavbarComp = () => {
-
   const nagivate = useNavigate();
 
   const [showPerfilTooltip, setShowPerfilTooltip] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   // eslint-disable-next-line
-  const [notificacion, setNotificacion] = useState({title: "", message: ""})
+  const [notificacion, setNotificacion] = useState({ title: "", message: "" });
   const [usuariosIdNotif, setUsuariosIdNotif] = useState();
 
-  console.log(notificacion)
+  console.log(notificacion);
 
   onMessageListener()
-  .then((payload) => {
-    setShowNotification(true);
-    setUsuariosIdNotif(payload.data)
-  })
-  .catch((error) => console.log(error))
+    .then((payload) => {
+      setShowNotification(true);
+      setUsuariosIdNotif(payload.data);
+    })
+    .catch((error) => console.log(error));
 
-  const insertNotifications = async() => {
+  const insertNotifications = async () => {
     // const {usuariosId, tipoNotificacion} = usuariosIdNotif;
     // usuariosId.forEach(element => {
-      
     // });
     // const body = {
     //   IdProducto: parseInt(ofertaData.idProducto),
     //   IdProveedor: user.IdUsuario,
-    //   IdEstadosOferta: ofertaData.idEstadoOferta, 
-    //   Minimo: parseInt(ofertaData.cantMin), 
-    //   Maximo: parseInt(ofertaData.cantMax), 
-    //   Descripcion: ofertaData.descripcion, 
-    //   ActualProductos: 0, 
-    //   FechaLimite: ofertaData.fechaLimite, 
-    //   Estado: ofertaData.estado, 
+    //   IdEstadosOferta: ofertaData.idEstadoOferta,
+    //   Minimo: parseInt(ofertaData.cantMin),
+    //   Maximo: parseInt(ofertaData.cantMax),
+    //   Descripcion: ofertaData.descripcion,
+    //   ActualProductos: 0,
+    //   FechaLimite: ofertaData.fechaLimite,
+    //   Estado: ofertaData.estado,
     //   ValorUProducto: ofertaData.costoUnitario
     // }
-
     // const resp = await fetch(`${apiUrl}/notificaciones`, {
     //   method: 'POST',
     //   headers: {
@@ -52,59 +49,60 @@ export const NavbarComp = () => {
     // });
     // const data = await resp.json()
     // console.log(data);
-  }
+  };
 
   useEffect(() => {
     !!usuariosIdNotif && insertNotifications();
     // eslint-disable-next-line
-  }, [usuariosIdNotif])
-  
+  }, [usuariosIdNotif]);
 
   const onClickOfertas = () => {
     nagivate("/historial_ofertas");
-  }
+  };
 
   const onClickAlertas = () => {
     nagivate("/notificaciones");
-  }
+  };
 
   const onShowReportarTooltip = () => {
     setShowPerfilTooltip(true);
-  }
+  };
 
   const onClickOutside = () => {
     setShowPerfilTooltip(false);
-  }
+  };
 
   return (
     <div className="navigation">
       <div className="navigation__icon">
         <Link to={"/comprador"} className="navigation__icon__imgBox">
-          <img src="suplaier_horizontal celeste.png" alt="logo_suplaier" className="navigation__icon__imgBox__img" />
+          <img
+            src="suplaier_horizontal celeste.png"
+            alt="logo_suplaier"
+            className="navigation__icon__imgBox__img"
+          />
         </Link>
       </div>
       <div className="navigation__search">
-        <Buscador/>
+        <Buscador />
       </div>
       <div className="navigation__leftButtons">
         <div className="navigation__leftButtons__box">
-          <div 
-            className="navigation__leftButtons__box__ind" 
+          <div
+            className="navigation__leftButtons__box__ind"
             onClick={onClickAlertas}
           >
             <span className="material-symbols-rounded icon--bg">
               notifications
             </span>
-            {
-              showNotification && <div className="notificacionDot">1</div>
-            }
+            {showNotification && <div className="notificacionDot">1</div>}
             <p className="paragraph--sm">Alertas</p>
-            <Notificaciones/>
-      {/* {
+            <Notificaciones />
+            {/* {
         showNotification && <Notificacion title={notificacion.title} body={notificacion.body} />
       } */}
           </div>
-          <div 
+          <div
             className="navigation__leftButtons__box__indRespHidden"
             onClick={onClickOfertas}
           >
@@ -113,22 +111,27 @@ export const NavbarComp = () => {
             </span>
             <p className="paragraph--sm">Ofertas</p>
           </div>
-          <div 
+          <div
+            className="navigation__leftButtons__box__indRespHidden"
+            onClick={onClickOfertas}
+          >
+            <span className="material-symbols-rounded icon--bg">
+              shopping_cart
+            </span>
+            <p className="paragraph--sm">Demandas</p>
+          </div>
+          <div
             className="navigation__leftButtons__box__ind"
             onClick={onShowReportarTooltip}
           >
-            <span className="material-symbols-rounded icon--bg">
-              person
-            </span>
+            <span className="material-symbols-rounded icon--bg">person</span>
             <p className="paragraph--sm">Cuenta</p>
-            {showPerfilTooltip &&
-              <PerfilTooltip
-                onClickOutside={onClickOutside}
-              />
-            }
+            {showPerfilTooltip && (
+              <PerfilTooltip onClickOutside={onClickOutside} />
+            )}
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
