@@ -91,8 +91,8 @@ export const FormCrearDemanda = () => {
       const productoValido =
         idProducto !== "Seleccionar producto" && idProducto !== -1;
       const regexDescripcion =
-        /^([a-zA-Z0-9 _-àáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ,.]){5,480}$/;
-      const regexPrecioMinMax = /^((.\d+)|(\d+(.\d+)?))$/;
+        /^([a-zA-Z0-9 _-àáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ,.]){20,480}$/;
+      const regexPrecioMinMax = /^\d+(\.[0-9]{2})?$/;
       const regexUnidadesMinMax = /^[1-9]([0-9]+)?$/;
 
       if (
@@ -391,7 +391,7 @@ export const FormCrearDemanda = () => {
             {!esDescDemandaValido && (
               <p className="formSubirDemanda__inputBox__conditionError paragraph--red u-padding-left-small">
                 Descripción no válida, no caracteres especiales diferentes a
-                ,._- mínimo 5 y máximo 480 caracteres
+                ,._- mínimo 20 y máximo 480 caracteres
               </p>
             )}
           </div>

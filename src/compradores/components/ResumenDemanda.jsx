@@ -21,6 +21,7 @@ export const ResumenDemanda = ({
   };
 
   const uploadDemanda = async () => {
+    console.log(demandaData.fechaLimite);
     //IdProducto, IdProveedor, IdEstadosOferta, Minimo, Maximo, Descripcion, ActualProductos, FechaLimite, Estado, ValorUProducto
     const body = {
       IdProducto: parseInt(demandaData.idProducto),

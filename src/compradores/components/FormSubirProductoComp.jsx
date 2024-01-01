@@ -90,7 +90,7 @@ export const FormSubirProductoComp = () => {
   const validarTodosCampos = () => {
     return new Promise((resolve, reject) => {
       const regexNombreProducto =
-        /^([a-zA-Z0-9 _-àáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ]){3,80}$/;
+        /^([a-zA-Z0-9 _-àáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ]){3,60}$/;
       const regexDescripcion =
         /^([a-zA-Z0-9 _-àáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ,.]){5,480}$/;
 
@@ -142,7 +142,7 @@ export const FormSubirProductoComp = () => {
             {!esNombreProductoValido && (
               <p className="paragraph--red u-padding-left-small">
                 Nombre de producto no válido, no caracteres especiales excepto
-                -_ mínimo 3 máximo 80 caracteres
+                -_ mínimo 3 máximo 60 caracteres
               </p>
             )}
           </div>
