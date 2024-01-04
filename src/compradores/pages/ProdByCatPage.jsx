@@ -55,7 +55,6 @@ export const ProdByCatPage = () => {
       <div className="comp-main-container__izqCont">
         <ContMenu />
         <ProdDemandaButtonBox />
-
         <ContExplorar />
         <ContFavoritos />
       </div>

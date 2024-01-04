@@ -1,9 +1,10 @@
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 import { ContActividades, ContExplorar, OfertaCard, ContFavoritos } from "../../components"
-import { GetCategoriaById, getOfertaByCategoriaProducto } from "../../helpers/getOfertaById";
-import { useContext } from "react";
-import { AuthContext } from "../../auth";
+///import { GetCategoriaById, getOfertaByCategoriaProducto } from "../../helpers/getOfertaById";
+//import { useContext } from "react";
+//import { AuthContext } from "../../auth";
+import { apiUrl } from "../../apiUrl";
 import { ProdOfertaButtonBox } from "../components";
 import { useEffect, useState } from "react";
 import { ContMenu } from "../../components/cont_menu/ContMenu";
@@ -11,32 +12,43 @@ import { ContMenu } from "../../components/cont_menu/ContMenu";
 export const ProdByCatPageProv = () => {
 
   const location = useLocation();
-
-  const {authState} = useContext(AuthContext);
-  const {user} = authState;
-
-  const {q = ""} = queryString.parse(location.search);
-  const [nombreCategoria, setNombreCategoria] = useState("");
-  const [ofertasProv, setOfertasProv] = useState([]);
+  const [q, setQ] = useState("");
 
   useEffect(() => {
-    const fetchCategoria = async () => {
-      const nombre = await GetCategoriaById(q);
-      setNombreCategoria(nombre);
-    };
+    setQ(queryString.parse(location.search).q);
+  }, [location]);
 
-    if (q) {
-      fetchCategoria();
-    }
+  const [categoria, setCategoria] = useState();
+
+  const getCategoria = async () => {
+    const resp = await fetch(`${apiUrl}/catProductos?id=${q}`);
+    const data = await resp.json();
+    const { rows: categoria } = !!data && data;
+    setCategoria(categoria[0]);
+  };
+
+  const [ofertas, setOfertas] = useState();
+
+  const getOfertas = async () => {
+    const resp = await fetch(
+      `${apiUrl}/pubbycategoria?id=${categoria?.IdCatProducto}`
+    );
+    const data = await resp.json();
+    const { rows: ofertas } = !!data && data;
+    setOfertas(ofertas.filter((oferta) => oferta.IdEstadosOferta === 1));
+  };
+
+  useEffect(() => {
+    !!categoria && getOfertas();
+    // eslint-disable-next-line
+  }, [categoria]);
+
+  useEffect(() => {
+    !!q && getCategoria();
+    // eslint-disable-next-line
   }, [q]);
 
-  useEffect(() => {
-    const ofertas = getOfertaByCategoriaProducto(q); 
-    const ofertasFiltradas = ofertas.filter(oferta => oferta.idProveedor === user.id);
-    setOfertasProv(ofertasFiltradas);
-  }, [q, user.id]);
-
-  const showError = (q.length > 0) && ofertasProv.length === 0;
+  const showError = q.length > 0 && ofertas?.length === 0;
 
 
   return (
@@ -54,14 +66,13 @@ export const ProdByCatPageProv = () => {
           <span className="material-symbols-rounded icon-grey icon--sm">
               arrow_forward_ios
           </span>
-          <p className="paragraph--mid"><b>Productos por categoría: {nombreCategoria}</b></p>
+          <p className="paragraph--mid"><b>Productos por categoría: {categoria?.Nombre}</b></p>
           </div>
           <hr className="hrGeneral"/>
           <div className="u-margin-top-small"></div>
-          {ofertasProv.map(oferta => (
+          {ofertas?.map(oferta => (
             <OfertaCard
-              key={oferta.idOferta}
-              oferta={oferta}
+            key={oferta.IdOferta} oferta={oferta}
             />
           ))}
           <div 
