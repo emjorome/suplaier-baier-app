@@ -1,22 +1,15 @@
-import { ContListaMenuProv } from "../../proveedores/components/ContListaMenuProv"
-import { ContListaMenu } from "./ContListaMenu"
-import { ContMenuTitle } from "./ContMenuTitle"
 
+import {ContMenuOfe } from "./ContMenuOfe"
+import {ContMenuDemands} from "./ContListaDemands"
 
-export const ContMenu = ({esProveedor = false}) => {
+export const ContMenu = () => {
   
   return (
-    <div className="actividadesRec">
-    <ContMenuTitle/>
-    <hr className="hrGeneral"/>
-    {
-      !esProveedor
-      ?
-      <ContListaMenu />
-      :
-      <ContListaMenuProv />
-    }
+  <div>
+    <ContMenuOfe/>
+    <ContMenuDemands/>
     
   </div>
   )
+  
 }

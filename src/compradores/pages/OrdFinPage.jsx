@@ -31,7 +31,6 @@ export const OrdFinPage = () => {
       <div className="comp-main-container__izqCont">
         <ContMenu />
         <ProdDemandaButtonBox />
-
         <ContExplorar />
         <ContFavoritos />
       </div>

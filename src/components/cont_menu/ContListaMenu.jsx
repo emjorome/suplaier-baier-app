@@ -1,54 +1,56 @@
 import { Link } from "react-router-dom"
-
+import { ContMenuTitle } from "./ContMenuTitle"
 export const ContListaMenu = () => {
 
 
   return (
+    <div className="actividadesRec">
+    <hr className="hrGeneral"/>
+    <ContMenuTitle/>
     <div className="explorarCat__lista">
-
             <Link 
-        to={`/ofertas_pendientes`} 
-        key={1} 
-        className="explorarCat__lista__item"
-      >
-        <span className="material-symbols-rounded icon--sm">
-          autorenew
-        </span>
-          <p className="paragraph--mid--2">Ofertas pendientes</p>
-      </Link>
+              to={`/ofertas_pendientes`} 
+              key={1} 
+              className="explorarCat__lista__item"
+            >
+            <span className="material-symbols-rounded icon--sm">
+              autorenew
+            </span>
+            <p className="paragraph--mid--2">Ofertas pendientes</p>
+          </Link>
       
-      <Link 
-        to={`/ofertas_canceladas`} 
-        key={2} 
-        className="explorarCat__lista__item"
-      >
-        <span className="material-symbols-rounded icon--sm">
-          cancel
-        </span>
-          <p className="paragraph--mid--2">Ofertas canceladas</p>
-      </Link>
+          <Link 
+            to={`/ofertas_canceladas`} 
+            key={2} 
+            className="explorarCat__lista__item"
+          >
+            <span className="material-symbols-rounded icon--sm">
+              cancel
+            </span>
+              <p className="paragraph--mid--2">Ofertas canceladas</p>
+          </Link>
 
-      <Link 
-        to={`/ordenes_finalizadas`} 
-        key={5} 
-        className="explorarCat__lista__item"
-      >
-        <span className="material-symbols-rounded icon--sm">
+          <Link 
+            to={`/ordenes_finalizadas`} 
+            key={5} 
+            className="explorarCat__lista__item"
+          >
+          <span className="material-symbols-rounded icon--sm">
           check_circle
-        </span>
+          </span>
           <p className="paragraph--mid--2">Ofertas finalizadas</p>
-      </Link>
+          </Link>
 
-      <Link 
-        to={`/ordenes_compra`} 
-        key={3} 
-        className="explorarCat__lista__item"
-      >
-        <span className="material-symbols-rounded icon--sm">
-          shopping_bag
-        </span>
-          <p className="paragraph--mid--2">Órdenes de compra</p>
-      </Link>
+        <Link 
+          to={`/ordenes_compra`} 
+          key={3} 
+          className="explorarCat__lista__item"
+        >
+          <span className="material-symbols-rounded icon--sm">
+            shopping_bag
+          </span>
+            <p className="paragraph--mid--2">Órdenes de compra</p>
+        </Link>
       
       <Link 
         to={`/ordenes_por_confirmar`} 
@@ -60,10 +62,7 @@ export const ContListaMenu = () => {
         </span>
           <p className="paragraph--mid--2">Órdenes por confirmar</p>
       </Link>
-
-
-
-
+    </div>
     </div>
   )
 }

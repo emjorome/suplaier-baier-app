@@ -31,7 +31,6 @@ export const OfePenPage = () => {
       <div className="comp-main-container__izqCont">
         <ContMenu />
         <ProdDemandaButtonBox />
-
         <ContExplorar />
         <ContFavoritos />
       </div>

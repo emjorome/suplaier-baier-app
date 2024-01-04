@@ -1,30 +1,35 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../auth";
 import { apiUrl } from "../../apiUrl";
 import {
   ContActividades,
   ContExplorar,
   ContFavoritos,
-  OfertaCard,
+  DemandaCard,
 } from "../../components";
 import { ContMenu } from "../../components/cont_menu/ContMenu";
-import { ProdDemandaButtonBox } from "../components";
-export const OfeCanPage = () => {
-  const [ofertasTodos, setOfertasTodos] = useState([]);
+import { obtainUserPermission } from "../../firebase";
+import { ProdDemandaButtonBox } from "../components/ProdDemandaButtonBox";
+export const MisDemandas = () => {
+  const {authState} = useContext(AuthContext);
+  const {user} = authState;
+  const [demandasTodos, setDemandasTodos] = useState([]);
 
-  const getOfertasTodos = async () => {
-    //ofertas por devolver pago
-    const resp = await fetch(`${apiUrl}/ofertas?idEstadosOferta=${7}`);
+  const getDemandasTodos = async () => {
+    const resp = await fetch(`${apiUrl}/demandas?idComprador=${user.IdUsuario}`);
     const data = await resp.json();
-    const { rows: ofertas } = !!data && data;
-    setOfertasTodos(ofertas);
+    const { rows: demandas } = !!data && data;
+    setDemandasTodos(demandas.filter((demandas) => demandas.IdEstadosOferta === 1));
   };
 
   useEffect(() => {
-    getOfertasTodos();
+    getDemandasTodos();
     // eslint-disable-next-line
-  }, []);
+  }, [authState]);
 
-  const showEmptyArray = ofertasTodos?.length === 0;
+  obtainUserPermission();
+
+  const showEmptyArray = demandasTodos.length === 0;
 
   return (
     <div className="comp-main-container u-margin-top-navbar">
@@ -42,17 +47,20 @@ export const OfeCanPage = () => {
               arrow_forward_ios
             </span>
             <p className="paragraph--mid">
-              <b>Ofertas Canceladas</b>
+              <b>Demandas en curso</b>
             </p>
           </div>
           <hr className="hrGeneral" />
           {showEmptyArray ? (
             <p className="paragraph">
-              Por el momento no hay ofertas canceladas.
+              Aún no has creado ninguna demanda
             </p>
           ) : (
-            ofertasTodos?.map((oferta) => (
-              <OfertaCard key={oferta.IdOferta} oferta={oferta} />
+            demandasTodos?.map((demanda) => (
+              <DemandaCard
+              key={demanda?.IdDemanda}
+              demanda={demanda}
+              esComprador={true} />
             ))
           )}
         </div>

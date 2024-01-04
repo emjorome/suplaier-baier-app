@@ -14,3 +14,4 @@ export * from "./OrdFinPage";
 export * from "./MiPerfil";
 export * from "./SubirProductoComp"
 export * from "./CrearDemanda"
+export * from "./MisDemandas"

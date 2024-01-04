@@ -6,7 +6,7 @@ import {
   ContFavoritos,
   OrdenCard,
 } from "../../components";
-import { ContMenu } from "../../components/cont_menu/ContMenu";
+import { ContMenu  } from "../../components/cont_menu/ContMenu";
 import { ProdDemandaButtonBox } from "../components";
 export const OrdCompPage = () => {
   const [comprasPorConf, setComprasPorConf] = useState([]);
@@ -30,7 +30,6 @@ export const OrdCompPage = () => {
       <div className="comp-main-container__izqCont">
         <ContMenu />
         <ProdDemandaButtonBox />
-
         <ContExplorar />
         <ContFavoritos />
       </div>

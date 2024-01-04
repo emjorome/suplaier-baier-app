@@ -16,6 +16,7 @@ import {
   OrdFinPage,
   ProdByCatPage,
   SearchPage,
+  MisDemandas,
 } from "../pages";
 import { PerfilProveedor } from "../pages/PerfilProveedor";
 import { useEffect, useContext } from "react";
@@ -84,7 +85,7 @@ export const CompRoutes = () => {
           <Route path="ordenes_por_confirmar" element={<OrdConfPage />} />
           <Route path="ordenes_finalizadas" element={<OrdFinPage />} />
           <Route path="mi_perfil" element={<MiPerfil />} />
-
+          <Route path="mis_demandas" element={<MisDemandas/>}/>
           <Route path="/*" element={<Navigate to="comprador" />} />
         </Routes>
       </div>

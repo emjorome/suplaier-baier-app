@@ -5,3 +5,4 @@ export * from "./cont_explorar";
 export * from "./cont_actividades";
 export * from "./generales";
 export * from "./cont_botonPago";
+export * from "./cont_demanda"
