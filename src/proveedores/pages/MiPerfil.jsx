@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "../../auth";
-import { ContActividades } from "../../components";
+import { ContActividades, ContExplorar, ContFavoritos } from "../../components";
 import { ContMenu } from "../../components/cont_menu/ContMenu";
 import { ProdOfertaButtonBox } from "../components";
 
@@ -13,6 +13,8 @@ export const MiPerfil = () => {
       <div className="comp-main-container__izqCont">
         <ContMenu />
         <ProdOfertaButtonBox />
+        <ContExplorar />
+        <ContFavoritos />
       </div>
       <div className="comp-main-container__divSepIzq"></div>
       <div className="comp-main-container__medCont">

@@ -1,10 +1,12 @@
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
-import { ContActividades, ContExplorar, OfertaCard } from "../../components"
+import { ContActividades, ContExplorar, OfertaCard, ContFavoritos } from "../../components"
 import { GetCategoriaById, getOfertaByCategoriaProducto } from "../../helpers/getOfertaById";
 import { useContext } from "react";
 import { AuthContext } from "../../auth";
 import { ProdOfertaButtonBox } from "../components";
+import { useEffect, useState } from "react";
+import { ContMenu } from "../../components/cont_menu/ContMenu";
 
 export const ProdByCatPageProv = () => {
 
@@ -14,19 +16,36 @@ export const ProdByCatPageProv = () => {
   const {user} = authState;
 
   const {q = ""} = queryString.parse(location.search);
-  const {nombre: nombreCategoria} = GetCategoriaById(q);
-  const ofertas = getOfertaByCategoriaProducto(q);
+  const [nombreCategoria, setNombreCategoria] = useState("");
+  const [ofertasProv, setOfertasProv] = useState([]);
 
-  const ofertasProv = ofertas.filter(oferta => oferta.idProveedor === user.id);
-  
+  useEffect(() => {
+    const fetchCategoria = async () => {
+      const nombre = await GetCategoriaById(q);
+      setNombreCategoria(nombre);
+    };
+
+    if (q) {
+      fetchCategoria();
+    }
+  }, [q]);
+
+  useEffect(() => {
+    const ofertas = getOfertaByCategoriaProducto(q); 
+    const ofertasFiltradas = ofertas.filter(oferta => oferta.idProveedor === user.id);
+    setOfertasProv(ofertasFiltradas);
+  }, [q, user.id]);
+
   const showError = (q.length > 0) && ofertasProv.length === 0;
 
 
   return (
     <div className="comp-main-container u-margin-top-navbar">
       <div className="comp-main-container__izqCont">
-        <ContExplorar/>
+        <ContMenu/>
         <ProdOfertaButtonBox/>
+        <ContExplorar />
+        <ContFavoritos />
       </div>
       <div className="comp-main-container__divSepIzq"></div>
       <div className="comp-main-container__medCont">

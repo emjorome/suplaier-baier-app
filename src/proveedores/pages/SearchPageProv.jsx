@@ -3,9 +3,9 @@ import { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { apiUrl } from "../../apiUrl";
 import { AuthContext } from "../../auth";
-import { ContActividades, OfertaCard } from "../../components";
+import { ContActividades, OfertaCard, ContExplorar, ContFavoritos } from "../../components";
 import { ProdOfertaButtonBox } from "../components";
-
+import { ContMenu } from "../../components/cont_menu/ContMenu";
 export const SearchPageProv = () => {
 
   const {authState} = useContext(AuthContext);
@@ -33,7 +33,10 @@ export const SearchPageProv = () => {
   return (
     <div className="comp-main-container u-margin-top-navbar">
       <div className="comp-main-container__izqCont">
+        <ContMenu />
         <ProdOfertaButtonBox/>
+        <ContExplorar />
+        <ContFavoritos />
       </div>
       <div className="comp-main-container__divSepIzq"></div>
       <div className="comp-main-container__medCont">
