@@ -2,31 +2,39 @@ import { useContext, useState } from "react";
 import { apiUrl } from "../../apiUrl";
 import { AuthContext } from "../../auth";
 
-export const CompraReserva = ({oferta, costoTotal, setShowPagoReserva, setShowPagoExito, setShowErrorPago, unidadesPetUsuario}) => {
+export const CompraReserva = ({
+  oferta,
+  costoTotal,
+  setShowPagoReserva,
+  setShowPagoExito,
+  setShowErrorPago,
+  unidadesPetUsuario,
+}) => {
   // eslint-disable-next-line
   const [pagoExitoso, setPagoExitoso] = useState(true);
 
-  const {authState} = useContext(AuthContext);
-  const {user} = authState;
+  const { authState } = useContext(AuthContext);
+  const { user } = authState;
 
-  const actualizarOferta = async() => {
-    const body = { 
+  const actualizarOferta = async () => {
+    const body = {
       IdOferta: oferta.IdOferta,
-      NuevoActualProductos: parseInt(oferta.ActualProductos) + parseInt(unidadesPetUsuario)
-    }
+      NuevoActualProductos:
+        parseInt(oferta.ActualProductos) + parseInt(unidadesPetUsuario),
+    };
     const resp = await fetch(`${apiUrl}/ofertas`, {
-      method: 'PATCH',
+      method: "PATCH",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     });
-    const data = await resp.json()
+    const data = await resp.json();
     console.log(!!data && "exito");
-  }
+  };
 
-  const crearCompraIndividual = async() => {
-    const body = { 
+  const crearCompraIndividual = async () => {
+    const body = {
       IdComprador: user.IdUsuario,
       IdProveedor: oferta.IdProveedor,
       IdOferta: oferta.IdOferta,
@@ -37,18 +45,19 @@ export const CompraReserva = ({oferta, costoTotal, setShowPagoReserva, setShowPa
       IdEstado: oferta.IdEstadosOferta,
       MetodoPago: "reserva",
       PagadoAProveedor: false,
-    }
+      TipoCompra: "normal",
+    };
 
     const resp = await fetch(`${apiUrl}/compras`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     });
-    const data = await resp.json()
+    const data = await resp.json();
     console.log(!!data && "exito");
-  }
+  };
 
   //este metodo debe ser asincrono
   const efectuarPagoReserva = () => {
@@ -68,36 +77,41 @@ export const CompraReserva = ({oferta, costoTotal, setShowPagoReserva, setShowPa
         setShowPagoReserva(false);
         reject(false);
       }
-    })
-  }
+    });
+  };
 
   const onSubmitPago = () => {
     console.log("Efectuando pago por Reserva...");
     efectuarPagoReserva()
-      .then(res => console.log("pago con exito"))
-      .catch(res => console.log(res));
-
-  }
+      .then((res) => console.log("pago con exito"))
+      .catch((res) => console.log(res));
+  };
 
   return (
     <div className="metodoPago animate__animated animate__fadeIn">
       <div className="metodoPago__ventana animate__animated animate__slideInDown">
         <div className="metodoPago__barraSup"></div>
-        <p className="paragraph u-margin-top-mid">Efectuando Pago con Reserva...</p>
-        <p className="paragraph u-margin-top-mid"><b>$ {costoTotal.toFixed(2)}</b></p>
+        <p className="paragraph u-margin-top-mid">
+          Efectuando Pago con Reserva...
+        </p>
+        <p className="paragraph u-margin-top-mid">
+          <b>$ {costoTotal.toFixed(2)}</b>
+        </p>
         <div className="metodoPago__btnBox u-margin-top-mid">
           {/* <button 
             type="button"
             onClick={() => setShowPagoReserva(false)}
             className="btn btn--red"
           >Cancelar</button> */}
-          <button 
+          <button
             type="button"
             onClick={onSubmitPago}
             className="btn btn--blue"
-          >Continuar</button>
+          >
+            Continuar
+          </button>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
