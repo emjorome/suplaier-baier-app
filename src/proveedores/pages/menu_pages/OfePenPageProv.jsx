@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { apiUrl } from "../../../apiUrl";
 import { AuthContext } from "../../../auth";
-import { ContActividades, OfertaCard } from "../../../components"
+import { ContActividades, OfertaCard, ContExplorar, ContFavoritos } from "../../../components"
 import { ContMenu } from "../../../components/cont_menu/ContMenu"
 import { ProdOfertaButtonBox } from "../../components";
 
@@ -95,6 +95,8 @@ export const OfePenPageProv = () => {
       <div className="comp-main-container__izqCont">
         <ContMenu/>
         <ProdOfertaButtonBox/>
+        <ContExplorar />
+        <ContFavoritos />
       </div>
       <div className="comp-main-container__divSepIzq"></div>
       <div className="comp-main-container__medCont">

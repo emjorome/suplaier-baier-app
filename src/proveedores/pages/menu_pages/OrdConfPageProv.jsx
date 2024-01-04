@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { apiUrl } from "../../../apiUrl";
-import { ContActividades, OrdenCard } from "../../../components"
+import { ContActividades, OrdenCard, ContExplorar, ContFavoritos } from "../../../components"
 import { ContMenu } from "../../../components/cont_menu/ContMenu"
 import { ProdOfertaButtonBox } from "../../components";
 
@@ -42,6 +42,8 @@ export const OrdConfPageProv = () => {
     <div className="comp-main-container__izqCont">
       <ContMenu/>
       <ProdOfertaButtonBox/>
+      <ContExplorar />
+      <ContFavoritos />
     </div>
     <div className="comp-main-container__divSepIzq"></div>
     <div className="comp-main-container__medCont">

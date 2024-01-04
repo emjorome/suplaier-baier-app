@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { apiUrl } from "../../apiUrl";
-import { ContActividades, EtiquetaOferta, ProgressBar, ValoracionStar } from "../../components"
+import { ContActividades, EtiquetaOferta, ProgressBar, ValoracionStar, ContExplorar, ContFavoritos } from "../../components"
 import { ContMenu } from "../../components/cont_menu/ContMenu";
 import { ListaOrdenComp } from "../../compradores/components";
 import { AccionExitosa, CerrarOferta, ProdOfertaButtonBox } from "../components";
@@ -83,6 +83,8 @@ export const OfertaDetalleProv = () => {
         {/* <ContExplorar/> */}
         <ContMenu/>
         <ProdOfertaButtonBox/>
+        <ContExplorar />
+        <ContFavoritos />
       </div>
       <div className="comp-main-container__divSepIzq"></div>
       <div className="comp-main-container__medCont">

@@ -35,11 +35,13 @@ export const getOfertaByCategoriaProducto = (categoria) => {
   return ofertas;
 }
 
-export const GetCategoriaById = (id) => {
-  const {data} = useFetch(`${apiUrl}/catProductos?id=${id}`);
-  const {rows: categoria} = !!data && data;
-  return categoria.Nombre;
-}
+export const GetCategoriaById = async (id) => {
+  const response = await fetch(`${apiUrl}/catProductos?id=${id}`);
+  const data = await response.json();
+  const categoria = data.rows && data.rows[0];
+  return categoria ? categoria.Nombre : null;
+};
+
 
 export const getNotificacionesByUsuarioId = (id) => {
   return notificaciones.filter(notif => notif.idUsuario === id);
