@@ -9,7 +9,7 @@ export const FormCrearDemanda = () => {
   const { authState } = useContext(AuthContext);
   const { user } = authState;
 
-  const d = new Date();
+  // const d = new Date();
 
   const {
     formState,
@@ -57,33 +57,61 @@ export const FormCrearDemanda = () => {
   const [razonUnidadesMinInvalido, setRazonUnidadesMinInvalido] = useState("");
   const [razonUnidadesMaxInvalido, setRazonUnidadesMaxInvalido] = useState("");
 
+  const obtenerAhora = () => {
+    const ahora = new Date();
+    ahora.setDate(ahora.getDate() + 1);
+    var year = ahora.getFullYear();
+    var month = (ahora.getMonth() + 1).toString().padStart(2, "0");
+    var day = ahora.getDate().toString().padStart(2, "0");
+    var fechaString = year + "-" + month + "-" + day;
+    console.log("Fecha en formato YYYY-MM-DD:", fechaString);
+    return fechaString;
+  };
+  const obtenerLimite = () => {
+    const limite = new Date();
+    limite.setDate(limite.getDate() + 183);
+    console.log(limite.getDate());
+    var year = limite.getFullYear();
+    var month = (limite.getMonth() + 1).toString().padStart(2, "0");
+    var day = limite.getDate().toString().padStart(2, "0");
+    var fechaString = year + "-" + month + "-" + day;
+    console.log("Fecha en formato YYYY-MM-DD:", fechaString);
+    return fechaString;
+  };
+
   const checkFechaLimiteisValid = async () => {
     const resp = await fetch(`${apiUrl}/obtenerahora`);
     const data = await resp.json();
     const { rows: ahora } = !!data && data;
+    // const fechaLocaly1 = d.toLocaleDateString(ahora[0]).split("/");
+    // const fechaLocaly2 = `${fechaLocaly1[2]}-${
+    //   fechaLocaly1[0].length === 1 ? "0" + fechaLocaly1[0] : fechaLocaly1[0]
+    // }-${fechaLocaly1[1]}T`;
 
-    const fechaLocaly1 = d.toLocaleDateString(ahora[0]).split("/");
-    const fechaLocaly2 = `${fechaLocaly1[2]}-${
-      fechaLocaly1[0].length === 1 ? "0" + fechaLocaly1[0] : fechaLocaly1[0]
-    }-${fechaLocaly1[1]}T`;
+    // const horaLocaly2 = d.toLocaleTimeString(ahora[0]).split(" ");
+    // const horaLocalyEsp = horaLocaly2[0].split(":"); //hora min sec
 
-    const horaLocaly2 = d.toLocaleTimeString(ahora[0]).split(" ");
-    const horaLocalyEsp = horaLocaly2[0].split(":"); //hora min sec
+    // let horaLocaly3 = "";
+    // horaLocaly2[1] === "AM"
+    //   ? (horaLocaly3 = parseInt(horaLocalyEsp[0]))
+    //   : (horaLocaly3 = 12 + parseInt(horaLocalyEsp[0]));
 
-    let horaLocaly3 = "";
-    horaLocaly2[1] === "AM"
-      ? (horaLocaly3 = parseInt(horaLocalyEsp[0]))
-      : (horaLocaly3 = 12 + parseInt(horaLocalyEsp[0]));
-
-    const horaResult = `${
-      horaLocaly3.toString().length === 1 ? "0" + horaLocaly3 : horaLocaly3
-    }:${horaLocalyEsp[1]}:${
-      horaLocalyEsp[2].length === 1 ? "0" + horaLocalyEsp[2] : horaLocalyEsp[2]
-    }`;
-    const horaResultFinal = `${fechaLocaly2}${horaResult}`;
-    const fechaLimiteFinal = `${fechaLimite}:00`;
-    setEsFechaValida(horaResultFinal < fechaLimiteFinal);
-    return horaResultFinal < fechaLimiteFinal;
+    // const horaResult = `${
+    //   horaLocaly3.toString().length === 1 ? "0" + horaLocaly3 : horaLocaly3
+    // }:${horaLocalyEsp[1]}:${
+    //   horaLocalyEsp[2].length === 1 ? "0" + horaLocalyEsp[2] : horaLocalyEsp[2]
+    // }`;
+    // const horaResultFinal = `${fechaLocaly2}${horaResult}`;
+    // const fechaLimiteFinal = `${fechaLimite}:00`;
+    // setEsFechaValida(horaResultFinal < fechaLimiteFinal);
+    // return horaResultFinal < fechaLimiteFinal;
+    const fechaAhora = new Date(ahora[0]["getnow()"]);
+    console.log(fechaAhora);
+    const split = fechaLimite.split("-");
+    const ingresada = new Date(split[0], parseInt(split[1] - 1), split[2]);
+    console.log(ingresada);
+    setEsFechaValida(ingresada > fechaAhora);
+    return ingresada > fechaAhora;
   };
 
   const validarTodosCampos = () => {
@@ -461,6 +489,8 @@ export const FormCrearDemanda = () => {
           <div className="formSubirDemanda__inputBox u-margin-top-small">
             <input
               type="date"
+              min={obtenerAhora()}
+              max={obtenerLimite()}
               className="paragraph paragraph--grey--2"
               name="fechaLimite"
               autoComplete="off"
