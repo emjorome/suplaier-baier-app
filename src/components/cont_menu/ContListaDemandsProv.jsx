@@ -1,7 +1,7 @@
 import { ContMenuTitleDemands } from "./ContMenuTitleDemands"
 import { Link } from "react-router-dom"
 
-export const ContListaDemands = () => {
+export const ContListaDemandsProv = () => {
   
   return (
     <div className="actividadesRec">
@@ -11,24 +11,14 @@ export const ContListaDemands = () => {
         <div className="explorarCat__lista">
 
             <Link 
-                to={`/mis_demandas`} 
+                to={`/explorar_demandas`} 
                 key={1} 
                 className="explorarCat__lista__item"
             >
                 <span className="material-symbols-rounded icon--sm">
                     autorenew
                 </span>
-                <p className="paragraph--mid--2">Mis demandas</p>
-            </Link>
-            <Link 
-                to={`/demandas_finalizadas`} 
-                key={2} 
-                className="explorarCat__lista__item"
-            >
-                <span className="material-symbols-rounded icon--sm">
-                check_circle
-                </span>
-                <p className="paragraph--mid--2">Demandas Finalizadas</p>
+                <p className="paragraph--mid--2">Explorar demandas</p>
             </Link>
          </div>
         </div>

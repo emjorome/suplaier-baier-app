@@ -1,3 +1,4 @@
+import React from "react";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 import {
@@ -10,7 +11,7 @@ import { apiUrl } from "../../apiUrl";
 import { useEffect, useState } from "react";
 import { ContMenu } from "../../components/cont_menu/ContMenu";
 import { ProdDemandaButtonBox } from "../components";
-export const ProdByCatPage = () => {
+export const ProdByCatPage = React.memo(() => {
   const location = useLocation();
   const [q, setQ] = useState("");
 
@@ -88,4 +89,4 @@ export const ProdByCatPage = () => {
       </div>
     </div>
   );
-};
+});

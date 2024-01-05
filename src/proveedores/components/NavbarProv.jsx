@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { PerfilTooltip } from "../../components";
+import PerfilTooltip  from "../../components/generales/PerfilTooltip";
 import { Buscador } from "../../ui";
-
-export const NavbarProv = () => {
+import React from "react";
+const NavbarProv = () => {
   const [showPerfilTooltip, setShowPerfilTooltip] = useState(false);
 
   const nagivate = useNavigate();
@@ -82,3 +82,4 @@ export const NavbarProv = () => {
     </div>
   );
 };
+export default React.memo(NavbarProv);

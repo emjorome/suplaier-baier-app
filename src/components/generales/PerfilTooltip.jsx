@@ -1,8 +1,8 @@
 import { useContext, useEffect, useRef } from "react"
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../auth";
-
-export const PerfilTooltip = ({onClickOutside}) => {
+import React from "react";
+const PerfilTooltip = ({onClickOutside}) => {
   
   const ref = useRef(null);
   const {logout} = useContext(AuthContext);
@@ -46,3 +46,4 @@ export const PerfilTooltip = ({onClickOutside}) => {
     </div>
   )
 }
+export default React.memo(PerfilTooltip);

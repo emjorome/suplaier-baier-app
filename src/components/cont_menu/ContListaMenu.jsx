@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom"
 import { ContMenuTitle } from "./ContMenuTitle"
+
+
 export const ContListaMenu = () => {
-
-
   return (
     <div className="actividadesRec">
     <hr className="hrGeneral"/>

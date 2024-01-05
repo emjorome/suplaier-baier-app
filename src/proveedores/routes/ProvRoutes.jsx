@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { NavbarProv } from "../components/NavbarProv";
+import  NavbarProv  from "../components/NavbarProv";
 import {
   CrearOferta,
   HistorialOfertasPageProv,

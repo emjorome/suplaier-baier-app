@@ -1,10 +1,10 @@
+import React from "react";
 import { useContext } from "react";
 import { AuthContext } from "../../auth";
 import { ContActividades, ContExplorar, ContFavoritos } from "../../components";
 import { ContMenu } from "../../components/cont_menu/ContMenu";
 import { ProdOfertaButtonBox } from "../components";
-
-export const MiPerfil = () => {
+export const MiPerfil = React.memo(() => {
   const { authState } = useContext(AuthContext);
   const { user } = authState;
 
@@ -76,4 +76,4 @@ export const MiPerfil = () => {
       </div>
     </div>
   );
-};
+});

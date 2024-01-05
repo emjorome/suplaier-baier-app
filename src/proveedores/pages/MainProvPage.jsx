@@ -1,3 +1,4 @@
+import React from "react";
 import { ContActividades, OfertaCard,ContExplorar,ContFavoritos} from "../../components";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../auth";
@@ -5,8 +6,7 @@ import { ProdOfertaButtonBox } from "../components";
 import { apiUrl } from "../../apiUrl";
 import { ContMenu } from "../../components/cont_menu/ContMenu";
 import { obtainUserPermission } from "../../firebase";
-
-export const MainProvPage = () => {
+export const MainProvPage = React.memo(() => {
   
   let sessionTimer;
   const {authState} = useContext(AuthContext);
@@ -139,4 +139,4 @@ export const MainProvPage = () => {
     </div>
   )
 
-}
+});

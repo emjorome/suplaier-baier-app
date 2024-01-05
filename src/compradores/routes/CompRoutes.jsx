@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { NavbarComp } from "../components";
+import  NavbarComp  from "../components/NavbarComp";
 import {
   SubirProductoComp,
   CrearDemanda,
@@ -86,6 +86,7 @@ export const CompRoutes = () => {
           <Route path="ordenes_finalizadas" element={<OrdFinPage />} />
           <Route path="mi_perfil" element={<MiPerfil />} />
           <Route path="mis_demandas" element={<MisDemandas/>}/>
+          <Route path="demandas_finalizadas" element={<MisDemandas/>}/>
           <Route path="/*" element={<Navigate to="comprador" />} />
         </Routes>
       </div>

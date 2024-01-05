@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { apiUrl } from "../../apiUrl";
 import {
   ContActividades,
@@ -9,7 +9,7 @@ import {
 import { ContMenu } from "../../components/cont_menu/ContMenu";
 import { obtainUserPermission } from "../../firebase";
 import { ProdDemandaButtonBox } from "../components/ProdDemandaButtonBox";
-export const MainCompPage = () => {
+export const MainCompPage = React.memo(() => {
   const [ofertasTodos, setOfertasTodos] = useState([]);
 
   const getOfertasTodos = async () => {
@@ -65,4 +65,4 @@ export const MainCompPage = () => {
       </div>
     </div>
   );
-};
+});

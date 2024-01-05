@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { PerfilTooltip } from "../../components";
+import  PerfilTooltip from "../../components/generales/PerfilTooltip";
 import { onMessageListener } from "../../firebase";
 import { Buscador } from "../../ui";
 import { Notificaciones } from "../../components/notificaciones/Notificaciones";
 //import { apiUrl } from "../../apiUrl";
-
-export const NavbarComp = () => {
+import React from "react";
+const NavbarComp = () => {
   const nagivate = useNavigate();
 
   const [showPerfilTooltip, setShowPerfilTooltip] = useState(false);
@@ -135,3 +135,4 @@ export const NavbarComp = () => {
     </div>
   );
 };
+export default React.memo(NavbarComp);
