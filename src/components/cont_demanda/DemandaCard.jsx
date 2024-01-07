@@ -62,13 +62,6 @@ export const DemandaCard = ({demanda, esComprador = false}) => {
     setEstadoDemanda(estado[0]);
   }
 
-  useEffect(() => {
-    getProductoDemanda();
-    getCompradorDemanda();
-    getEstadoDemanda();
-    checkSiSeHaUnido();
-    // eslint-disable-next-line
-  }, [demanda])
 
   useEffect(() => {
     setNombreComprador(comprador?.Nombre);
@@ -102,7 +95,13 @@ export const DemandaCard = ({demanda, esComprador = false}) => {
       });
     })
   }
-
+  useEffect(() => {
+    getProductoDemanda();
+    getCompradorDemanda();
+    getEstadoDemanda();
+    checkSiSeHaUnido();
+    // eslint-disable-next-line
+  }, [demanda])
   const onShowReportarTooltip = () => {
     setShowReportarTooltip(true);
   }

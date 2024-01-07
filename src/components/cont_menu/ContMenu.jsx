@@ -13,7 +13,7 @@ export const ContMenu = () => {
   const esProveedor = user?.Rol === "proveedor";
   return (
  <div>
-  <h>{
+  <div>{
     !esProveedor
         ?
       <div>
@@ -26,7 +26,7 @@ export const ContMenu = () => {
       <ContListaDemandsProv />
       </div>
    }
-    </h>
+    </div>
   </div>
   )
 }

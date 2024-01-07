@@ -6,7 +6,7 @@ export const PropuestaCard = ({ propuesta, onActualizarEstado }) => {
     const mensajeConfirmacion = nuevoEstado === 'aprobada' 
       ? '¿Estás seguro de que quieres aceptar esta propuesta?' 
       : '¿Estás seguro de que quieres rechazar esta propuesta?';
-  
+  console.log(nuevoEstado);
     if (window.confirm(mensajeConfirmacion)) {
       onActualizarEstado(propuesta.IdPropuesta, nuevoEstado);
     }

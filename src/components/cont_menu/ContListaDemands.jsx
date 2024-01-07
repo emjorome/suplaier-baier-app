@@ -21,7 +21,7 @@ export const ContListaDemands = () => {
                 <p className="paragraph--mid--2">Mis demandas</p>
             </Link>
             <Link 
-                to={`/demandas_finalizadas`} 
+                to={`/demandas_aprobadas`} 
                 key={2} 
                 className="explorarCat__lista__item"
             >

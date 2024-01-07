@@ -10,6 +10,8 @@ export const CargarPropuestas = ({ IdDemanda }) => {
   };
 
   const actualizarEstadoPropuesta = (idPropuesta, nuevoEstado) => {
+    console.log(`Actualizando propuesta ${idPropuesta} a ${nuevoEstado}`);
+
     fetch(`${apiUrl}/propuestas`, { 
       method: 'PATCH',
       headers: {
@@ -38,7 +40,6 @@ export const CargarPropuestas = ({ IdDemanda }) => {
         try {
           const response = await fetch(`${apiUrl}/propuestas?IdDemanda=${IdDemanda}&Estado=pendiente`);
           const data = await response.json();
-          console.log(data)
           const propuestasFiltradas = filtrarPropuestasPorIdDemanda(data.rows, IdDemanda);
           setPropuestas(propuestasFiltradas);
         } catch (error) {
@@ -61,8 +62,12 @@ export const CargarPropuestas = ({ IdDemanda }) => {
         <PropuestaCard
         key={propuesta.IdPropuesta}
         propuesta={propuesta}
-        onActualizarEstado={(nuevoEstado) => actualizarEstadoPropuesta(propuesta.IdPropuesta, nuevoEstado)}
+        onActualizarEstado={(idPropuesta, nuevoEstado) => {
+            console.log(`Actualizando propuesta ${idPropuesta} a ${nuevoEstado}`);
+          actualizarEstadoPropuesta(idPropuesta, nuevoEstado);
+        }}
       />
+           
       ))
     )}
   </div>
