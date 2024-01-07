@@ -11,7 +11,6 @@ export const ContMenu = () => {
 
   // Determinar si el usuario es proveedor basándose en su IdRol
   const esProveedor = user?.Rol === "proveedor";
-  console.log(user)
   return (
  <div>
   <h>{

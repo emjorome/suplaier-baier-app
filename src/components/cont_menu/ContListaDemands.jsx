@@ -16,7 +16,7 @@ export const ContListaDemands = () => {
                 className="explorarCat__lista__item"
             >
                 <span className="material-symbols-rounded icon--sm">
-                    autorenew
+                autorenew
                 </span>
                 <p className="paragraph--mid--2">Mis demandas</p>
             </Link>
@@ -28,8 +28,9 @@ export const ContListaDemands = () => {
                 <span className="material-symbols-rounded icon--sm">
                 check_circle
                 </span>
-                <p className="paragraph--mid--2">Demandas Finalizadas</p>
+                <p className="paragraph--mid--2">Demandas Aprobadas</p>
             </Link>
+
          </div>
         </div>
   )

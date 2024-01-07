@@ -15,3 +15,5 @@ export * from "./MiPerfil";
 export * from "./SubirProductoComp"
 export * from "./CrearDemanda"
 export * from "./MisDemandas"
+export * from "./MisDemandasAprobadas"
+export * from "./PropuestasRecibidas"

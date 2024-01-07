@@ -14,13 +14,15 @@ export const DemandaCard = ({demanda, esComprador = false}) => {
   const {authState} = useContext(AuthContext);
   const {user} = authState;
 
-  const onClickOferta = () => {
+ 
+  const onClickDemanda = () => {
     !esComprador 
     ?
     navigate(`/demanda/${demanda.IdDemanda}`)
     :
     navigate(`/mi_demanda/${demanda.IdDemanda}`);
   }
+
   const {IdProducto,
         IdComprador, 
         Maximo,
@@ -30,47 +32,47 @@ export const DemandaCard = ({demanda, esComprador = false}) => {
       } = demanda;
 
   const [producto, setProducto] = useState();
-  const [proveedor, setProveedor] = useState();
-  const [estadoOferta, setEstadoOferta] = useState();
-  const [nombreProveedor, setNombreProveedor] = useState();
+  const [comprador, setComprador] = useState();
+  const [estadoOferta, setEstadoDemanda] = useState();
+  const [nombreComprador, setNombreComprador] = useState();
   const [datosProd, setDatosProd] = useState({});
   const [yaSeHaUnido, setYaSeHaUnido] = useState(false);
   const [showReportarTooltip, setShowReportarTooltip] = useState(false);
   const [showVentanaReportar, setShowVentanaReportar] = useState(false);
   const [showReporteEnviado, setShowReporteEnviado] = useState(false);
 
-  const getProductoOferta = async() => {
+  const getProductoDemanda = async() => {
     const resp = await fetch(`${apiUrl}/productos?id=${IdProducto}`);
     const data = await resp.json();
     const {rows: producto} = !!data && data;
     setProducto(producto[0]);
   }
 
-  const getProveedorOferta = async() => {
+  const getCompradorDemanda = async() => {
     const resp = await fetch(`${apiUrl}/usuarios?idUsuario=${IdComprador}`);
     const data = await resp.json();
-    const {rows: proveedor} = !!data && data;
-    setProveedor(proveedor[0]);
+    const {rows: comprador} = !!data && data;
+    setComprador(comprador[0]);
   }
 
-  const getEstadoOferta = async() => {
+  const getEstadoDemanda = async() => {
     const resp = await fetch(`${apiUrl}/estados?id=${IdEstadosOferta}`);
     const data = await resp.json();
     const {rows: estado} = !!data && data;
-    setEstadoOferta(estado[0]);
+    setEstadoDemanda(estado[0]);
   }
 
   useEffect(() => {
-    getProductoOferta();
-    getProveedorOferta();
-    getEstadoOferta();
+    getProductoDemanda();
+    getCompradorDemanda();
+    getEstadoDemanda();
     checkSiSeHaUnido();
     // eslint-disable-next-line
   }, [demanda])
 
   useEffect(() => {
-    setNombreProveedor(proveedor?.Nombre);
-  }, [proveedor])
+    setNombreComprador(comprador?.Nombre);
+  }, [comprador])
   
   useEffect(() => {
     setDatosProd({
@@ -108,7 +110,9 @@ export const DemandaCard = ({demanda, esComprador = false}) => {
   const onClickOutside = () => {
     setShowReportarTooltip(false);
   }
-
+  const verPropuestasRecibidas = () => {
+    navigate(`/propuestas_recibidas`, { state: { IdDemanda: demanda.IdDemanda, Producto: datosProd?.nombreProd  } });
+  };
   return (
     <div className="oferta-card-main">
       <div className="oferta-card u-margin-top-small animate__animated animate__fadeIn">
@@ -141,10 +145,10 @@ export const DemandaCard = ({demanda, esComprador = false}) => {
             setShowVentanaReportar={setShowVentanaReportar}
           />
         }
-        <div className="oferta-card__datosbox__title u-margin-bottom-small" onClick={onClickOferta}>
+        <div className="oferta-card__datosbox__title u-margin-bottom-small" onClick={onClickDemanda}>
           <p className="paragraph paragraph--bold paragraph--mid">{datosProd?.nombreProd}</p>
           <div className="oferta-card__logoBox">
-            <p className="paragraph">{nombreProveedor}</p>
+            <p className="paragraph">{nombreComprador}</p>
             <div className="oferta-card__logoBox__imgBox">
             {/* <img src={proveedor?.UrlLogoEmpresa} alt={proveedor?.Nombre} className="oferta-card__logoBox__imgBox__img" />*/}
             </div>
@@ -166,9 +170,12 @@ export const DemandaCard = ({demanda, esComprador = false}) => {
             <p className="paragraph u-padding-right-mediumresp"><b>Precio Máximo:</b> {"$" + datosProd?.precioMax}</p>
             
           </div>
-          
         </div>
-
+        <div>
+            <div className="button-container">
+                <button className="btn btn--blue" onClick={verPropuestasRecibidas}>Propuestas </button>
+            </div>
+        </div>
       </div>
       </div>
       {

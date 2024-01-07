@@ -1,4 +1,3 @@
-import React from "react";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../auth";
 import { apiUrl } from "../../apiUrl";
@@ -11,7 +10,7 @@ import {
 import { ContMenu } from "../../components/cont_menu/ContMenu";
 import { obtainUserPermission } from "../../firebase";
 import { ProdDemandaButtonBox } from "../components/ProdDemandaButtonBox";
-export const MisDemandas = React.memo(() => {
+export const MisDemandasAprobadas = () => {
   const {authState} = useContext(AuthContext);
   const {user} = authState;
   const [demandasTodos, setDemandasTodos] = useState([]);
@@ -20,7 +19,7 @@ export const MisDemandas = React.memo(() => {
     const resp = await fetch(`${apiUrl}/demandas?IdComprador=${user?.IdUsuario}`);
     const data = await resp.json();
     const { rows: demandas } = !!data && data;
-    setDemandasTodos(demandas.filter((demandas) => demandas.IdEstadosOferta === 1));
+    setDemandasTodos(demandas.filter((demandas) => demandas.IdEstadosOferta === 10));
   };
 
   useEffect(() => {
@@ -38,7 +37,7 @@ export const MisDemandas = React.memo(() => {
         <ContMenu />
         <ProdDemandaButtonBox />
         <ContExplorar />
-        <ContFavoritos />
+        <ContFavoritos/>
       </div>
       <div className="comp-main-container__divSepIzq"></div>
       <div className="comp-main-container__medCont">
@@ -48,13 +47,13 @@ export const MisDemandas = React.memo(() => {
               arrow_forward_ios
             </span>
             <p className="paragraph--mid">
-              <b>Demandas en curso</b>
+              <b>Demandas Aprobadas</b>
             </p>
           </div>
           <hr className="hrGeneral" />
           {showEmptyArray ? (
             <p className="paragraph">
-              Aún no has creado ninguna demanda
+              Aún no has Aprobado ninguna demanda
             </p>
           ) : (
             demandasTodos?.map((demanda) => (
@@ -72,4 +71,4 @@ export const MisDemandas = React.memo(() => {
       </div>
     </div>
   );
-});
+};

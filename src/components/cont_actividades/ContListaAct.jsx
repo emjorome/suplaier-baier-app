@@ -1,9 +1,10 @@
+import React from "react";
 import { useContext, useEffect, useState } from "react";
 import { apiUrl } from "../../apiUrl";
 import { AuthContext } from "../../auth";
 import { ContListaActItem } from "./ContListaActItem";
 
-export const ContListaAct = () => {
+export const ContListaAct = React.memo(() => {
 
   const {authState} = useContext(AuthContext);
   const {user} = authState;
@@ -59,4 +60,4 @@ export const ContListaAct = () => {
       }
     </div>
   )
-}
+});
