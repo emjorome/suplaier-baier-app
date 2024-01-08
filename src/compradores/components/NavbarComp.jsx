@@ -15,7 +15,7 @@ const NavbarComp = () => {
   const [notificacion, setNotificacion] = useState({ title: "", message: "" });
   const [usuariosIdNotif, setUsuariosIdNotif] = useState();
 
-  console.log(notificacion);
+  //console.log(notificacion);
 
   onMessageListener()
     .then((payload) => {

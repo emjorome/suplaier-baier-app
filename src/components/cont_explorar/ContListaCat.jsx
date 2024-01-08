@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
-
-export const ContListaCat = ({categorias}) => {
+import React from "react";
+export const ContListaCat = React.memo(({categorias}) => {
 
   return (
     <div className="explorarCat__lista">
@@ -20,4 +20,4 @@ export const ContListaCat = ({categorias}) => {
       }
     </div>
   )
-}
+});

@@ -4,7 +4,7 @@ import { getTokenUser } from "../../firebase/firebaseInit";
 export const Notificaciones = () => {
 
   const [isTokenFound, setIsTokenFound] = useState(false);
-  console.log("Token found: ", isTokenFound)
+  //console.log("Token found: ", isTokenFound)
 
   useEffect(() => {
     let data; 
