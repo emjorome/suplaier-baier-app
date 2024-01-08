@@ -11,7 +11,7 @@ export const ContListaDemandsProv = () => {
         <div className="explorarCat__lista">
 
             <Link 
-                to={`/explorar_demandas`} 
+                to={`/demandas`} 
                 key={1} 
                 className="explorarCat__lista__item"
             >

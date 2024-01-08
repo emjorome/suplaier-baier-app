@@ -3,6 +3,7 @@ import  NavbarProv  from "../components/NavbarProv";
 import {
   CrearOferta,
   HistorialOfertasPageProv,
+  ListDemandas,
   MainProvPage,
   NotificacionesProv,
   OfertaDetalleProv,
@@ -10,6 +11,7 @@ import {
   SearchPageProv,
   SubirProducto,
   VentaIndDetalle,
+  CrearPropuesta
 } from "../pages";
 import {
   OfeCanPageProv,
@@ -88,7 +90,8 @@ export const ProvRoutes = () => {
           <Route path="ordenes_por_confirmar" element={<OrdConfPageProv />} />
           <Route path="ordenes_finalizadas" element={<OrdFinPageProv />} />
           <Route path="mi_perfil" element={<MiPerfil />} />
-
+          <Route path="/demandas" element={<ListDemandas />} />
+          <Route path="/crear_propuesta" element={<CrearPropuesta />} />
           <Route path="/*" element={<Navigate to="proveedor" />} />
         </Routes>
       </div>

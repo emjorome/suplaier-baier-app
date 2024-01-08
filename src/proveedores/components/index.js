@@ -11,4 +11,5 @@ export * from "./ContListaProvCompItem";
 export * from "./ConfirmarPagoProv";
 export * from "./ConfirmarDespachoProv";
 export * from "./ContListaMenuProv";
+export * from "./FormCrearPropuesta"
 
