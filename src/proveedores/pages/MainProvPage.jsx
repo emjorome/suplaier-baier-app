@@ -8,7 +8,6 @@ import { ContMenu } from "../../components/cont_menu/ContMenu";
 import { obtainUserPermission } from "../../firebase";
 export const MainProvPage = React.memo(() => {
   
-  let sessionTimer;
   const {authState} = useContext(AuthContext);
   const {user} = authState;
   

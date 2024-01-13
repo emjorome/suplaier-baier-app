@@ -12,7 +12,6 @@ import { ContMenu } from "../../components/cont_menu/ContMenu";
 import { obtainUserPermission } from "../../firebase";
 export const ListDemandas = React.memo(() => {
   const {authState} = useContext(AuthContext);
-  const {user} = authState;
   const [demandasTodos, setDemandasTodos] = useState([]);
 
   const getDemandasTodos = async () => {

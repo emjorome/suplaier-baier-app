@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { apiUrl } from "../../apiUrl";
 
 export const ConfirmarProdRecibido = ({compra, setShowConfirmarProdRecibido, setShowRecibidoExitoso}) => {
 
-  const [enviarNotificaciones, setEnviarNotificaciones] = useState(false);
+  //const [enviarNotificaciones, setEnviarNotificaciones] = useState(false);
 
   const onConfirmarProdRecibido = async() => {
     const body = { 
@@ -26,13 +26,13 @@ export const ConfirmarProdRecibido = ({compra, setShowConfirmarProdRecibido, set
     
   }
 
-  const sendNotifications = async() => {
+  /*const sendNotifications = async() => {
     //get usuarios de la compra
     console.log("ejecutando estooooo")
     const resp = await fetch(`${apiUrl}/enviarNotificacionCompra?idCompra=${compra.IdCompra}`);
     const data = await resp.json()
     console.log(!!data && "notificaciones enviadas desde el back!")
-  }
+  }*/
 
   // useEffect(() => {
   //   if(enviarNotificaciones) {

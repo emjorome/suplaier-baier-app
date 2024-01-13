@@ -1,9 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+//import { useContext } from "react";
 import { apiUrl } from "../../apiUrl";
-import { AuthContext } from "../../auth";
+//import { AuthContext } from "../../auth";
 
 export const ConfirmarCancelarOferta = ({oferta, setShowConfirmarCancelarOferta, setShowAccionExitosa}) => {
-  const {authState: {user}} = useContext(AuthContext);
+  //const {authState: {user}} = useContext(AuthContext);
 
   const actualizarOferta = async() => {
     const bodySolicitud = { 

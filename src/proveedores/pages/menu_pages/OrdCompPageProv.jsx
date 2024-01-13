@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { apiUrl } from "../../../apiUrl";
-import { AuthContext } from "../../../auth";
 import { ContActividades, OrdenCard, ContExplorar, ContFavoritos } from "../../../components"
 import { ContMenu } from "../../../components/cont_menu/ContMenu"
 import { ProdOfertaButtonBox } from "../../components";
@@ -9,8 +8,6 @@ export const OrdCompPageProv = () => {
 
   const [comprasPorConf, setComprasPorConf] = useState([]);
 
-  const {authState} = useContext(AuthContext);
-  const {user} = authState;
 
   const [opcionSeleccionada, setOpcionSeleccionada] = useState('');
   const handleSeleccion = (event) => {

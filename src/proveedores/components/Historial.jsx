@@ -1,10 +1,6 @@
-import { useContext, useEffect, useState } from "react"
-import { useNavigate } from 'react-router-dom';
-import { apiUrl } from "../../apiUrl"
-import { AuthContext } from "../../auth";
+import {  useEffect, useState } from "react"
 export const Historial = ({ texto, setShowHistorial }) => {
 
-  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const onClickContinuar = () => {
     setShowHistorial(false);

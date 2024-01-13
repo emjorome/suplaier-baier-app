@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { apiUrl } from "../../apiUrl";
-import { EtiquetaOferta, ProgressBar, ValoracionStar } from "../../components";
+//import { EtiquetaOferta, ProgressBar, ValoracionStar } from "../../components";
 import { ContNavegar } from "../components"
 
 export const SolicitudDetalleAdm = () => {

@@ -1,6 +1,6 @@
 import { apiUrl } from "../apiUrl";
 import { listaOfertas, notificaciones, ofertaComprador, productos, tipoNotificacion, usuariosRegistrados } from "../data";
-import { useFetch } from "../hooks";
+//import { useFetch } from "../hooks";
 
 export const getOfertaById = (id) => {
   return listaOfertas.find(oferta => oferta.idOferta === id);

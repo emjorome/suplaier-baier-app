@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, act } from "@testing-library/react";
 import { MainCompPage } from "../../compradores/pages/MainCompPage";
 import { AuthContext } from "../../auth";
 import { BrowserRouter } from "react-router-dom";
@@ -20,7 +20,7 @@ describe("MainCompPage", () => {
     global.fetch = originalFetch;
   });
 
-  it("debería renderizar el componente sin errores", () => {
+  it("debería renderizar el componente sin errores", async () => {
     const mockAuthState = {
       authState: {
         user: {
@@ -28,7 +28,7 @@ describe("MainCompPage", () => {
         },
       },
     };
-
+    await act(async () => {
     render(
       <BrowserRouter>
         <AuthContext.Provider value={mockAuthState}>
@@ -36,7 +36,7 @@ describe("MainCompPage", () => {
         </AuthContext.Provider>
       </BrowserRouter>
     );
-
+    });
     // Agrega aquí tus aserciones, si las necesitas
   });
 });

@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="1" failures="0" errors="0" time="3.256">
-  <testsuite name="MainCompPage" errors="0" failures="0" skipped="0" timestamp="2024-01-13T06:23:26" time="2.341" tests="1">
-    <testcase classname="MainCompPage debería renderizar el componente sin errores" name="MainCompPage debería renderizar el componente sin errores" time="0.211">
+<testsuites name="jest tests" tests="6" failures="0" errors="0" time="7.851">
+  <testsuite name="ContMenu" errors="0" failures="0" skipped="0" timestamp="2024-01-13T09:23:16" time="4.403" tests="2">
+    <testcase classname="ContMenu debería mostrar ContListaMenu y ContListaDemands para usuarios no proveedores" name="ContMenu debería mostrar ContListaMenu y ContListaDemands para usuarios no proveedores" time="0.183">
+    </testcase>
+    <testcase classname="ContMenu debería mostrar ContListaMenu y ContListaDemandsProv para usuarios proveedores" name="ContMenu debería mostrar ContListaMenu y ContListaDemandsProv para usuarios proveedores" time="0.032">
+    </testcase>
+  </testsuite>
+  <testsuite name="MainCompPage" errors="0" failures="0" skipped="0" timestamp="2024-01-13T09:23:16" time="4.767" tests="1">
+    <testcase classname="MainCompPage debería renderizar el componente sin errores" name="MainCompPage debería renderizar el componente sin errores" time="0.149">
+    </testcase>
+  </testsuite>
+  <testsuite name="LoginPage" errors="0" failures="0" skipped="0" timestamp="2024-01-13T09:23:21" time="1.177" tests="2">
+    <testcase classname="LoginPage should render login form" name="LoginPage should render login form" time="0.087">
+    </testcase>
+    <testcase classname="LoginPage should allow entering username and password" name="LoginPage should allow entering username and password" time="0.05">
+    </testcase>
+  </testsuite>
+  <testsuite name="MiPerfil" errors="0" failures="0" skipped="0" timestamp="2024-01-13T09:23:16" time="5.769" tests="1">
+    <testcase classname="MiPerfil should render with user data" name="MiPerfil should render with user data" time="0.163">
     </testcase>
   </testsuite>
 </testsuites>

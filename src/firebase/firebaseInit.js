@@ -23,8 +23,8 @@ firebase.initializeApp(firebaseConfig);
 
 // Get registration token. Initially this makes a network call, once retrieved
 // subsequent calls to getToken will return from cache.
-const messaging = firebase.messaging();
-
+//const messaging = firebase.messaging();
+const messaging = null;
 const vapidKey = 'BHc-8Tl9ikKidFtKVlOY6Np92Yhywg_oL9JcdpHlthGPLwvimNapOPENTs-P3tG19imDc4yy3EeX0aFstxlnMrE';
 
 export const getTokenUser = async(setTokenFound) => {

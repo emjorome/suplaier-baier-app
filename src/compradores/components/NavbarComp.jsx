@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import  PerfilTooltip from "../../components/generales/PerfilTooltip";
-import { onMessageListener } from "../../firebase";
+//import { onMessageListener } from "../../firebase";
 import { Buscador } from "../../ui";
 import { Notificaciones } from "../../components/notificaciones/Notificaciones";
 //import { apiUrl } from "../../apiUrl";
@@ -17,13 +17,13 @@ const NavbarComp = () => {
 
   //console.log(notificacion);
 
-  onMessageListener()
+ /* onMessageListener()
     .then((payload) => {
       setShowNotification(true);
       setUsuariosIdNotif(payload.data);
     })
     .catch((error) => console.log(error));
-
+*/
   const insertNotifications = async () => {
     // const {usuariosId, tipoNotificacion} = usuariosIdNotif;
     // usuariosId.forEach(element => {
