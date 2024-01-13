@@ -1,33 +1,33 @@
 module.exports = {
-  // Selecciona un preset adecuado para proyectos web de React
-  preset: 'ts-jest/presets/js-with-babel',
+    // Preset adecuado para proyectos de React
 
-  // Configura las extensiones de archivos que Jest debe procesar
-  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$',
+    // Transforma archivos JavaScript/TypeScript con Babel
+    transform: {
+        '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
+      },
+  
+    // Mapea archivos SVG para manejarlos en las pruebas
 
-  // Configura las transformaciones para archivos JavaScript/TypeScript
-  transform: {
-    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
-  },
-
-  // Configura el mapeo de módulos, si es necesario
-  moduleNameMapper: {
-    // Ejemplo: Para manejar archivos CSS
-    '\\.(css|less|scss)$': 'identity-obj-proxy',
-  },
-
-  // Configura las rutas de los archivos de pruebas
-  modulePaths: ['<rootDir>'],
-
-  // Configura las ubicaciones de los archivos de pruebas
-  roots: ['<rootDir>/src'],
-
-  // Configura los informes de cobertura, si es necesario
-  collectCoverage: true,
-  coverageReporters: ['lcov', 'text-summary'],
-
-  // Configura los archivos que Jest debe ignorar
-  testPathIgnorePatterns: ['/node_modules/', '/build/'],
-
-  // ... otras configuraciones específicas de tu proyecto ...
-};
+    testEnvironment: 'jsdom',
+    globals: {
+        'jest': {
+        useESM: true,
+        },
+    },
+    // Extiende las expectativas para las pruebas
+  
+    // Agrega reporteros, por ejemplo, Jest JUnit
+    reporters: [
+      'default',
+      [
+        'jest-junit',
+        {
+          outputDirectory: './test-results',
+          outputName: 'junit.xml',
+        },
+      ],
+    ],
+  
+    // ... otras configuraciones ...
+  };
+  

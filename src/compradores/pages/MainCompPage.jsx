@@ -7,7 +7,7 @@ import {
   OfertaCard,
 } from "../../components";
 import { ContMenu } from "../../components/cont_menu/ContMenu";
-import { obtainUserPermission } from "../../firebase";
+//import { obtainUserPermission } from "../../firebase";
 import { ProdDemandaButtonBox } from "../components/ProdDemandaButtonBox";
 export const MainCompPage = React.memo(() => {
   const [ofertasTodos, setOfertasTodos] = useState([]);
@@ -24,7 +24,7 @@ export const MainCompPage = React.memo(() => {
     // eslint-disable-next-line
   }, []);
 
-  obtainUserPermission();
+  //obtainUserPermission();
 
   const showEmptyArray = ofertasTodos?.length === 0;
 

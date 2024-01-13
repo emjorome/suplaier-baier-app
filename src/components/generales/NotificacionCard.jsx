@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { getNotificacionByTipoId} from "../../helpers/getOfertaById"
+import React from "react"
 
 export const NotificacionCard = ({notificacion}) => {
 

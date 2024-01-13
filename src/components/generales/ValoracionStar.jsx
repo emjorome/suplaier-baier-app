@@ -1,3 +1,4 @@
+import React from "react"
 
 export const ValoracionStar = ({cant_estrellas}) => {
 

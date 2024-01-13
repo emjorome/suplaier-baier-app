@@ -1,6 +1,6 @@
 import { ContMenuTitleDemands } from "./ContMenuTitleDemands"
 import { Link } from "react-router-dom"
-
+import React from "react"
 export const ContListaDemands = () => {
   
   return (

@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-const PayPalButton = window.paypal.Buttons.driver("react", { React, ReactDOM });
 
 export const ContBotonPago = ({price = 0}) => {
   /*const [price, setPrice] = useState(0);
@@ -9,7 +8,10 @@ export const ContBotonPago = ({price = 0}) => {
   useEffect(() => {
       setPrice(price);
   }, [price]);*/
-
+  if (typeof window !== "undefined") {
+    // Importa PayPalButton solo en un entorno de navegador
+    const PayPalButton = window.paypal.Buttons.driver("react", { React, ReactDOM });
+  }
   const createOrder = (data, actions) => {
     return actions.order.create({
       purchase_units: [

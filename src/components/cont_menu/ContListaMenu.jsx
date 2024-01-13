@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import { ContMenuTitle } from "./ContMenuTitle"
+import React from "react"
 
 
 export const ContListaMenu = () => {

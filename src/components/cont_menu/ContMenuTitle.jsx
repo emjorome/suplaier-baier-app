@@ -1,4 +1,6 @@
 
+import React from "react"
+
 export const ContMenuTitle = () => {
   return (
     <div className="explorarCat__title">

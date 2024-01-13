@@ -1,3 +1,4 @@
+import React from "react"
 import { ConFavItem } from "./ConFavItem";
 
 export const ContListaFav = ({favoritos}) => {

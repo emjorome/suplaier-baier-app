@@ -1,3 +1,4 @@
+import React from "react"
 import { ContListaOfeSim } from "./ContListaOfeSim"
 import { ContOfeSimTitle } from "./ContOfeSimTitle"
 

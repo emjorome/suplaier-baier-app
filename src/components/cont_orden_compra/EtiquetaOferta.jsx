@@ -1,3 +1,4 @@
+import React from "react"
 import { useEffect, useState } from "react";
 
 export const EtiquetaOferta = ({estado, esOfertaDetalle = false, esAdm = false}) => {
