@@ -1,8 +1,7 @@
 import { useContext, useEffect, useRef } from "react"
-import { Link } from "react-router-dom";
 import { AuthContext } from "../../auth";
 import React from "react";
-const PerfilTooltip = ({onClickOutside}) => {
+const PerfilTooltip = ({onClickOutside, onMiPerfilClick}) => {
   
   const ref = useRef(null);
   const {logout} = useContext(AuthContext);
@@ -25,15 +24,16 @@ const PerfilTooltip = ({onClickOutside}) => {
       ref={ref} 
       className="perfiltooltip"
     >
-      <Link
-        to={`/mi_perfil`} 
+      <div
+        onClick={onMiPerfilClick}
         className="perfiltooltip__option"
+        style={{ cursor: 'pointer' }}
       >
         <span className="material-symbols-rounded">
           account_circle
         </span>
         <p className="paragraph--sm">Mi Perfil</p>
-      </Link>
+      </div>
       <hr className="hrGeneral"/>
       <div className="perfiltooltip__option"
         onClick={() => logout()}

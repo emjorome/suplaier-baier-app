@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import  PerfilTooltip from "../../components/generales/PerfilTooltip";
+import PerfilTooltip from "../../components/generales/PerfilTooltip";
+import ProfileCard from "../../components/generales/ProfileCard";
 //import { onMessageListener } from "../../firebase";
 import { Buscador } from "../../ui";
 import { Notificaciones } from "../../components/notificaciones/Notificaciones";
@@ -10,6 +11,7 @@ const NavbarComp = () => {
   const nagivate = useNavigate();
 
   const [showPerfilTooltip, setShowPerfilTooltip] = useState(false);
+  const [isProfileCardVisible, setIsProfileCardVisible] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   // eslint-disable-next-line
   const [notificacion, setNotificacion] = useState({ title: "", message: "" });
@@ -17,13 +19,13 @@ const NavbarComp = () => {
 
   //console.log(notificacion);
 
- /* onMessageListener()
-    .then((payload) => {
-      setShowNotification(true);
-      setUsuariosIdNotif(payload.data);
-    })
-    .catch((error) => console.log(error));
-*/
+  /* onMessageListener()
+     .then((payload) => {
+       setShowNotification(true);
+       setUsuariosIdNotif(payload.data);
+     })
+     .catch((error) => console.log(error));
+ */
   const insertNotifications = async () => {
     // const {usuariosId, tipoNotificacion} = usuariosIdNotif;
     // usuariosId.forEach(element => {
@@ -65,11 +67,20 @@ const NavbarComp = () => {
   };
 
   const onShowReportarTooltip = () => {
-    setShowPerfilTooltip(true);
+    setShowPerfilTooltip(!showPerfilTooltip);
   };
 
   const onClickOutside = () => {
     setShowPerfilTooltip(false);
+  };
+
+  const openProfileCard = () => {
+    setIsProfileCardVisible(true);
+    setShowPerfilTooltip(false);
+  };
+
+  const closeProfileCard = () => {
+    setIsProfileCardVisible(false);
   };
 
   return (
@@ -127,11 +138,14 @@ const NavbarComp = () => {
             <span className="material-symbols-rounded icon--bg">person</span>
             <p className="paragraph--sm">Cuenta</p>
             {showPerfilTooltip && (
-              <PerfilTooltip onClickOutside={onClickOutside} />
+              <PerfilTooltip onClickOutside={onClickOutside} onMiPerfilClick={openProfileCard} />
             )}
           </div>
         </div>
       </div>
+      {isProfileCardVisible && (
+        <ProfileCard onClose={closeProfileCard} />
+      )}
     </div>
   );
 };
