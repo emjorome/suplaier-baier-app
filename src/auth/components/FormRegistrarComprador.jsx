@@ -122,7 +122,7 @@ export const FormRegistrarComprador = () => {
       const regexCedula = /^[0-9]{9}[-]?[0-9][-]?([0-9]{3})?$/
       const regexNombre = /^[a-zA-ZàáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ']+[ -][a-zA-ZàáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ ,.'-]+$/;
       const regexCiudad = /^[a-zA-ZàáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ']+([ -][a-zA-ZàáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ ,.'-]+)?$/;
-      const regexContrasena = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+      const regexContrasena = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!_.-]{8,}$/;
       const regexCodigoInvitacion = /^[a-z]+\d{10}$/;
 
       //validaciones
@@ -285,7 +285,7 @@ export const FormRegistrarComprador = () => {
               <input
                 id="compradorContrasena"
                 type="password"
-                placeholder="contrasena123!"
+                placeholder="Contrasena_segura.1234-!"
                 className="formRegistrarComp__input paragraph"
                 name="Contrasena"
                 value={Contrasena}
@@ -294,7 +294,7 @@ export const FormRegistrarComprador = () => {
               />
               {
                 !esContrasenaValido &&
-                <p className="paragraph--red u-padding-left-small">Su contraseña debe contener al menos 1 dígito, 1 letra mayúscula y minúscula y ser mayor a 8 caracteres.</p>
+                <p className="paragraph--red u-padding-left-small">Su contraseña debe ser mayor a 8 caracteres y debe contener al menos: 1 dígito, 1 letra mayúscula y minúscula, y 1 carácter especial ( !_.- ).</p>
               }
             </div>
           </div>
@@ -307,7 +307,7 @@ export const FormRegistrarComprador = () => {
               <input
                 id="compradorContrasenaConf"
                 type="password"
-                placeholder="contrasena123!"
+                placeholder="Contrasena_segura.1234-!"
                 className="formRegistrarComp__input paragraph"
                 name="ContrasenaConf"
                 value={ContrasenaConf}
