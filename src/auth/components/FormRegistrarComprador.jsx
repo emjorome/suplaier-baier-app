@@ -22,17 +22,20 @@ export const FormRegistrarComprador = () => {
   const navigate = useNavigate();
 
   //validaciones
-  const [esUsuarioValido, setEsUsuarioValido] = useState(false);
-  const [esNumeroValido, setEsNumeroValido] = useState(false);
-  const [esNombreValido, setEsNombreValido] = useState(false);
-  const [esIdentificacionValido, setEsIdentificacionValido] = useState(false);
-  const [esContrasenaValido, setEsContrasenaValido] = useState(false);
-  const [esEmailValido, setEsEmailValido] = useState(false);
-  const [esCiudadValido, setEsCiudadValido] = useState(false);
-  const [esConfValido, setEsConfValido] = useState(false);
+  const [esUsuarioValido, setEsUsuarioValido] = useState(true);
+  const [esNumeroValido, setEsNumeroValido] = useState(true);
+  const [esNombreValido, setEsNombreValido] = useState(true);
+  const [esIdentificacionValido, setEsIdentificacionValido] = useState(true);
+  const [esContrasenaValido, setEsContrasenaValido] = useState(true);
+  const [esEmailValido, setEsEmailValido] = useState(true);
+  const [esProvinciaValido, setEsProvinciaValido] = useState(true);
+  const [esCiudadValido, setEsCiudadValido] = useState(true);
+  const [esConfValido, setEsConfValido] = useState(true);
+  const [esCodigoInvitacionValido, setEsCodigoInvitacionValido] = useState(true);
+  const [esCodigoExistente, setEsCodigoExistente] = useState(true);
 
   const {
-    formState, Nombre, Identificacion, Usuario, Contrasena, ContrasenaConf, Email, urlImg, Numero, TipoId, Provincia, Ciudad, direccion, onInputChange, setNameValueEmpty} = useForm({
+    formState, Nombre, Identificacion, Usuario, Contrasena, ContrasenaConf, Email, urlImg, Numero, TipoId, Provincia, Ciudad, Direccion, CodigoInvitacion, onInputChange, setNameValueEmpty} = useForm({
       IdRol: 1, 
       Nombre: "", 
       Identificacion: "", 
@@ -46,18 +49,16 @@ export const FormRegistrarComprador = () => {
       Direccion: "",
       TipoId:"Cédula",
       ContrasenaConf: "",
+      CodigoInvitacion: "",
       urlImg: imagen
     });
 
   const uploadUser = async() => {
-
     const newBody = {
       ...formState,
        // eslint-disable-next-line
       ["urlImg"] : imagen,
-      
     }
-
     const body = newBody;
     const resp = await fetch(`${apiUrl}/usuarios`, {
       method: 'POST',
@@ -70,41 +71,6 @@ export const FormRegistrarComprador = () => {
     console.log(data);
   }
 
-
-  useEffect(() => {
-    setEsUsuarioValido(true);
-  }, [Usuario])
-
-  useEffect(() => {
-    setEsNumeroValido(true);
-  }, [Numero])
-
-  useEffect(() => {
-    setEsNombreValido(true);
-  }, [Nombre])
-  
-  useEffect(() => {
-    setEsEmailValido(true);
-  }, [Email])
-  
-  useEffect(() => {
-    setEsIdentificacionValido(true);
-  }, [Identificacion])
-  
-  useEffect(() => {
-    setEsContrasenaValido(true);
-  }, [Contrasena])
-  
-  useEffect(() => {
-    setEsCiudadValido(true);
-  }, [Ciudad])
-
-
-  useEffect(() => {
-    setEsConfValido(true);
-  }, [ContrasenaConf])
-  
-
   //metodos validaciones
   const checkValidUsername = async() => {
     const regexUsername = /^[a-zA-Z0-9_]{3,30}$/;
@@ -112,43 +78,85 @@ export const FormRegistrarComprador = () => {
       setEsUsuarioValido(false);
       return;
     }
-    const resp = await fetch(`${apiUrl}/validarusuario?username=${Usuario}`);
-    const data = await resp.json();
-    const {rows: result} = !!data && data;
-    setEsUsuarioValido(result.length === 0);
-    return;
+    try{
+      const resp = await fetch(`${apiUrl}/validarusuario?username=${Usuario}`);
+      const data = await resp.json();
+      const {rows: result} = !!data && data;
+      const esValido = result.length === 0;
+      setEsUsuarioValido(esValido);
+      return esValido;
+    }catch(error){
+      console.error("Error al validar el usuario:", error);
+      setEsUsuarioValido(false);
+      return false;
+    }
+  }
+
+  const checkValidarCodigo = async () => {
+    if (CodigoInvitacion.length === 0) {
+      setEsCodigoExistente(true); 
+      return true;
+    }
+    const url = `${apiUrl}/aceptarRegistro/validarcodigo?codigo=${CodigoInvitacion}`;
+    try {
+      const resp = await fetch(url);
+      const data = await resp.json(); 
+      setEsCodigoExistente(data.success);
+      return data.success;
+    } catch (error) {
+      console.error("Fetch falló en checkValidarCodigo:", error);
+      setEsCodigoExistente(false);
+      return false;
+    }
   }
 
   const validarTodosCampos = () => {
     //se setean todos los campos validadores
-    return new Promise((resolve, reject) => {
-      
-      checkValidUsername();
+    return new Promise(async (resolve, reject) => {
 
+      const esUsuarioOk = await checkValidUsername();
+
+      //reglas definidas para los campos del formulario
       const regexEmail = /^\w+([-]?\w+)*@\w+([-]?\w+)*(.\w{2,3})+$/;
       const regexNumero = /^[+]?[(]?[0-9]{3}[)]?[-\s]?[0-9]{3}[-\s]?[0-9]{4,6}$/im;
       const regexCedula = /^[0-9]{9}[-]?[0-9][-]?([0-9]{3})?$/
-      const regexContrasena = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
       const regexNombre = /^[a-zA-ZàáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ']+[ -][a-zA-ZàáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ ,.'-]+$/;
       const regexCiudad = /^[a-zA-ZàáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ']+([ -][a-zA-ZàáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ ,.'-]+)?$/;
+      const regexContrasena = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+      const regexCodigoInvitacion = /^[a-z]+\d{10}$/;
 
-      
-      if(esUsuarioValido && regexCiudad.test(Ciudad) && regexCedula.test(Identificacion) && regexNombre.test(Nombre) &&
-      regexEmail.test(Email) && regexNumero.test(Numero) && regexContrasena.test(Contrasena) && (Contrasena === ContrasenaConf)) {
-        resolve(true)
-      } else {
-        setEsCiudadValido(regexCiudad.test(Ciudad));
-        setEsIdentificacionValido(regexCedula.test(Identificacion));
-        setEsNombreValido(regexNombre.test(Nombre));
-        setEsEmailValido(regexEmail.test(Email));
-        setEsNumeroValido(regexNumero.test(Numero));
-        setEsContrasenaValido(regexContrasena.test(Contrasena) && (Contrasena !== ContrasenaConf));
-        setEsConfValido(Contrasena === ContrasenaConf)
-        reject(false);
-      }
-    })    
+      //validaciones
+      const esProvinciaOk = (Provincia !== "Seleccionar Provincia" && Provincia !== "");
+      const esCiudadOk = regexCiudad.test(Ciudad);
+      const esCedulaOk = regexCedula.test(Identificacion);
+      const esNombreOk = regexNombre.test(Nombre);
+      const esEmailOk = regexEmail.test(Email);
+      const esNumeroOk = regexNumero.test(Numero);
+      const esContrasenaOk = regexContrasena.test(Contrasena);
+      const esConfOk = (Contrasena === ContrasenaConf);
+
+      //Se valida primero el formato del código antes de verificar si existe
+      const esCodigoInvitacionOk = (CodigoInvitacion.length === 0) || regexCodigoInvitacion.test(CodigoInvitacion);
+      setEsCodigoInvitacionValido(esCodigoInvitacionOk);
+
+      let esCodigoExistenteOk = false;
+      if(esCodigoInvitacionOk) esCodigoExistenteOk = await checkValidarCodigo();
+
+      setEsProvinciaValido(esProvinciaOk);
+      setEsCiudadValido(esCiudadOk);
+      setEsIdentificacionValido(esCedulaOk);
+      setEsNombreValido(esNombreOk);
+      setEsEmailValido(esEmailOk);
+      setEsNumeroValido(esNumeroOk);
+      setEsContrasenaValido(esContrasenaOk);
+      setEsConfValido(esConfOk);
+
+      if(esUsuarioOk && esCiudadOk && esProvinciaOk && esCedulaOk && esNombreOk && esEmailOk && esNumeroOk && esContrasenaOk
+        && esConfOk && esCodigoInvitacionOk && esCodigoExistenteOk) resolve(true);
+      else reject(false);
+    })
   }
-
+  
   const getImg = async (urlImg) => {
     const reader = new FileReader();
     reader.readAsDataURL(urlImg);
@@ -219,13 +227,14 @@ export const FormRegistrarComprador = () => {
     <div>
     <form onSubmit={onRegistrarComprador}>
     <div className="compraProducto__box">
-      <p className="paragraph">Ingresar los siguientes datos:</p>
+      <p className="paragraph">Ingresar los siguientes datos (Los campos con <span style={{ color: 'red' }}>*</span> son obligatorios):</p>
       <hr className="hrGeneral"/>
       <div className="u-margin-top-small"></div> 
       <div className="formRegistrarComp__twoInputsBox">
         <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
           <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
-            <label htmlFor="compradorUsuario" align="right" className="paragraph--sm formRegistrarComp__label">Usuario</label>
+            <label htmlFor="compradorUsuario" align="center" className="paragraph--sm formRegistrarComp__label">Usuario
+              <span style={{ color: 'red' }}>*</span></label>
             <div className="formRegistrarComp__boxError">
               <input
                 id="compradorUsuario"
@@ -246,7 +255,8 @@ export const FormRegistrarComprador = () => {
         </div>
         <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
           <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
-            <label htmlFor="compradorName" align="right" className="paragraph--sm formRegistrarComp__label">Nombre</label>
+            <label htmlFor="compradorName" align="center" className="paragraph--sm formRegistrarComp__label">Nombre
+              <span style={{ color: 'red' }}>*</span></label>
             <div className="formRegistrarComp__boxError">
               <input
                 id="compradorName"
@@ -265,12 +275,12 @@ export const FormRegistrarComprador = () => {
             </div>
           </div>
         </div>
-      </div>
-        
+      </div>  
       <div className="formRegistrarComp__twoInputsBox">
         <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
           <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
-            <label htmlFor="compradorContrasena" align="right" className="paragraph--sm formRegistrarComp__label">Contraseña</label>
+            <label htmlFor="compradorContrasena" align="center" className="paragraph--sm formRegistrarComp__label">Contraseña
+              <span style={{ color: 'red' }}>*</span></label>
             <div className="formRegistrarComp__boxError">
               <input
                 id="compradorContrasena"
@@ -291,7 +301,8 @@ export const FormRegistrarComprador = () => {
         </div>
         <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
           <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
-            <label htmlFor="compradorContrasenaConf" align="right" className="paragraph--sm formRegistrarComp__label">Confirmar</label>
+            <label htmlFor="compradorContrasenaConf" align="center" className="paragraph--sm formRegistrarComp__label">Confirmar contraseña
+              <span style={{ color: 'red' }}>*</span></label>
             <div className="formRegistrarComp__boxError">
               <input
                 id="compradorContrasenaConf"
@@ -310,13 +321,12 @@ export const FormRegistrarComprador = () => {
             </div>
           </div>
         </div>
-
-
       </div>
       <div className="formRegistrarComp__twoInputsBox">
         <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
           <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
-            <label htmlFor="identificacionUser" align="right" className="paragraph--sm formRegistrarComp__label">Tipo ID</label>
+            <label htmlFor="identificacionUser" align="center" className="paragraph--sm formRegistrarComp__label">Tipo ID
+              <span style={{ color: 'red' }}>*</span></label>
             <div className="formRegistrarComp__boxError"> 
               <select 
                 id="identificacionUser"
@@ -336,7 +346,8 @@ export const FormRegistrarComprador = () => {
         </div>
         <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
           <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
-            <label htmlFor="compradorIdentificacion" align="right" className="paragraph--sm formRegistrarComp__label">{tipoIdSelected}</label>
+            <label htmlFor="compradorIdentificacion" align="center" className="paragraph--sm formRegistrarComp__label">{tipoIdSelected}
+              <span style={{ color: 'red' }}>*</span></label>
             <div className="formRegistrarComp__boxError">
               <input
                 id="compradorIdentificacion"
@@ -355,12 +366,12 @@ export const FormRegistrarComprador = () => {
             </div>
           </div>
         </div>
-
       </div>
       <div className="formRegistrarComp__twoInputsBox">
         <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
           <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
-            <label htmlFor="compradorEmail" align="right" className="paragraph--sm formRegistrarComp__label">E-mail</label>
+            <label htmlFor="compradorEmail" align="center" className="paragraph--sm formRegistrarComp__label">E-mail
+              <span style={{ color: 'red' }}>*</span></label>
             <div className="formRegistrarComp__boxError">
               <input
                 id="compradorEmail"
@@ -378,15 +389,15 @@ export const FormRegistrarComprador = () => {
               }
             </div>
           </div>
-          
         </div>
         <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
           <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
-            <label htmlFor="compradorCelular" align="right" className="paragraph--sm formRegistrarComp__label">Celular</label>
+            <label htmlFor="compradorCelular" align="center" className="paragraph--sm formRegistrarComp__label">Celular
+              <span style={{ color: 'red' }}>*</span></label>
             <div className="formRegistrarComp__boxError"> 
               <input
                 id="compradorCelular"
-                type="text"
+                type="text" 
                 placeholder="0998950947"
                 className="formRegistrarComp__input paragraph"
                 name="Numero"
@@ -400,15 +411,16 @@ export const FormRegistrarComprador = () => {
               }
             </div>
           </div>
-
         </div>
       </div>
         <div className="formRegistrarComp__twoInputsBox">
           <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
             <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
-              <label htmlFor="compradorPais" align="right" className="paragraph--sm formRegistrarComp__label">Provincia</label>
+              <label htmlFor="compradorProvincia" align="center" className="paragraph--sm formRegistrarComp__label">Provincia
+                <span style={{ color: 'red' }}>*</span></label>
               <div className="formRegistrarComp__boxError"> 
-                <select 
+                <select
+                  id="compradorProvincia"
                   name="Provincia"
                   className="formRegistrarComp__input paragraph"
                   onChange={onInputChange}
@@ -421,7 +433,7 @@ export const FormRegistrarComprador = () => {
                   }
                 </select>
                 {
-                  (Provincia === "Seleccionar Provincia") &&
+                  !esProvinciaValido &&
                   <p className="paragraph--red u-padding-left-small">Seleccione una provincia</p>
                 }
               </div>
@@ -429,7 +441,8 @@ export const FormRegistrarComprador = () => {
           </div>
           <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
             <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
-              <label htmlFor="compradorCiudad" align="right" className="paragraph--sm formRegistrarComp__label">Ciudad</label>
+              <label htmlFor="compradorCiudad" align="center" className="paragraph--sm formRegistrarComp__label">Ciudad
+                <span style={{ color: 'red' }}>*</span></label>
               <div className="formRegistrarComp__boxError"> 
                 <select 
                   id="compradorCiudad"
@@ -455,25 +468,54 @@ export const FormRegistrarComprador = () => {
             </div>
           </div>
         </div>
-        <div className="formRegistrarComp__twoInputsBox__one u-margin-top-small">
-          <div className="formRegistrarComp__twoInputsBox__one__labelInput"> 
-            <label htmlFor="compradorDireccion" align="right" className="paragraph--sm formRegistrarComp__labelv2">Dirección</label>
-            <textarea
-              id="compradorDireccion"
-              type="text"
-              placeholder="Sauces 8 Calle 13"
-              className="formRegistrarComp__textArea paragraph"
-              name="Direccion"
-              value={direccion}
-              onChange={onInputChange}
-              required
-            />
+        <div className="formRegistrarComp__twoInputsBox">
+          <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
+            <div className="formRegistrarComp__twoInputsBox__izq__labelInput"> 
+              <label htmlFor="compradorDireccion" align="center" className="paragraph--sm formRegistrarComp__label">Dirección
+                <span style={{ color: 'red' }}>*</span></label>
+              <div className="formRegistrarComp__boxError">
+                <textarea
+                  id="compradorDireccion"
+                  type="text"
+                  placeholder="Sauces 8 Calle 13"
+                  className="formRegistrarComp__textArea paragraph"
+                  name="Direccion"
+                  value={Direccion}
+                  onChange={onInputChange}
+                  required
+                />
+              </div>
+            </div>
+          </div>
+          <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
+            <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
+              <label htmlFor="compradorCodigoInvitacion" align="center" className="paragraph--sm formRegistrarComp__label">Código de invitación</label>
+              <div className="formRegistrarComp__boxError">
+                <input
+                  id="compradorCodigoInvitacion"
+                  name="CodigoInvitacion"
+                  type="text"
+                  placeholder="lmessi0857392167"
+                  className="formRegistrarComp__input paragraph"
+                  value={CodigoInvitacion}
+                  onChange={onInputChange}
+                />
+                {
+                  !esCodigoInvitacionValido &&
+                  <p className="paragraph--red u-padding-left-small">El formato del código ingresado es incorrecto (ej: lmessi0857392167)</p>
+                }
+                {
+                  esCodigoInvitacionValido && !esCodigoExistente &&
+                  <p className="paragraph--red u-padding-left-small">El código de invitación no es válido</p>
+                }
+              </div>
+            </div>
           </div>
         </div>
         <div className="formRegistrarComp__twoInputsBox">
           <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
             <div className="formRegistrarComp__twoInputsBox__izq__labelInput">
-              <label align="right" htmlFor="formSubirLogo" className="paragraph--sm formRegistrarComp__label">Logo</label>
+              <label htmlFor="formSubirLogo" align="center" className="paragraph--sm formRegistrarComp__label">Foto/Logo</label>
               <div className="formRegistrarComp__boxError">
                 <input
                   id="formSubirLogo"
@@ -486,7 +528,6 @@ export const FormRegistrarComprador = () => {
                 />
               </div>
             </div>
-            
           </div>
           {imgExists &&
             <div className="formRegistrarComp__twoInputsBox__izq u-margin-top-small">
@@ -501,7 +542,6 @@ export const FormRegistrarComprador = () => {
           }
         </div>
     </div>
-
     <div className="metodoPago__btnBox">
       <button
         type="submit" 
@@ -515,8 +555,7 @@ export const FormRegistrarComprador = () => {
           texto={'¡Se ha registrado exitosamente!'}
           setShowAccionExitosa={setShowAccionExitosa}
         />
-      }
-      
+      } 
     </div>
   </form>
   {
