@@ -1,3 +1,30 @@
-body {
-  margin: 0;
+/* Backdrop opaco y por encima de todo */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999; /* más alto que cualquier otro modal */
+}
+
+/* Tarjeta con fondo blanco sólido */
+.modal-card {
+  background: #ffffff;
+  width: min(520px, 92vw);
+  border-radius: 12px;
+  padding: 24px 28px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+/* Botón dentro del modal, por si hereda estilos raros */
+.modal-card .btn {
+  min-width: 140px;
+}
+
+/* Evita que se note lo de atrás si hay textos sobresaliendo */
+.modal-card * {
+  background: transparent;
 }
