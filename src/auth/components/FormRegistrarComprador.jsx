@@ -6,6 +6,14 @@ import { AccionExitosaAuth } from "./AccionExitosaAuth";
 import { apiUrl } from "../../apiUrl";
 import { useNavigate } from "react-router-dom";
 import { TerminosPage } from "../pages";
+//Para traer el contexto del model global
+import { useReward } from "../../ui/RewardContext";
+
+// Helpers NUEVOS 
+const normalizeCode = (s = "") => s.trim().replace(/\s+/g, "").toUpperCase();
+// A–Z y 0–9, entre 6 y 64 chars (sin espacios). Al normalizar, acepta mayúsc/minúsc.
+const reCodigoCanje = /^[A-Z0-9]{6,64}$/;
+
 //import { ValidacionCedulaRucService } from "../helpers/validacionesRuc";
 
 export const FormRegistrarComprador = () => {
@@ -20,6 +28,9 @@ export const FormRegistrarComprador = () => {
   const [imagen, setImagen] = useState("no-img.jpeg");
   const [showTerminos, setShowTerminos] = useState(false);
   const navigate = useNavigate();
+  // NUEVO: para abrir el modal global
+  const { setReward } = useReward();
+
 
   //validaciones
   const [esUsuarioValido, setEsUsuarioValido] = useState(true);
@@ -53,95 +64,159 @@ export const FormRegistrarComprador = () => {
       urlImg: imagen
     });
 
-  const uploadUser = async() => {
-    const newBody = {
-      ...formState,
-       // eslint-disable-next-line
-      ["urlImg"] : imagen,
-    }
-    const body = newBody;
-    const resp = await fetch(`${apiUrl}/usuarios`, {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(body)
-    });
-    const data = await resp.json()
-    console.log(data);
-  }
+  const uploadUser = async () => {
+    const newBody = { ...formState, urlImg: imagen };
+    const { ContrasenaConf, CodigoInvitacion, ...payload } = newBody;
 
-  //metodos validaciones
-  const checkValidUsername = async() => {
-    const regexUsername = /^[a-zA-Z0-9_]{3,30}$/;
-    if(!regexUsername.test(Usuario)){
-      setEsUsuarioValido(false);
-      return;
-    }
-    try{
-      const resp = await fetch(`${apiUrl}/validarusuario?username=${Usuario}`);
+    try {
+      // 1) Crear usuario
+      const resp = await fetch(`${apiUrl}/usuarios`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!resp.ok) {
+        const errText = await resp.text();
+        console.error("Registro falló:", resp.status, errText);
+        alert(`No se pudo registrar (${resp.status}): ${errText}`);
+        return;
+      }
+
       const data = await resp.json();
-      const {rows: result} = !!data && data;
-      const esValido = result.length === 0;
+      const userId =
+        data?.userId ?? data?.insertId ?? data?.rows?.[0]?.IdUsuario ?? null;
+
+      // 2) Intentar canje si hay código
+      let rewardMostrado = false;
+      const raw = (CodigoInvitacion || "").trim();
+
+      if (userId && raw) {
+        const code = raw.replace(/\s+/g, "").toUpperCase();
+
+        try {
+          const r2 = await fetch(`${apiUrl}/recompensas/canjear-invitacion`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userId, code }),
+          });
+
+          const canje = await r2.json().catch(() => ({}));
+
+          if (canje?.ok || canje?.alreadyClaimed) {
+            rewardMostrado = true;
+
+            const stars = Number(canje?.award?.stars || 0);
+            const msg =
+              canje?.award?.message ||
+              (canje?.alreadyClaimed
+                ? "Este código ya fue canjeado anteriormente."
+                : "Código canjeado con éxito.");
+
+            // Muestra recompensa y difiere el “éxito” hasta cerrar este modal
+            setReward({
+              show: true,
+              title: canje?.alreadyClaimed ? "Código ya canjeado" : "¡Bienvenido!",
+              message: msg,
+              stars,
+              balance: canje?.balance ?? null,
+              onClose: () => setShowAccionExitosa(true),
+            });
+          }
+        } catch (err) {
+          console.error("Error canjeando invitación:", err);
+          // No bloqueamos el registro por fallos de canje
+        }
+      }
+
+      // 3) Si no hubo modal de recompensa, mostrar éxito ahora
+      if (!rewardMostrado) {
+        setShowAccionExitosa(true);
+      }
+    } catch (e) {
+      console.error("Error en registro:", e);
+      alert("No se pudo registrar: " + e.message);
+    }
+  };
+
+
+
+
+  // --- métodos de validación ---
+  const checkValidUsername = async () => {
+    const regexUsername = /^[a-zA-Z0-9_]{3,30}$/;
+
+    // valida formato local
+    if (!regexUsername.test(Usuario)) {
+      setEsUsuarioValido(false);
+      return false;
+    }
+
+    try {
+      // valida disponibilidad en el backend
+      const resp = await fetch(
+        `${apiUrl}/validarusuario?username=${encodeURIComponent(Usuario)}`
+      );
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const data = await resp.json();
+
+      // muchos backends devuelven { rows: [...] }
+      const { rows = [] } = data || {};
+      const esValido = rows.length === 0;
       setEsUsuarioValido(esValido);
       return esValido;
-    }catch(error){
+    } catch (error) {
       console.error("Error al validar el usuario:", error);
       setEsUsuarioValido(false);
       return false;
     }
-  }
+  };
 
-  const checkValidarCodigo = async () => {
-    if (CodigoInvitacion.length === 0) {
-      setEsCodigoExistente(true); 
+  const checkValidarCodigo = () => {
+    if (!CodigoInvitacion) {
+      setEsCodigoInvitacionValido(true);
+      setEsCodigoExistente(true);
       return true;
     }
-    const url = `${apiUrl}/aceptarRegistro/validarcodigo?codigo=${CodigoInvitacion}`;
-    try {
-      const resp = await fetch(url);
-      const data = await resp.json(); 
-      setEsCodigoExistente(data.success);
-      return data.success;
-    } catch (error) {
-      console.error("Fetch falló en checkValidarCodigo:", error);
-      setEsCodigoExistente(false);
-      return false;
-    }
-  }
+    const ok = reCodigoCanje.test(normalizeCode(CodigoInvitacion));
+    setEsCodigoInvitacionValido(ok);
+    setEsCodigoExistente(true); // no bloqueamos por “existencia” aquí
+    return ok;
+  };
+
 
   const validarTodosCampos = () => {
-    //se setean todos los campos validadores
+    // Se setean todos los campos validadores
     return new Promise(async (resolve, reject) => {
 
       const esUsuarioOk = await checkValidUsername();
 
-      //reglas definidas para los campos del formulario
-      const regexEmail = /^\w+([-]?\w+)*@\w+([-]?\w+)*(.\w{2,3})+$/;
-      const regexNumero = /^[+]?[(]?[0-9]{3}[)]?[-\s]?[0-9]{3}[-\s]?[0-9]{4,6}$/im;
-      const regexCedula = /^[0-9]{9}[-]?[0-9][-]?([0-9]{3})?$/
-      const regexNombre = /^[a-zA-ZàáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ']+[ -][a-zA-ZàáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ ,.'-]+$/;
-      const regexCiudad = /^[a-zA-ZàáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ']+([ -][a-zA-ZàáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ ,.'-]+)?$/;
+      // Reglas definidas para los campos del formulario
+      const regexEmail      = /^\w+([-]?\w+)*@\w+([-]?\w+)*(.\w{2,3})+$/;
+      const regexNumero     = /^[+]?[(]?[0-9]{3}[)]?[-\s]?[0-9]{3}[-\s]?[0-9]{4,6}$/im;
+      const regexCedula     = /^[0-9]{9}[-]?[0-9][-]?([0-9]{3})?$/;
+      const regexNombre     = /^[a-zA-ZàáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ']+[ -][a-zA-ZàáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ ,.'-]+$/;
+      const regexCiudad     = /^[a-zA-ZàáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ']+([ -][a-zA-ZàáąčćęèéįìíòóùúýźñçÀÁĄĆĘÈÉÌÍÒÓÙÚŲÝŹÑÇ ,.'-]+)?$/;
       const regexContrasena = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!_.-]{8,}$/;
-      const regexCodigoInvitacion = /^[a-z]+\d{10}$/;
 
-      //validaciones
-      const esProvinciaOk = (Provincia !== "Seleccionar Provincia" && Provincia !== "");
-      const esCiudadOk = regexCiudad.test(Ciudad);
-      const esCedulaOk = regexCedula.test(Identificacion);
-      const esNombreOk = regexNombre.test(Nombre);
-      const esEmailOk = regexEmail.test(Email);
-      const esNumeroOk = regexNumero.test(Numero);
+      // Validaciones locales
+      const esProvinciaOk  = (Provincia !== "Seleccionar Provincia" && Provincia !== "");
+      const esCiudadOk     = regexCiudad.test(Ciudad);
+      const esCedulaOk     = regexCedula.test(Identificacion);
+      const esNombreOk     = regexNombre.test(Nombre);
+      const esEmailOk      = regexEmail.test(Email);
+      const esNumeroOk     = regexNumero.test(Numero);
       const esContrasenaOk = regexContrasena.test(Contrasena);
-      const esConfOk = (Contrasena === ContrasenaConf);
+      const esConfOk       = (Contrasena === ContrasenaConf);
 
-      //Se valida primero el formato del código antes de verificar si existe
-      const esCodigoInvitacionOk = (CodigoInvitacion.length === 0) || regexCodigoInvitacion.test(CodigoInvitacion);
+      // Código de invitación: solo FORMATO (A–Z/0–9, 6–64, sin espacios)
+      const esCodigoInvitacionOk = checkValidarCodigo();
       setEsCodigoInvitacionValido(esCodigoInvitacionOk);
 
-      let esCodigoExistenteOk = false;
-      if(esCodigoInvitacionOk) esCodigoExistenteOk = await checkValidarCodigo();
+      // Ya no bloqueamos por "existencia" en esta pantalla
+      const esCodigoExistenteOk = true;
 
+      // Set de flags para la UI
       setEsProvinciaValido(esProvinciaOk);
       setEsCiudadValido(esCiudadOk);
       setEsIdentificacionValido(esCedulaOk);
@@ -151,11 +226,19 @@ export const FormRegistrarComprador = () => {
       setEsContrasenaValido(esContrasenaOk);
       setEsConfValido(esConfOk);
 
-      if(esUsuarioOk && esCiudadOk && esProvinciaOk && esCedulaOk && esNombreOk && esEmailOk && esNumeroOk && esContrasenaOk
-        && esConfOk && esCodigoInvitacionOk && esCodigoExistenteOk) resolve(true);
-      else reject(false);
-    })
-  }
+      // Resultado global
+      if (
+        esUsuarioOk && esCiudadOk && esProvinciaOk && esCedulaOk &&
+        esNombreOk && esEmailOk && esNumeroOk && esContrasenaOk &&
+        esConfOk && esCodigoInvitacionOk && esCodigoExistenteOk
+      ) {
+        resolve(true);
+      } else {
+        reject(false);
+      }
+    });
+  };
+
   
   const getImg = async (urlImg) => {
     const reader = new FileReader();
