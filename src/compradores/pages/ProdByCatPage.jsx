@@ -41,12 +41,12 @@ export const ProdByCatPage = React.memo(() => {
 
   useEffect(() => {
     !!categoria && getOfertas();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoria]);
 
   useEffect(() => {
     !!q && getCategoria();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q]);
 
   const showError = q.length > 0 && ofertas?.length === 0;

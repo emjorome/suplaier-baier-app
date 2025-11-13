@@ -81,7 +81,7 @@ export const CompraInstantanea = ({
   useEffect(() => {
     setCostoTotal(parseInt(unidadesUser) * oferta?.ValorUInstantaneo);
     getProveedor();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [unidadesUser, oferta, setCostoTotal]);
 
   return (

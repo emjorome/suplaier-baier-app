@@ -29,7 +29,7 @@ export const OrdConfPage = () => {
   useEffect(() => {
     getComprasPorConf();
     getComprasPorConf2();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const showEmptyArray = !!comprasPorConf && comprasPorConf?.length === 0;

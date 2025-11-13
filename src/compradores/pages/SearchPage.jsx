@@ -26,7 +26,7 @@ export const SearchPage = () => {
 
   useEffect(() => {
     getOfertasTodos();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q]);
 
   const showError = q.length > 0 && ofertasBusqueda.length === 0;

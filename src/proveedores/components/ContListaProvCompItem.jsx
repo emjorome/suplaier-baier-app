@@ -32,12 +32,12 @@ export const ContListaProvCompItem = ({compraPagada}) => {
   useEffect(() => {
     !!oferta && getProducto();
     !!oferta && getProveedor();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [oferta])
 
   useEffect(() => {
     getOferta();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [compraPagada])
   
 

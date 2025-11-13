@@ -77,13 +77,13 @@ export const OrdenCard = ({compra, esProveedor = false}) => {
     !!oferta && getProveedorOferta();
     !!oferta && getEstadoOferta();
     !!oferta && checkSiSeHaUnido();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [oferta])
 
 
   useEffect(() => {
     getOferta();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [compra])
   
 

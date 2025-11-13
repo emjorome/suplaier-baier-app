@@ -9,7 +9,7 @@ export const ContListaAct = React.memo(() => {
   const {authState} = useContext(AuthContext);
   const {user} = authState;
 
-  // eslint-disable-next-line
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const [comprasPendientesByUser, setComprasPendientesByUser] = useState([])
   const [ofertasActivasByComp, setOfertasActivasByComp] = useState([]);
 

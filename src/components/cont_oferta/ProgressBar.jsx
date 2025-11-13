@@ -17,7 +17,7 @@ export const ProgressBar = ({cantMax, actualProductos}) => {
   useEffect(() => {
 
     changeProgess();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actualProductos])
 
   return (

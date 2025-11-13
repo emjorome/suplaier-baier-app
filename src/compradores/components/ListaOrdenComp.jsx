@@ -34,14 +34,14 @@ export const ListaOrdenComp = ({oferta, esProveedor=false}) => {
 
   useEffect(() => {
     !!compra && getEstadoOferta();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [compra])
 
   const showEmptyArray = comprasProv?.length === 0;
 
   useEffect(() => {
     esProveedor ? getComprasByOferta() : getCompraByIdOferta();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [oferta])
   
   return (

@@ -28,13 +28,13 @@ export const CalificarProducto = ({compra, setShowAccionExitosa}) => {
 
   useEffect(() => {
     !!oferta && getProducto();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [oferta])
   
 
   useEffect(() => {
     getOferta();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [compra]);
 
   const changeProductRating = async() => {

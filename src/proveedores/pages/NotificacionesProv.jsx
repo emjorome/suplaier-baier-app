@@ -21,7 +21,7 @@ export const NotificacionesProv = () => {
 
   useEffect(() => {
     getNotificacionesByUser();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authState])
   
 
