@@ -60,10 +60,10 @@ export const FormCrearDemanda = () => {
   const obtenerAhora = () => {
     const ahora = new Date();
     ahora.setDate(ahora.getDate() + 1);
-    var year = ahora.getFullYear();
-    var month = (ahora.getMonth() + 1).toString().padStart(2, "0");
-    var day = ahora.getDate().toString().padStart(2, "0");
-    var fechaString = year + "-" + month + "-" + day;
+    let year = ahora.getFullYear();
+    let month = (ahora.getMonth() + 1).toString().padStart(2, "0");
+    let day = ahora.getDate().toString().padStart(2, "0");
+    let fechaString = year + "-" + month + "-" + day;
     console.log("Fecha en formato YYYY-MM-DD:", fechaString);
     return fechaString;
   };
@@ -71,10 +71,10 @@ export const FormCrearDemanda = () => {
     const limite = new Date();
     limite.setDate(limite.getDate() + 183);
     console.log(limite.getDate());
-    var year = limite.getFullYear();
-    var month = (limite.getMonth() + 1).toString().padStart(2, "0");
-    var day = limite.getDate().toString().padStart(2, "0");
-    var fechaString = year + "-" + month + "-" + day;
+    let year = limite.getFullYear();
+    let month = (limite.getMonth() + 1).toString().padStart(2, "0");
+    let day = limite.getDate().toString().padStart(2, "0");
+    let fechaString = year + "-" + month + "-" + day;
     console.log("Fecha en formato YYYY-MM-DD:", fechaString);
     return fechaString;
   };

@@ -12,7 +12,7 @@ export const SolicitudDetalleAdm = () => {
   const {idSolicitud} = useParams();
   const [solicitud, setSolicitud] = useState();
 
-  var dateObj = new Date();
+  let dateObj = new Date();
   const options = {
     year: 'numeric',
     month: 'numeric',
