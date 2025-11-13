@@ -50,7 +50,7 @@ export const OfertaCardAdm = ({oferta}) => {
     !!oferta && getProductoOferta();
     !!oferta && getProveedorOferta();
     !!oferta && getEstadoOferta();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [oferta])
 
   useEffect(() => {
@@ -63,7 +63,7 @@ export const OfertaCardAdm = ({oferta}) => {
       costoU: oferta?.ValorUProducto,
       urlImg: producto?.UrlImg,
     })
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [producto])
   
   return (
