@@ -29,13 +29,13 @@ export const UsuariosPage = () => {
 
   useEffect(() => {
     getUsuariosTodos()
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     getCompradoresTodos();
     getProveedoresTodos();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [usuariosTodos])
   
 

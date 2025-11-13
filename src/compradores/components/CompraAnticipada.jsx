@@ -10,7 +10,7 @@ export const CompraAnticipada = ({
   setShowErrorPago,
   unidadesPetUsuario,
 }) => {
-  // eslint-disable-next-line
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const [pagoExitoso, setPagoExitoso] = useState(true);
 
   const { authState } = useContext(AuthContext);

@@ -16,7 +16,7 @@ export const ReportesPage = () => {
 
   useEffect(() => {
     getReportes();
-    // eslint-disable-next-line
+   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const showEmptyArray = reportes?.length === 0;

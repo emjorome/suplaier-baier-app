@@ -25,7 +25,7 @@ export const ContListaActItem = ({ofertaActiva: oferta}) => {
   useEffect(() => {
     !!oferta && getProductoById();
     !!oferta && getProveedorById();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [oferta])
   
   return (

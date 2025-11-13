@@ -32,7 +32,7 @@ export const CompraProductos = ({
   useEffect(() => {
     setCostoTotal((parseInt(unidadesUser) * oferta?.ValorUProducto))
     getProveedor();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [unidadesUser, oferta, setCostoTotal]);
 
   return (

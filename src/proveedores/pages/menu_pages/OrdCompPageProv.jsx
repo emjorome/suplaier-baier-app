@@ -24,7 +24,7 @@ export const OrdCompPageProv = () => {
 
   useEffect(() => {
     getComprasPorConf();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const showEmptyArray = !!comprasPorConf && comprasPorConf?.length === 0;

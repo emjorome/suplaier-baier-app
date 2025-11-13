@@ -39,12 +39,12 @@ export const PerfilProveedor = () => {
 
   useEffect(() => {
     !!q && getProveedor();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q]);
 
   useEffect(() => {
     !!proveedor?.IdUsuario && getOfertasProv();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [proveedor]);
 
   const showError = ofertasProv?.length === 0;

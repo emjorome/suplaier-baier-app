@@ -65,7 +65,7 @@ export const OfertaCard = ({oferta, esProveedor = false}) => {
     getProveedorOferta();
     getEstadoOferta();
     checkSiSeHaUnido();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [oferta])
 
   useEffect(() => {

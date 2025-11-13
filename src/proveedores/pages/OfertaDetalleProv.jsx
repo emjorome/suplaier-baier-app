@@ -56,7 +56,7 @@ export const OfertaDetalleProv = () => {
 
   useEffect(() => {
     getOferta();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idOferta])
   
   useEffect(() => {
@@ -64,7 +64,7 @@ export const OfertaDetalleProv = () => {
     !!oferta && getEstadoOferta();
     !!oferta && getProveedor();
     calcularLlegaMinimo();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [oferta])
   
 

@@ -23,7 +23,7 @@ export const ContListaOfeSim = ({nombreProducto, idOferta}) => {
 
   useEffect(() => {
     getOfertasSimilares();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nombreProducto])
   
   const showEmptyArray = ofertasSimilares?.length === 0;

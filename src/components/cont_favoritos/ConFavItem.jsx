@@ -17,7 +17,7 @@ export const ConFavItem = ({fav}) => {
   useEffect(() => {
     
     !!fav && getFetch();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fav])
 
   return (
