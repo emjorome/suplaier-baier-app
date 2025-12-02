@@ -6,3 +6,4 @@ export * from "./ContNavegar";
 export * from "./CardUsuario";
 export * from "./OfertaCardAdm";
 export * from "./ReporteCard";
+export * from "./ModalReporteInvitaciones";
