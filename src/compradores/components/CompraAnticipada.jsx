@@ -33,19 +33,20 @@ export const CompraAnticipada = ({
     console.log(!!data && "exito");
   };
 
-  const crearCompraIndividual = async () => {
+  const crearCompraIndividual = async (paymentData = {}) => {
     const body = {
       IdComprador: user.IdUsuario,
       IdProveedor: oferta.IdProveedor,
       IdOferta: oferta.IdOferta,
       Cantidad: unidadesPetUsuario,
-      Total: costoTotal,
+      Total: paymentData.totalFinal || costoTotal,
       Descripcion: "",
       Observacion: "",
       IdEstado: oferta.IdEstadosOferta,
       MetodoPago: "anticipado",
       PagadoAProveedor: false,
       TipoCompra: "normal",
+      IdOpcionDescuento: paymentData.IdOpcionDescuento || null,
     };
 
     const resp = await fetch(`${apiUrl}/compras`, {
@@ -60,14 +61,14 @@ export const CompraAnticipada = ({
   };
 
   //este metodo debe ser asincrono
-  const efectuarPagoReserva = () => {
+  const efectuarPagoReserva = (paymentData = {}) => {
     // aqui va la implementacion con paypal para hacer las reservas
     // debe guardarse en la db el registro del pago, para luego de cerrar la oferta..
     // efectuar el pago a los proveedores
     return new Promise((resolve, reject) => {
       //TODO: metodo para setear el pago existoso
       if (pagoExitoso) {
-        crearCompraIndividual();
+        crearCompraIndividual(paymentData);
         actualizarOferta();
         //anadir pagos pendientes al administrador
         setShowPagoExito(true);
@@ -79,6 +80,13 @@ export const CompraAnticipada = ({
         reject(false);
       }
     });
+  };
+
+  const handlePaymentSuccess = (paymentData) => {
+    console.log("Pago exitoso con datos:", paymentData);
+    efectuarPagoReserva(paymentData)
+      .then((res) => console.log("pago con exito"))
+      .catch((res) => console.warn("error en realizar el pago"));
   };
 
   const onSubmitPago = () => {
@@ -97,7 +105,11 @@ export const CompraAnticipada = ({
         </p>
         <div className="u-margin-top-small"></div>
         {/* <p className="paragraph">$ {costoTotal.toFixed(2)}</p> */}
-        <ContBotonPago price={costoTotal.toFixed(2)} />
+        <ContBotonPago 
+          price={costoTotal.toFixed(2)} 
+          userId={user.IdUsuario}
+          onPaymentSuccess={handlePaymentSuccess}
+        />
         <div className="metodoPago__btnBox">
           {/* <button 
             type="button"

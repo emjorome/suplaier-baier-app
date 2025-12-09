@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { apiUrl } from "../../apiUrl";
 import { AuthContext } from "../../auth";
+import { ContBotonPago } from "../../components";
 
 export const CompraReserva = ({
   oferta,
@@ -33,19 +34,20 @@ export const CompraReserva = ({
     console.log(!!data && "exito");
   };
 
-  const crearCompraIndividual = async () => {
+  const crearCompraIndividual = async (paymentData = {}) => {
     const body = {
       IdComprador: user.IdUsuario,
       IdProveedor: oferta.IdProveedor,
       IdOferta: oferta.IdOferta,
       Cantidad: unidadesPetUsuario,
-      Total: costoTotal,
+      Total: paymentData.totalFinal || costoTotal,
       Descripcion: "",
       Observacion: "",
       IdEstado: oferta.IdEstadosOferta,
       MetodoPago: "reserva",
       PagadoAProveedor: false,
       TipoCompra: "normal",
+      IdOpcionDescuento: paymentData.IdOpcionDescuento || null,
     };
 
     const resp = await fetch(`${apiUrl}/compras`, {
@@ -60,14 +62,14 @@ export const CompraReserva = ({
   };
 
   //este metodo debe ser asincrono
-  const efectuarPagoReserva = () => {
+  const efectuarPagoReserva = (paymentData = {}) => {
     // aqui va la implementacion con paypal para hacer las reservas
     // debe guardarse en la db el registro del pago, para luego de cerrar la oferta..
     // efectuar el pago a los proveedores
     return new Promise((resolve, reject) => {
       //TODO: metodo para setear el pago existoso
       if (pagoExitoso) {
-        crearCompraIndividual();
+        crearCompraIndividual(paymentData);
         actualizarOferta();
         setShowPagoExito(true);
         setShowPagoReserva(false);
@@ -78,6 +80,13 @@ export const CompraReserva = ({
         reject(false);
       }
     });
+  };
+
+  const handlePaymentSuccess = (paymentData) => {
+    console.log("Pago exitoso con datos:", paymentData);
+    efectuarPagoReserva(paymentData)
+      .then((res) => console.log("pago con exito"))
+      .catch((res) => console.log(res));
   };
 
   const onSubmitPago = () => {
@@ -91,25 +100,28 @@ export const CompraReserva = ({
     <div className="metodoPago animate__animated animate__fadeIn">
       <div className="metodoPago__ventana animate__animated animate__slideInDown">
         <div className="metodoPago__barraSup"></div>
-        <p className="paragraph u-margin-top-mid">
-          Efectuando Pago con Reserva...
+        <p className="paragraph u-margin-top-small">
+          <b>Efectuando Pago con Reserva</b>
         </p>
-        <p className="paragraph u-margin-top-mid">
-          <b>$ {costoTotal.toFixed(2)}</b>
-        </p>
-        <div className="metodoPago__btnBox u-margin-top-mid">
+        <div className="u-margin-top-small"></div>
+        <ContBotonPago 
+          price={costoTotal.toFixed(2)} 
+          userId={user.IdUsuario}
+          onPaymentSuccess={handlePaymentSuccess}
+        />
+        <div className="metodoPago__btnBox">
           {/* <button 
             type="button"
             onClick={() => setShowPagoReserva(false)}
             className="btn btn--red"
-          >Cancelar</button> */}
+          >Cancelar</button>
           <button
             type="button"
             onClick={onSubmitPago}
             className="btn btn--blue"
           >
             Continuar
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

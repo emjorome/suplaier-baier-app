@@ -12,5 +12,16 @@
     border-width: 1px;
     padding: 1rem;
     width: 49%;
+
+    // Tablet (pantallas menores a 900px)
+    @media (max-width: 900px) {
+      width: 100%;
+    }
+  }
+
+  // Móvil (pantallas menores a 600px)
+  @media (max-width: 600px) {
+    padding: 0.5rem;
+    gap: 0.5rem;
   }
 }
