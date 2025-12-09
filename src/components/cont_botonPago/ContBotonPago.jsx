@@ -25,9 +25,20 @@ export const ContBotonPago = ({price = 0, userId, onPaymentSuccess}) => {
     try {
       const resp = await fetch(`${apiUrl}/recompensas/canjes`);
       const data = await resp.json();
-      if (data.ok) {
-        setDescuentos(data.canjes);
+      
+      console.log("Datos de descuentos:", data); // Para depurar en consola
+
+      // CORRECCIÓN: El backend envía un array, no un objeto con .canjes
+      if (Array.isArray(data)) {
+         setDescuentos(data);
+      } else if (data.canjes) {
+         // Por si acaso cambias el backend luego
+         setDescuentos(data.canjes);
+      } else if (data.data) {
+         // Otro formato común
+         setDescuentos(data.data);
       }
+
     } catch (error) {
       console.error('Error al cargar descuentos:', error);
     } finally {
