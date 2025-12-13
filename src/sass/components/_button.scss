@@ -1,195 +1,135 @@
 .btn {
-  &,
-  &:link, 
-  &:visited {
-      text-decoration: none;
-      padding: 1.5rem 2rem;
-      min-width: 15rem;
-      border-radius: 1rem;
-      transition: all .2s;
-      position: relative;
-      font-size: $default-font-size;
-      // Change for the <button> element
-      border: none;
-      cursor: pointer;
-  }
+    &,
+    &:link,
+    &:visited {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.8rem;
 
-  &:hover {
+        text-decoration: none;
+        text-transform: uppercase;
+        padding: 1.2rem 2.4rem;
+        min-width: 14rem;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        
+        font-family: 'Inter', sans-serif;
+        font-size: $default-font-size;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        line-height: 1;
 
-    &::after {
-        transform: scaleX(1.4) scaleY(1.6);
-        opacity: 0;
+        transition: all 0.2s ease-in-out;
+        position: relative;
+        backface-visibility: hidden;
     }
-  }
 
-  &:active,
-  &:focus {
-    background-color: $color-grey-dark-2;
-  }
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba($color-black, 0.15);
+    }
 
-  &--blue {
-    background-color: $color-blue;
-    color: $color-white;
+    &:active,
+    &:focus {
+        outline: none;
+        transform: translateY(0);
+        box-shadow: 0 2px 6px rgba($color-black, 0.1);
+    }
 
-    &::after {
+    &:disabled,
+    &.disabled {
+        background-color: $color-grey-light-2 !important;
+        color: $color-grey-dark !important;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+    &--purple {
+        background-color: $color-primary;
+        color: $color-white;
+
+        &:hover { background-color: $color-primary-light; }
+        &:active { background-color: $color-primary-dark; }
+    }
+
+    &--blue {
         background-color: $color-blue;
-    
+        color: $color-white;
+
+        &:hover { background-color: lighten($color-blue, 5%); }
+        &:active { background-color: darken($color-blue, 10%); }
     }
-  }
 
-  &--grey {
-    background-color: $color-secondary-light;
-    color: $color-white;
+    &--green {
+        background-color: $color-green;
+        color: $color-white;
 
-    &::after {
-        background-color: $color-secondary-light;
-    
+        &:hover { background-color: lighten($color-green, 5%); }
+        &:active { background-color: $color-green-dark; }
     }
-  }
 
-  &--lightPurple {
-    background-color: $color-primary-light;
-    color: $color-white;
+    &--red {
+        background-color: $color-red;
+        color: $color-white;
 
-    &::after {
-      background-color: $color-primary-light;
-      
+        &:hover { background-color: lighten($color-red, 5%); }
+        &:active { background-color: darken($color-red, 10%); }
     }
-  }
 
-  &--green {
-    background-color: $color-green;
-    color: $color-white;
+    &--grey {
+        background-color: $color-grey-light-4;
+        color: $color-secondary;
 
-    &::after {
-      background-color: $color-green;
-      
+        &:hover { 
+            background-color: $color-grey-light-3; 
+            color: $color-primary;
+        }
     }
-  }
 
-  &--red {
-    background-color: $color-red;
-    color: $color-white;
+    &--outline {
+        background-color: transparent;
+        border: 2px solid $color-primary;
+        color: $color-primary;
 
-    &::after {
-      background-color: $color-red;
-      
+        &:hover {
+            background-color: $color-primary;
+            color: $color-white;
+        }
     }
-  }
-
-  &--purple {
-    background-color: $color-primary;
-    color: $color-white;
-
-    &::after {
-      background-color: $color-primary;
-      
-    }
-  }
 }
-.btn-signup{
-  &,
-  &:link, 
-  &:visited {
-      text-decoration: none;
-      padding: 1.5rem 2rem;
-      min-width: 15rem;
-      min-height: 2rem;
-      border-radius: 1rem;
-      transition: all .2s;
-      position: relative;
-      font-size: $default-font-size;
 
-      // Change for the <button> element
-      border: none;
-      cursor: pointer;
-  }
-
-  &:hover {
-
-    &::after {
-        transform: scaleX(1.4) scaleY(1.6);
-        opacity: 0;
-    }
-  }
-
-  &:active,
-  &:focus {
-    background-color: $color-grey-dark-2;
-  }
-
-  &--blue {
-    background-color: $color-blue;
-    color: $color-white;
-
-    &::after {
-        background-color: $color-blue;
-    
-    }
-  }
-
-  &--grey {
-    background-color: $color-secondary-light;
-    color: $color-white;
-
-    &::after {
-        background-color: $color-secondary-light;
-    
-    }
-  }
-
-  &--green {
-    background-color: $color-green;
-    color: $color-white;
-
-    &::after {
-      background-color: $color-green;
-      
-    }
-  }
-
-  &--red {
-    background-color: $color-red;
-    color: $color-white;
-
-    &::after {
-      background-color: $color-red;
-      
-    }
-  }
-
-  &--purple {
-    background-color: $color-primary;
-    color: $color-white;
-
-    &::after {
-      background-color: $color-primary;
-      
-    }
-  }
+.btn-signup {
+    @extend .btn;
+    width: 100%;
+    padding: 1.5rem 2rem;
+    font-size: $default-font-size-mid;
 }
 
 .btn-text {
-  &:link,
-  &:visited {
-      font-size: $default-font-size;
-      color: $color-primary;
-      display: inline-block;
-      text-decoration: none;
-      border-bottom: 1px solid $color-primary;
-      padding: 3px;
-      transition: all .2s;
-  }
+    &:link,
+    &:visited {
+        font-size: $default-font-size;
+        color: $color-primary;
+        display: inline-block;
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+        padding: 3px;
+        transition: all 0.2s;
+        background: none;
+        font-weight: 600;
+    }
 
-  &:hover {
-      background-color: $color-primary;
-      color: $color-white;
-      box-shadow: 0 1rem 2rem rgba($color-black, .15);
-      transform: translateY(-2px);
-  }
+    &:hover {
+        color: $color-primary-dark;
+        border-bottom: 1px solid $color-primary-dark;
+        transform: translateY(-1px);
+    }
 
-  &:active {
-      box-shadow: 0 .5rem 1rem rgba($color-black, 0.15);
-      transform: translateY(0);
-  }
+    &:active {
+        transform: translateY(0);
+        color: $color-primary-dark;
+    }
 }

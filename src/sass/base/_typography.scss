@@ -1,19 +1,16 @@
-// _typography.scss
-
 body {
-  font-family: 'Inter', sans-serif; // Nueva fuente moderna
+  font-family: 'Inter', sans-serif;
   font-weight: 400;
   line-height: 1.6;
-  color: $color-secondary; // Usamos el gris azulado oscuro (#2D3748)
-  padding: 2rem; // Ojo: Quitamos el padding 2rem del body para evitar bordes blancos en móviles
-  background-color: $color-grey-light-1; // Fondo suave (#F7FAFC)
-  -webkit-font-smoothing: antialiased; // Texto más nítido
+  color: $color-secondary;
+  padding: 2rem;
+  background-color: $color-grey-light-1;
+  -webkit-font-smoothing: antialiased;
 }
 
-// Agregamos estilos para Títulos (Headings) que faltaban
 h1, h2, h3, h4 {
   font-weight: 700;
-  color: $color-primary-dark; // Morado oscuro para títulos
+  color: $color-primary-dark;
   margin-bottom: 1rem;
   letter-spacing: -0.5px;
 }
@@ -22,23 +19,22 @@ h1 { font-size: 2.8rem; }
 h2 { font-size: 2.4rem; }
 h3 { font-size: 2rem; }
 
-// Clases de Párrafos (Mantenemos tu estructura para no romper nada)
 .paragraph {
   font-size: $default-font-size;
-  margin-bottom: 0.5rem; // Espaciado por defecto
+  margin-bottom: 0.5rem;
 
   &--bold {
-    font-weight: 600; // Inter se ve mejor en 600 que en bold puro
+    font-weight: 600;
   }
 
   &--mid {
     font-size: $default-font-size-mid;
-    font-weight: 600; // Títulos medios suelen requerir peso
+    font-weight: 600;
   }
 
   &--mid--2 {
     font-size: $default-font-size;
-    color: $color-secondary-light; // Variante sutil
+    color: $color-secondary-light;
   }
 
   &--sm {
@@ -48,25 +44,23 @@ h3 { font-size: 2rem; }
   &--smResp {
     font-size: $default-font-size-sm;
     @media (max-width: 768px) {
-      font-size: 1.2rem; // Ajuste leve para móviles
+      font-size: 1.2rem;
     }
   }
 
-  // Modificadores de Color (Usan las nuevas variables automáticamente)
   &--primary { color: $color-primary; }
   &--blue    { color: $color-blue; }
-  &--green   { color: $color-green; } // Ahora será verde esmeralda
-  &--red     { color: $color-red; }   // Ahora será rojo profesional
+  &--green   { color: $color-green; }
+  &--red     { color: $color-red; }
   &--white   { color: $color-white; }
 
   &--grey {
-    color: $color-secondary-light; // Actualizado a la nueva paleta gris
+    color: $color-secondary-light;
   }
   &--grey--2 {
-    color: $color-secondary; // Gris más oscuro
+    color: $color-secondary;
   }
 
-  // Etiquetas de colores (Tags text)
   &--tag {
     &--green     { color: $color-tag-green; }
     &--blue      { color: $color-tag-blue; }
@@ -77,9 +71,8 @@ h3 { font-size: 2rem; }
   }
 }
 
-// Línea divisoria
 .hrGeneral {
   border: none;
-  border-top: 1px solid $color-grey-light-3; // Borde más sutil y limpio
+  border-top: 1px solid $color-grey-light-3;
   margin: 1.5rem 0;
 }

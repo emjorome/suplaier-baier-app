@@ -1,84 +1,95 @@
-import { useState } from "react";
-import { Terminos } from "../components";
-
-export const TerminosPage = ({uploadUser, setShowAccionExitosa, setShowTerminos}) => {
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
+// import { Terminos } from "../components"; // Descomenta si usas el componente de texto
+export const TerminosPage = ({ uploadUser, setShowAccionExitosa, setShowTerminos }) => {
 
   const [acepta, setAcepta] = useState(true);
+  const [checked, setChecked] = useState(false);
 
-  const onClickRegistrar = async(e) => {
-    e.preventDefault()
-    const checkbox = document.getElementById("aceptBox")
-    if(checkbox.checked){
-      await uploadUser()
-        .then((res) =>{
-          setShowTerminos(false);
-          setShowAccionExitosa(true)
-
-        })
-
-    }
-    else {
+  const onAceptar = async () => {
+    if (checked) {
+      setShowTerminos(false);
+      await uploadUser();
+    } else {
       setAcepta(false);
     }
-  }
+  };
 
-  return (
-    // <div className="signupPage">
-    // <div className="signupPage__centralbox">
-    <div 
-    className="terminosModal animate__animated animate__fadeIn">
-    <div className="terminosModal__box animate__animated animate__slideInDown">
-      {/* <div className="signupPage__centralbox__titleBox">
-        <div className="signupPage__centralbox__titleBox__logoBox">
-          <img 
-            src="suplaier_horizontal celeste.png" 
-            alt="logo_suplaier" 
-            className="signupPage__centralbox__titleBox__logoBox__logoImg" 
-          />
+  const onCancelar = () => {
+    setShowTerminos(false);
+  };
+
+  const modalContent = (
+    <div className="terminosModal animate__animated animate__fadeIn">
+      <div className="terminosModal__ventana animate__animated animate__slideInUp">
+        
+        <div className="terminosModal__header">
+          <h3>Términos y Condiciones</h3>
         </div>
-        <p className="paragraph paragraph--white paragraph--mid">Registro</p>
-        <span className="material-symbols-rounded icon-white icon--sm">
-        arrow_forward_ios
-        </span>
-        <p className="paragraph paragraph--white paragraph--mid">Selecciona tu rol</p>
-        <span className="material-symbols-rounded icon-white icon--sm">
-          arrow_forward_ios
-        </span>
-        <p className="paragraph paragraph--white paragraph--mid">Términos y condiciones</p>
-      </div> */}
-      <div className="signupPage__centralbox__contentTerminos">
-        <Terminos/>
-        <form onSubmit={onClickRegistrar}>
-          <div className="compraProducto__box">
-            <div className="signupPage__centralbox__contentTerminos__aceptarLabel">
-              <input 
-                type="checkbox"  
+
+        <div className="terminosModal__body">
+          <p className="paragraph">
+            Bienvenido a <strong>Suplaier</strong>. Al registrarse, usted acepta cumplir con los siguientes términos:
+          </p>
+          <br />
+          <ol style={{ paddingLeft: '2rem' }}>
+            <li className="paragraph"><strong>Uso de datos:</strong> Sus datos serán utilizados únicamente para fines comerciales dentro de la plataforma.</li>
+            <li className="paragraph"><strong>Veracidad:</strong> Usted declara que la información proporcionada es real y verificable.</li>
+            <li className="paragraph"><strong>Responsabilidad:</strong> Suplaier actúa como intermediario y no se hace responsable por acuerdos externos entre partes.</li>
+            <li className="paragraph"><strong>Pagos:</strong> Las transacciones realizadas a través de la plataforma están sujetas a validación bancaria.</li>
+            <li className="paragraph"><strong>Privacidad:</strong> Respetamos su privacidad y protegemos sus datos bajo estándares de seguridad internacionales.</li>
+            <li className="paragraph"><strong>Conducta:</strong> Se espera un comportamiento profesional entre compradores y proveedores.</li>
+          </ol>
+          <br />
+          <p className="paragraph">
+            Al hacer clic en "Aceptar y Registrarse", confirma que ha leído y entendido este documento legal.
+          </p>
+        </div>
+
+        {/* Footer con Checkbox y Botones */}
+        <div className="terminosModal__footer">
+          
+          <div className="terminosModal__checkbox-container">
+            <input 
+                type="checkbox" 
                 id="aceptBox"
-                value="si_acepta_terminos"
-                name="acepta_terminos"
-              /> 
-              <label 
-                className="paragraph--sm"
-                htmlFor="aceptBox"
-              >
-                Aceptar términos y condiciones
-              </label>
-            </div>
-            {
-              !acepta &&
-              <p className="paragraph--red" align="center">Acepta los términos y condiciones para poder registrarte</p>
-            }
-            <div className="metodoPago__btnBox">
-              <button
-                type="submit" 
-                className="btn btn--blue"
-                >Registrar
-              </button>
-            </div>
+                checked={checked}
+                onChange={(e) => {
+                    setChecked(e.target.checked);
+                    if(e.target.checked) setAcepta(true);
+                }}
+            />
+            <label htmlFor="aceptBox">He leído y acepto los términos y condiciones</label>
           </div>
-        </form>
+
+          {!acepta && (
+             <p className="paragraph--sm" style={{color: '#E53E3E'}}>⚠️ Debes aceptar los términos para continuar</p>
+          )}
+
+          <div style={{ display: 'flex', gap: '1rem', width: '100%', marginTop: '1rem' }}>
+            <button 
+                type="button" 
+                onClick={onCancelar} 
+                className="btn btn--red"
+                style={{flex: 1}}
+            >
+                Cancelar
+            </button>
+            <button 
+                type="button" 
+                onClick={onAceptar} 
+                className="btn btn--blue"
+                style={{flex: 1}}
+            >
+                Registrarme
+            </button>
+          </div>
+
+        </div>
+
       </div>
     </div>
-  </div>
-  )
-}
+  );
+
+  return ReactDOM.createPortal(modalContent, document.body);
+};
