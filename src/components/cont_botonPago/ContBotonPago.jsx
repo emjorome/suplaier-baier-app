@@ -213,18 +213,26 @@ export const ContBotonPago = ({price = 0, userId, onPaymentSuccess, onDescuentoC
           </div>
         )}
 
-        <h1>Total a pagar: ${totalFinal.toFixed(2)}</h1>
-        {descuentoSeleccionado && (
-          <p className="paragraph" style={{textDecoration: 'line-through', color: '#999'}}>
-            Precio original: ${parseFloat(price).toFixed(2)}
-          </p>
-        )}
-        <br />
+        <div className="contBotonPago__totalCard">
+          <div className="contBotonPago__totalCard__precio">
+            ${totalFinal.toFixed(2)}
+          </div>
+          <div className="contBotonPago__totalCard__label">
+            Total a pagar
+          </div>
+          {descuentoSeleccionado && (
+            <div className="contBotonPago__totalCard__original">
+              Precio original: ${parseFloat(price).toFixed(2)}
+            </div>
+          )}
+        </div>
         {PayPalButton && (
-          <PayPalButton
-            createOrder={(data, actions) => createOrder(data, actions)}
-            onApprove={(data, actions) => onApprove(data, actions)}
-          />
+          <div className="contBotonPago__paypalContainer">
+            <PayPalButton
+              createOrder={(data, actions) => createOrder(data, actions)}
+              onApprove={(data, actions) => onApprove(data, actions)}
+            />
+          </div>
         )}
     </center>
   );

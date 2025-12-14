@@ -173,7 +173,7 @@ export const OrdenCard = ({compra, esProveedor = false}) => {
             <p className="paragraph">Fecha vigencia: {FechaLimite?.split("T")[0]}</p>
           </div>
           <div>
-            <p className="paragraph u-padding-right-medium">Precio unitario: {"$" + parseFloat(datosProd?.costoU).toFixed(2)}</p>
+            <p className="paragraph u-padding-right-medium">Precio unitario: {"$" + datosProd?.costoU}</p>
           </div>
         </div>
       </div>

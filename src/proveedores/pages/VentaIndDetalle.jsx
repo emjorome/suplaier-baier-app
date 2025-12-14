@@ -129,7 +129,7 @@ export const VentaIndDetalle = () => {
               <p className="paragraph">Cantidad de unidades vendidas: {compra?.Cantidad}</p>
             </div>
             <div className="oferta-detalle__productoBox u-margin-top-small">
-              <p className="paragraph">Total: {"$" + parseFloat(compra?.Total).toFixed(2)}</p>
+              <p className="paragraph">Total: {"$" + compra?.Total}</p>
             </div>
           </div>
           <div className="oferta-detalle__productoBox u-margin-top-small">
