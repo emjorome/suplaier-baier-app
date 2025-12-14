@@ -139,7 +139,7 @@ export const CompraIndividualPage = () => {
               </div>
               <div className="oferta-detalle__productoBox u-margin-top-small">
                 <p className="paragraph">
-                  <b>Precio unitario:</b> {"$" + oferta?.ValorUProducto}
+                  <b>Precio unitario:</b> {"$" + parseFloat(oferta?.ValorUProducto).toFixed(2)}
                 </p>
               </div>
             </div>
@@ -152,7 +152,7 @@ export const CompraIndividualPage = () => {
 
               <div className="oferta-detalle__productoBox u-margin-top-small">
                 <p className="paragraph">
-                  <b>Total:</b> {"$" + compra?.Total}
+                  <b>Total:</b> {"$" + parseFloat(compra?.Total).toFixed(2)}
                 </p>
               </div>
             </div>

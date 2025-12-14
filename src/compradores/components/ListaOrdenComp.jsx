@@ -61,7 +61,7 @@ export const ListaOrdenComp = ({oferta, esProveedor=false}) => {
         <div className="u-padding-left-small u-margin-top-small listaOrdenComp__orden__izq">
             <p className="paragraph">Fecha: {(compra?.Fecha)?.split("T")[0]}</p>
             <p className="paragraph">Unidades adquiridas: {compra?.Cantidad}</p>
-            <p className="paragraph">Total pagado: ${compra?.Total}</p>
+            <p className="paragraph">Total pagado: ${parseFloat(compra?.Total).toFixed(2)}</p>
             {/* <div className="listaOrdenComp__orden__izq__estadoBox">
               <p className="paragraph">Estado: </p>
               <EtiquetaInvOferta
@@ -86,7 +86,7 @@ export const ListaOrdenComp = ({oferta, esProveedor=false}) => {
       <div className="u-padding-left-small u-margin-top-small listaOrdenComp__orden__izq">
           <p className="paragraph">Fecha: {(compra?.Fecha)?.split("T")[0]}</p>
           <p className="paragraph">Unidades adquiridas: {compra?.Cantidad}</p>
-          <p className="paragraph">Total pagado: ${compra?.Total}</p>
+          <p className="paragraph">Total pagado: ${parseFloat(compra?.Total).toFixed(2)}</p>
           <div className="listaOrdenComp__orden__izq__estadoBox">
             <p className="paragraph">Estado: </p>
             <EtiquetaInvOferta
