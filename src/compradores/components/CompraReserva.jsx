@@ -135,6 +135,13 @@ export const CompraReserva = ({
         <div className="metodoPago__btnBox">
           <button
             type="button"
+            onClick={() => setShowPagoReserva(false)}
+            className="btn btn--red"
+          >
+            Cancelar
+          </button>
+          <button
+            type="button"
             onClick={onSubmitPago}
             className="btn btn--blue"
           >

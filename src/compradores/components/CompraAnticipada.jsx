@@ -136,6 +136,13 @@ export const CompraAnticipada = ({
         <div className="metodoPago__btnBox">
           <button
             type="button"
+            onClick={() => setShowPagoAnticipado(false)}
+            className="btn btn--red"
+          >
+            Cancelar
+          </button>
+          <button
+            type="button"
             onClick={onSubmitPago}
             className="btn btn--blue"
           >
