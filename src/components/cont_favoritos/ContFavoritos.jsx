@@ -8,10 +8,9 @@ import { ContListaFav } from "./ContListaFav"
 
 export const ContFavoritos = () => {
 
-  //cargar lista de favoritos por comprador
+  const [isOpen, setIsOpen] = useState(false);
   const {authState} = useContext(AuthContext);
   const {user: {IdUsuario}} = authState;
-
   const [favoritos, setFavoritos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -26,17 +25,19 @@ export const ContFavoritos = () => {
 
   useEffect(() => {
     getFavoritos();
-    // eslint-disable-next-line
   }, [IdUsuario])
   
   return (
-    <div className="favoritosProv">
-      <ContFavTitle/>
-      <hr className="hrGeneral"/>
-      {isLoading
-      ? <Cargando/>
-      : <ContListaFav favoritos={favoritos}/>
-      }
+    <div className="favoritosProv sidebar-section">
+      <ContFavTitle isOpen={isOpen} onClick={() => setIsOpen(!isOpen)}/>
+      {isOpen && (
+        <div className="sidebar-section__content animate-slide-down">
+          {isLoading
+            ? <Cargando/>
+            : <ContListaFav favoritos={favoritos}/>
+          }
+        </div>
+      )}
     </div>
   )
 }

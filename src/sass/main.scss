@@ -38,6 +38,7 @@
 @import "components/contBotonPago";
 @import "components/form";
 @import "components/dashboardCard";
+@import "components/slidebar";
 
 @import "layout/navigation";
 @import "layout/footer";
@@ -54,3 +55,4 @@
 @import "pages/authPages/sesion-expirada";
 @import 'components/profile-card';
 //@import "pages/proveedor";
+@import "pages/proveedor/dashboard-prov";

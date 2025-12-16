@@ -41,7 +41,7 @@ export const OrdConfPageProv = () => {
     <div className="comp-main-container u-margin-top-navbar">
     <div className="comp-main-container__izqCont">
       <ContMenu/>
-      <ProdOfertaButtonBox/>
+      {/* <ProdOfertaButtonBox/> */}
       <ContExplorar />
       <ContFavoritos />
     </div>

@@ -82,7 +82,7 @@ export const OfertaDetalleProv = () => {
       <div className="comp-main-container__izqCont">
         {/* <ContExplorar/> */}
         <ContMenu/>
-        <ProdOfertaButtonBox/>
+        {/* <ProdOfertaButtonBox/> */}
         <ContExplorar />
         <ContFavoritos />
       </div>

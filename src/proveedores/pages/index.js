@@ -7,5 +7,6 @@ export * from "./SearchPageProv";
 export * from "./CrearOferta";
 export * from "./SubirProducto";
 export * from "./VentaIndDetalle";
-export * from "./ListDemandas"
-export * from "./CrearPropuesta"
+export * from "./ListDemandas";
+export * from "./CrearPropuesta";
+export * from "./MisOfertas";

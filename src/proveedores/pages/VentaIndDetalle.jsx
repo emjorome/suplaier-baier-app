@@ -85,7 +85,7 @@ export const VentaIndDetalle = () => {
       <div className="comp-main-container__izqCont">
         {/* <ContExplorar/> */}
         <ContMenu/>
-        <ProdOfertaButtonBox/>
+        {/* <ProdOfertaButtonBox/> */}
       </div>
       <div className="comp-main-container__divSepIzq"></div>
       <div className="comp-main-container__medCont">

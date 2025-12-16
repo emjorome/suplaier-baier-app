@@ -11,7 +11,8 @@ import {
   SearchPageProv,
   SubirProducto,
   VentaIndDetalle,
-  CrearPropuesta
+  CrearPropuesta,
+  MisOfertas
 } from "../pages";
 import {
   OfeCanPageProv,
@@ -84,6 +85,7 @@ export const ProvRoutes = () => {
             path="venta_individual/:idCompra"
             element={<VentaIndDetalle />}
           />
+          <Route path="mis_ofertas" element={<MisOfertas />} />
           <Route path="ofertas_pendientes" element={<OfePenPageProv />} />
           <Route path="ofertas_canceladas" element={<OfeCanPageProv />} />
           <Route path="ordenes_compra" element={<OrdCompPageProv />} />

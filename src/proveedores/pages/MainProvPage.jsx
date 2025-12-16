@@ -1,141 +1,155 @@
 import React from "react";
-import { ContActividades, OfertaCard,ContExplorar,ContFavoritos} from "../../components";
+import { ContExplorar, ContFavoritos } from "../../components";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../auth";
-import { ProdOfertaButtonBox } from "../components";
 import { apiUrl } from "../../apiUrl";
 import { ContMenu } from "../../components/cont_menu/ContMenu";
 import { obtainUserPermission } from "../../firebase";
+import { Link } from "react-router-dom";
+
 export const MainProvPage = React.memo(() => {
   
-  const {authState} = useContext(AuthContext);
-  const {user} = authState;
-  
+  const { authState } = useContext(AuthContext);
+  const { user } = authState;
 
+  // Estado para las ofertas
   const [ofertasProv, setOfertasProv] = useState([]);
-  const [opcionSeleccionada, setOpcionSeleccionada] = useState('');
-  
 
-
-
-
-  const handleSeleccion = (event) => {
-    const opcionSeleccionada = event.target.value;
-    setOpcionSeleccionada(opcionSeleccionada);
-
-    console.log(`Opción seleccionada: ${opcionSeleccionada}`);
+  // Lógica del Saludo Automático
+  const getSaludo = () => {
+    const hora = new Date().getHours();
+    if (hora >= 5 && hora < 12) return "Buenos días";
+    if (hora >= 12 && hora < 19) return "Buenas tardes";
+    return "Buenas noches";
   };
 
+  const saludo = getSaludo();
+
+  // Obtener ofertas reales
   const getOfertasProv = async() => {
-    const resp = await fetch(`${apiUrl}/ofertas?idProveedor=${user.IdUsuario}`);
-    const data = await resp.json();
-    const {rows: ofertas} = !!data && data;
-    setOfertasProv(ofertas);
-  }
-  const getOfertasPorFechaMayor = async() => {
-    const resp = await fetch(`${apiUrl}/ofertas/orderFechaMayor?idProveedor=${user.IdUsuario}`);
-    const data = await resp.json();
-    const {rows: ofertasM} = !!data && data;
-    setOfertasProv(ofertasM);
-  }
-  const getOfertasPorFechaMenor = async() => {
-    const resp = await fetch(`${apiUrl}/ofertas/orderFechaMenor?idProveedor=${user.IdUsuario}`);
-    const data = await resp.json();
-    const {rows: ofertasm} = !!data && data;
-    setOfertasProv(ofertasm);
-  }
-  const getOfertasSoloCurso = async() => {
-    const resp = await fetch(`${apiUrl}/ofertas?idProveedor=${user.IdUsuario}&idEstadosOferta=${1}`);
-    const data = await resp.json();
-    const {rows: ofertasc} = !!data && data;
-    setOfertasProv(ofertasc);
-  }
-  
-  const seleccionFilter = async(opcionSeleccionada) => {
-    switch (opcionSeleccionada) {
-      case "opcionFechaM":
-        getOfertasPorFechaMayor()
-        break;
-      case "opcionFecham":
-        getOfertasPorFechaMenor()
-        break;
-      case "opcionSoloCurso": 
-        getOfertasSoloCurso()    
-      break;  
-      default:
-        getOfertasProv()
-      break;
+    try {
+        if (!user?.IdUsuario) return;
+        const resp = await fetch(`${apiUrl}/ofertas?idProveedor=${user.IdUsuario}`);
+        const data = await resp.json();
+        const {rows: ofertas} = !!data && data;
+        setOfertasProv(ofertas || []);
+    } catch (error) {
+        console.log(error);
     }
   }
 
   useEffect(() => {
-    seleccionFilter(opcionSeleccionada);
-  }, [opcionSeleccionada]);
-
-  useEffect(() => {
     getOfertasProv();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authState])
+  }, [user]);
 
-  
   obtainUserPermission();
-
-  const showEmptyArray = ofertasProv.length === 0;
 
   return (
     <div className="comp-main-container u-margin-top-navbar">
+      
       <div className="comp-main-container__izqCont">
         <ContMenu/>
-        <ProdOfertaButtonBox/>
         <ContExplorar/>
         <ContFavoritos/>
       </div>
-      <div className="comp-main-container__divSepIzq"></div>
-      <div className="comp-main-container__medCont">
-        <div className="comp-main-container__medCont__ofertas">
-          <div className="explorarCat__titleCardOferta">
-          <div  className="explorarCat__titleCardOferta__tituloBox">
-            <span className="material-symbols-rounded icon-grey icon--sm">
-              arrow_forward_ios
-            </span>
-            <p className="paragraph--mid"><b>Mis ofertas</b></p>
-            </div>
-              <div></div>
-             <div className="explorarCat__titleCardOferta__filtrarBox">
-              <span className="material-symbols-rounded icon-grey icon--bg">
-              filter_list
-            </span>
-                   <select value={opcionSeleccionada} onChange={handleSeleccion} className="formSubirProducto__inputBox__selectFilter">
-                     <option value="todos">Todas</option>
-                     <option value="opcionFechaM">Fecha de cierre - Mayor a menor</option>
-                     <option value="opcionFecham">Fecha de cierre - Menor a mayor</option>
-                     <option value="opcionSoloCurso">Solo en curso</option>
-                  </select>
-                  </div>
-                  
-                 
-          </div>
-          <hr className="hrGeneral"/>
-          {
-          showEmptyArray
-          ? <p className="paragraph">Por el momento no tienes ofertas creadas </p>
-          :
-          ofertasProv.map(oferta => (
-            <OfertaCard 
-              key={oferta?.IdOferta}
-              oferta={oferta}
-              esProveedor={true}
-            />
-          ))
-          }
+
+      <div className="comp-main-container__medCont dashboard-container">
+        
+        <div className="dashboard-header">
+            <h1>{saludo}, <span className="text-blue">{user?.Nombre || "Usuario"}</span> 👋</h1>
+            <p>Aquí tienes un resumen de tu actividad en SUPLAIER</p>
         </div>
-      </div>
-      <div className="comp-main-container__divSepDer"></div>
-      <div className="comp-main-container__derCont">
-        <ContActividades esProveedor={true}/>
+
+        <div className="dashboard-grid">
+            <Link to="/mis_ofertas" className="stat-card" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <div className="stat-card__top">
+                    <div className="icon-box blue">
+                        <span className="material-symbols-rounded">inventory_2</span>
+                    </div>
+                    <span className="material-symbols-rounded arrow">north_east</span>
+                </div>
+                <h3>{ofertasProv.length}</h3>
+                <p className="label">Ofertas activas</p>
+                <p className="trend green">Total histórico</p>
+            </Link>
+
+            <div className="stat-card">
+                <div className="stat-card__top">
+                    <div className="icon-box green">
+                        <span className="material-symbols-rounded">trending_up</span>
+                    </div>
+                    <span className="material-symbols-rounded arrow">north_east</span>
+                </div>
+                <h3>$0</h3>
+                <p className="label">Ventas del mes</p>
+                <p className="trend green">Ponte pilas pues mi llave</p>
+            </div>
+
+            <Link to="/ordenes_por_confirmar" className="stat-card" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <div className="stat-card__top">
+                    <div className="icon-box orange">
+                        <span className="material-symbols-rounded">schedule</span>
+                    </div>
+                    <span className="material-symbols-rounded arrow">north_east</span>
+                </div>
+                <h3>0</h3>
+                <p className="label">Órdenes pendientes</p>
+                <p className="trend blue">Por confirmar</p>
+            </Link>
+
+             <Link to="/demandas" className="stat-card" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <div className="stat-card__top">
+                    <div className="icon-box purple">
+                        <span className="material-symbols-rounded">shopping_cart</span>
+                    </div>
+                    <span className="material-symbols-rounded arrow">north_east</span>
+                </div>
+                <h3>0</h3>
+                <p className="label">Demandas nuevas</p>
+                <p className="trend green">En tu categoría</p>
+            </Link>
+        </div>
+
+        {/* --- ACCIONES RÁPIDAS --- */}
+        <h2 className="section-title">Acciones rápidas</h2>
+
+        <div className="dashboard-grid">
+            
+            <Link to="/subir_producto" className="action-card">
+                <div className="icon-circle green">
+                    <span className="material-symbols-rounded">add</span>
+                </div>
+                <h4>Subir Producto</h4>
+                <p>Agrega un nuevo producto a tu catálogo</p>
+            </Link>
+
+            <Link to="/crear_nueva_oferta" className="action-card">
+                <div className="icon-circle blue">
+                    <span className="material-symbols-rounded">local_offer</span>
+                </div>
+                <h4>Nueva Oferta</h4>
+                <p>Crea una oferta para tus productos</p>
+            </Link>
+
+            <Link to="/mis_ofertas" className="action-card">
+                <div className="icon-circle gray">
+                    <span className="material-symbols-rounded">list_alt</span>
+                </div>
+                <h4>Ver Mis Ofertas</h4>
+                <p>Gestiona todas tus ofertas activas</p>
+            </Link>
+
+            <Link to="/demandas" className="action-card">
+                <div className="icon-circle gray">
+                    <span className="material-symbols-rounded">search</span>
+                </div>
+                <h4>Explorar Demandas</h4>
+                <p>Encuentra nuevas oportunidades</p>
+            </Link>
+
+        </div>
       </div>
     </div>
   )
-
 });

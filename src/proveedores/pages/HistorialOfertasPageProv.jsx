@@ -15,7 +15,7 @@ export const HistorialOfertasPageProv = () => {
     <div className="comp-main-container u-margin-top-navbar">
       <div className="comp-main-container__izqCont">
         <ContExplorar/>
-        <ProdOfertaButtonBox/>
+        {/* <ProdOfertaButtonBox/> */}
       </div>
       <div className="comp-main-container__divSepIzq"></div>
       <div className="comp-main-container__medCont">

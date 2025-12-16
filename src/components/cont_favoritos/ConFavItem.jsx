@@ -15,7 +15,6 @@ export const ConFavItem = ({fav}) => {
   }
 
   useEffect(() => {
-    
     !!fav && getFetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fav])
@@ -24,7 +23,7 @@ export const ConFavItem = ({fav}) => {
     <Link 
       to={`/perfil_proveedor?q=${fav.IdUsuarioProv}`} 
       key={fav.IdProvFavorito} 
-      className="explorarCat__lista__item"
+      className="explorarCat__lista__item sidebar-subitem"
     >
       <span className="material-symbols-rounded icon--sm">
         star
