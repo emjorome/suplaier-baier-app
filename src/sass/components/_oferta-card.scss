@@ -8,7 +8,7 @@
   border-radius: 12px;
   background-color: $color-white;
   margin-bottom: 1rem;
-  padding: 0rem; // Se deja que los hijos manejen su propio padding
+  padding: 0rem;
 
   /* Modern look */
   box-shadow: 0 4px 12px rgba(0,0,0,0.04);
@@ -41,18 +41,18 @@
     }
   }
 
-  /* ETIQUETAS */
+  /* ETIQUETAS - AHORA CON ESPACIO PARA LOS 3 PUNTOS */
   &__etiquetaBox {
     position: absolute;
     top: 1rem;
-    right: 1rem;
+    right: 3rem; // Cambiado de 1rem a 3rem para dar espacio a los 3 puntos
     display: flex;
     gap: 0.6rem;
     flex-direction: row-reverse;
 
     @media (max-width: 768px) {
       flex-direction: column;
-      right: 0.6rem;
+      right: 2.5rem; // También ajustado en mobile
       top: 0.6rem;
     }
 
@@ -97,7 +97,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 10px; /* LOOK MÁS MODERNO */
+      border-radius: 10px;
     }
   }
 
@@ -140,15 +140,26 @@
   }
 }
 
-/* REPORTAR */
+/* REPORTAR - AHORA AL LADO DE LAS ETIQUETAS */
 .oferta-card-main {
   position: relative;
 }
 
 .oferta-card-reportarBox {
   position: absolute;
-  right: 4px;
-  top: 2rem;
+  right: 1rem; // Ahora está alineado con el borde derecho
+  top: 1rem; // Mismo top que las etiquetas
+  z-index: 10; // Asegura que esté por encima
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem; // Ancho fijo para el icono de 3 puntos
+  height: 2rem; // Alto fijo
+  
+  @media (max-width: 768px) {
+    right: 0.6rem;
+    top: 0.6rem;
+  }
 
   &:hover {
     cursor: pointer;
@@ -166,8 +177,10 @@
   justify-content: center;
   color: $color-red;
   position: absolute;
-  right: 1rem;
-  top: 2.2rem;
+  right: 0; // Alineado con el botón de reportar
+  top: 2.5rem; // Justo debajo del botón
+  z-index: 20; // Por encima del botón
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 
   &:hover {
     cursor: pointer;
