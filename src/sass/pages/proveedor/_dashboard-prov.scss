@@ -1,0 +1,181 @@
+/* =========================================================
+   ESTILOS DASHBOARD PROVEEDOR (Calibrado - Tamaño Medio)
+   ========================================================= */
+
+/* 1. CONTENEDOR CENTRAL */
+.comp-main-container__medCont.dashboard-container {
+    width: 80%; 
+    /* Reduje el padding a 3rem (aprox 30px) para que no robe tanto espacio */
+    padding: 3rem; 
+    background-color: #f9fafb; 
+    min-height: calc(100vh - 8rem); 
+    
+    @media (max-width: 900px) {
+        width: 100%;
+        padding: 2rem;
+    }
+}
+
+/* 2. HEADER DEL DASHBOARD (Saludo) */
+.dashboard-header {
+    margin-bottom: 3rem; /* Menos separación */
+    
+    h1 {
+        font-family: 'Inter', sans-serif;
+        /* Bajamos de 3.6rem a 3rem (Aprox 29px, apenas más grande que tu h1 base) */
+        font-size: 3rem; 
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 0.5rem;
+        line-height: 1.2;
+        
+        .text-blue { color: #2563eb; }
+    }
+    
+    p {
+        color: #6b7280;
+        font-size: 1.6rem; /* Texto estándar legible (~15px) */
+        margin-top: 0;
+        font-weight: 400;
+    }
+}
+
+/* Título de sección "Acciones rápidas" */
+.section-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.8rem; /* Tamaño h3 (~18px) */
+    font-weight: 700;
+    color: #111827;
+    margin: 3.5rem 0 1.5rem 0; /* Márgenes ajustados */
+}
+
+/* 3. GRID (REJILLA) */
+.dashboard-grid {
+    display: grid;
+    /* Reduje el ancho mínimo a 22rem para que quepan mejor 4 en fila */
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr)); 
+    gap: 2rem; 
+}
+
+/* 4. TARJETAS DE ESTADÍSTICAS */
+.stat-card {
+    background: #fff;
+    border-radius: 1.2rem;
+    padding: 2rem; /* Padding interno más normal */
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 16rem; /* Altura más controlada */
+
+    &:hover { 
+        transform: translateY(-0.3rem);
+        box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.08); 
+    }
+
+    &__top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+        
+        .arrow { 
+            color: #9ca3af; 
+            font-size: 2rem; /* Icono de flecha tamaño normal */
+        }
+    }
+
+    .icon-box {
+        width: 4.5rem;
+        height: 4.5rem;
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        span { font-size: 2.4rem; } /* Icono ajustado */
+
+        &.blue   { background: #eff6ff; color: #3b82f6; }
+        &.green  { background: #ecfdf5; color: #10b981; }
+        &.orange { background: #fff7ed; color: #f97316; }
+        &.purple { background: #f5f3ff; color: #8b5cf6; }
+    }
+
+    /* Número grande */
+    h3 { 
+        font-size: 2.8rem; /* Bajado de 3.8 a 2.8 (~27px) */
+        font-weight: 700; 
+        color: #111827; 
+        margin: 1rem 0 0.2rem 0; 
+        line-height: 1;
+    }
+    
+    .label { 
+        font-size: 1.4rem; /* Texto secundario pequeño */
+        color: #6b7280; 
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+    
+    .trend { 
+        font-size: 1.2rem; 
+        font-weight: 600;
+        margin: 0;
+        &.green { color: #10b981; }
+        &.blue { color: #3b82f6; }
+    }
+}
+
+/* 5. TARJETAS DE ACCIÓN */
+.action-card {
+    background: #fff;
+    border-radius: 1.2rem;
+    padding: 2rem;
+    border: 1px solid #e5e7eb;
+    text-decoration: none; 
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: all 0.2s;
+    cursor: pointer;
+    min-height: 18rem; 
+
+    &:hover {
+        border-color: #3b82f6;
+        box-shadow: 0 10px 25px rgba(37, 99, 235, 0.12); 
+        transform: translateY(-0.3rem);
+    }
+
+    .icon-circle {
+        width: 5rem;
+        height: 5rem;
+        border-radius: 50%; 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        
+        span { font-size: 2.4rem; }
+
+        &.green { background: #ecfdf5; color: #10b981; }
+        &.blue  { background: #eff6ff; color: #3b82f6; }
+        &.gray  { background: #f3f4f6; color: #4b5563; }
+    }
+
+    h4 {
+        font-size: 1.6rem; /* Título tarjeta (~16px negrita) */
+        font-weight: 700;
+        color: #111827;
+        margin: 0 0 0.5rem 0;
+    }
+
+    p {
+        font-size: 1.4rem; /* Descripción legible */
+        color: #6b7280;
+        line-height: 1.4;
+        margin: 0;
+        font-weight: 400;
+    }
+}

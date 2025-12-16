@@ -1,0 +1,125 @@
+/* =========================================
+   SIDEBAR ESTILO "CLEAN UI" (Minimalista)
+   ========================================= */
+
+/* Estas reglas aplican a todos los bloques del sidebar:
+   .explorarCat, .actividadesRec, .favoritosProv
+*/
+
+/* 1. TÍTULOS DE SECCIÓN (Ej: "Menú de ofertas") */
+.explorarCat__title,
+.actividadesRec__title,
+.favoritosProv__title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    /* Menos padding que antes */
+    padding: 0.8rem 0.5rem; 
+    cursor: pointer;
+    
+    /* Eliminamos el fondo y los bordes del diseño anterior */
+    background-color: transparent;
+    border-radius: 0;
+    margin-bottom: 0;
+
+    /* Texto del título: Más pequeño y sutil */
+    p.paragraph--mid, p.paragraph {
+        font-family: 'Inter', sans-serif; /* Asegúrate de tener esta fuente o la tuya */
+        font-size: 0.95rem !important;    /* Texto más pequeño */
+        font-weight: 600 !important;
+        color: #4a5568;                   /* Gris oscuro suave */
+        letter-spacing: 0.3px;
+    }
+
+    /* La flechita de la derecha */
+    .explorarCat__toggle-icon,
+    .actividadesRec__toggle-icon {
+        font-size: 1.1rem; /* Flecha más pequeña */
+        color: #a0aec0;    /* Gris claro */
+        transition: transform 0.3s ease;
+        /* Si tiene la clase 'open', se rota */
+        &.open {
+            transform: rotate(180deg);
+        }
+    }
+}
+
+/* 2. LISTAS DE ITEMS (El contenido desplegable) */
+.explorarCat__lista,
+.actividadesRec__lista,
+.favoritosProv__lista {
+    display: flex;
+    flex-direction: column;
+    padding: 0.2rem 0 1rem 0; /* Un poco de espacio abajo */
+    /* Se oculta si no está abierta (controlado por React) */
+    /* display: none; */ /* <-- React controla esto, no el CSS */
+
+    /* CADA ITEM INDIVIDUAL (Ej: "Mis ofertas") */
+    .explorarCat__lista__item,
+    .actividadesRec__lista__item,
+    .favoritosProv__lista__item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        text-decoration: none;
+        
+        /* Padding interno para el item */
+        padding: 0.6rem 1rem;
+        /* Margen lateral para que no pegue al borde */
+        margin: 0.1rem 0.5rem;
+        border-radius: 6px; /* Bordes redondeados suaves AL ITEM */
+        transition: all 0.15s ease-in-out;
+
+        /* Estilo normal del texto e icono */
+        color: #2d3748; /* Gris texto */
+        font-size: 0.95rem;
+        font-weight: 500;
+
+        /* Icono de la izquierda */
+        .material-symbols-rounded {
+            font-size: 1.25rem; /* Icono de tamaño medio */
+            color: #718096;    /* Gris medio */
+            margin-right: 0.8rem;
+        }
+
+        /* --- ESTADO HOVER (Al pasar el mouse) --- */
+        &:hover {
+            /* Fondo azul muy claro */
+            background-color: #ebf8ff; 
+            /* Texto azul */
+            color: #3182ce;            
+            /* El icono también se pone azul */
+            .material-symbols-rounded {
+                color: #3182ce;
+            }
+            /* Eliminamos la transformación de mover a la derecha */
+            transform: none; 
+        }
+
+        /* --- ESTADO ACTIVO (Si quisieras marcar dónde estás) --- */
+        &.active {
+            background-color: #ebf8ff;
+            color: #3182ce;
+            font-weight: 600;
+            .material-symbols-rounded {
+                color: #3182ce;
+            }
+        }
+    }
+}
+
+/* 3. LIMPIEZA GENERAL */
+/* Quitamos estilos de los contenedores padres para que sea plano */
+.explorarCat, .actividadesRec, .favoritosProv {
+    background-color: transparent !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    margin-bottom: 1.5rem !important; /* Espacio entre grandes bloques */
+}
+
+/* Ocultamos las líneas divisorias si quedaba alguna */
+.hrGeneral {
+    display: none !important;
+}
