@@ -48,14 +48,17 @@ export const MainCompPage = React.memo(() => {
             </p>
           </div>
           <hr className="hrGeneral" />
+
           {showEmptyArray ? (
             <p className="paragraph">
               Por el momento no hay ofertas disponibles
             </p>
           ) : (
-            ofertasTodos?.map((oferta) => (
-              <OfertaCard key={oferta.IdOferta} oferta={oferta} />
-            ))
+            <div className="comp-main-container__medCont__ofertas-list">
+              {ofertasTodos?.map((oferta) => (
+                <OfertaCard key={oferta.IdOferta} oferta={oferta} />
+              ))}
+            </div>
           )}
         </div>
       </div>

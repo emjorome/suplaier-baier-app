@@ -5,6 +5,11 @@ export const ContListaNav = () => {
 
   const listaOpcionesNav = [
     {
+      title: "Panel Principal",
+      nombreLink: "administrador",
+      googleIcon: "dashboard",
+    },
+    {
       title: "Reportes",
       nombreLink: "reportes",
       googleIcon: "flag",

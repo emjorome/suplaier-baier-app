@@ -9,20 +9,38 @@
     border-style: solid;
     border-radius: 5px;
     border-color: $color-grey-light-4;
-    padding: 1rem;
-    gap: 1rem;
+    padding: 1.5rem;
+    gap: 1.5rem;
+    align-items: center;
+
+    // En pantallas pequeñas, cambiar a vertical
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: stretch;
+    }
 
     &__twoColumn{
       display: flex;
       flex-direction: row;
       justify-content: space-around;
+      align-items: stretch;
+      gap: 1rem;
 
       & > * {
         width: 50%;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
       }
 
-      & > :not(:last-child) {
-        margin-right: 1rem;
+      // En pantallas pequeñas, cambiar a vertical
+      @media (max-width: 600px) {
+        flex-direction: column;
+        
+        & > * {
+          width: 100%;
+        }
       }
     }
 
@@ -30,17 +48,25 @@
       position: relative;
       display: flex;
       width: 50%;
-      position: relative;
-      min-height: 20rem ;
-      max-height: 20rem;
-      align-self: center;
+      justify-content: center;
+      align-items: center;
+      min-height: 18rem;
+      max-height: 25rem;
+      overflow: hidden;
 
       &__img{
         max-height: 100%;
         max-width: 100%;
-        object-fit: cover;
+        width: 100%;
+        object-fit: contain;
         border-radius: 5px;
+      }
 
+      // En pantallas pequeñas, ocupar todo el ancho
+      @media (max-width: 768px) {
+        width: 100%;
+        min-height: 15rem;
+        max-height: 20rem;
       }
     }
 
@@ -49,15 +75,30 @@
       flex-direction: column;
       position: relative;
       width: 50%;
-      max-height: 25rem;
-      padding: 1rem;
+      padding: 0 1rem;
       border-left-style: solid;
       border-left-color: $color-grey-light-3;
+      border-left-width: 2px;
+      border-top: none;
 
       &__text {
         color: $color-grey-dark-3;
         overflow-x: hidden;
         overflow-y: auto;
+        
+        p {
+          margin: 0.5rem 0;
+        }
+      }
+
+      // En pantallas pequeñas, ocupar todo el ancho y cambiar borde
+      @media (max-width: 768px) {
+        width: 100%;
+        padding: 1rem 0.5rem;
+        border-left: none;
+        border-top-style: solid;
+        border-top-color: $color-grey-light-3;
+        border-top-width: 2px;
       }
     }
   }

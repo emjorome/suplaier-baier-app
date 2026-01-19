@@ -52,11 +52,15 @@ export const SearchPage = () => {
           </div>
           <hr className="hrGeneral" />
           <div className="u-margin-top-small"></div>
-          {ofertasBusqueda.map((oferta) => (
-            <OfertaCard key={oferta.IdOferta} oferta={oferta} />
-          ))}
+            {ofertasBusqueda.length > 0 && (
+            <div className="comp-main-container__medCont__ofertas-list">
+              {ofertasBusqueda.map((oferta) => (
+                <OfertaCard key={oferta.IdOferta} oferta={oferta} />
+              ))}
+            </div>
+          )}
           <div
-            className="busqueda__errorBusqueda"
+            className="buscador__errorBusqueda"
             style={{ display: showError ? "" : "none" }}
           >
             <p className="paragraph"> No se han encontrado ofertas</p>

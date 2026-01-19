@@ -12,6 +12,7 @@ export const CompraAnticipada = ({
 }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const [pagoExitoso, setPagoExitoso] = useState(true);
+  const [datosDescuento, setDatosDescuento] = useState(null);
 
   const { authState } = useContext(AuthContext);
   const { user } = authState;
@@ -33,20 +34,34 @@ export const CompraAnticipada = ({
     console.log(!!data && "exito");
   };
 
-  const crearCompraIndividual = async () => {
+  const crearCompraIndividual = async (paymentData = {}) => {
+    // Determinar el total correcto: usar totalFinal si existe, sino costoTotal
+    const totalAPagar = paymentData.totalFinal !== undefined && paymentData.totalFinal !== null 
+      ? Math.round(paymentData.totalFinal * 100) / 100
+      : Math.round(costoTotal * 100) / 100;
+
+    console.log("=== CREANDO COMPRA INDIVIDUAL ===");
+    console.log("Payment Data recibido:", paymentData);
+    console.log("Costo Total original:", costoTotal.toFixed(2));
+    console.log("Total a guardar en BD:", totalAPagar.toFixed(2));
+    console.log("ID Opción Descuento:", paymentData.IdOpcionDescuento);
+
     const body = {
       IdComprador: user.IdUsuario,
       IdProveedor: oferta.IdProveedor,
       IdOferta: oferta.IdOferta,
       Cantidad: unidadesPetUsuario,
-      Total: costoTotal,
+      Total: totalAPagar,
       Descripcion: "",
       Observacion: "",
       IdEstado: oferta.IdEstadosOferta,
       MetodoPago: "anticipado",
       PagadoAProveedor: false,
       TipoCompra: "normal",
+      IdOpcionDescuento: paymentData.IdOpcionDescuento || null,
     };
+
+    console.log("Body a enviar:", body);
 
     const resp = await fetch(`${apiUrl}/compras`, {
       method: "POST",
@@ -56,18 +71,18 @@ export const CompraAnticipada = ({
       body: JSON.stringify(body),
     });
     const data = await resp.json();
-    console.log(!!data && "exito");
+    console.log("Respuesta del servidor:", data);
   };
 
   //este metodo debe ser asincrono
-  const efectuarPagoReserva = () => {
+  const efectuarPagoReserva = (paymentData = {}) => {
     // aqui va la implementacion con paypal para hacer las reservas
     // debe guardarse en la db el registro del pago, para luego de cerrar la oferta..
     // efectuar el pago a los proveedores
     return new Promise((resolve, reject) => {
       //TODO: metodo para setear el pago existoso
       if (pagoExitoso) {
-        crearCompraIndividual();
+        crearCompraIndividual(paymentData);
         actualizarOferta();
         //anadir pagos pendientes al administrador
         setShowPagoExito(true);
@@ -81,9 +96,24 @@ export const CompraAnticipada = ({
     });
   };
 
+  const handlePaymentSuccess = (paymentData) => {
+    console.log("=== HANDLE PAYMENT SUCCESS ===");
+    console.log("Payment Data completo:", paymentData);
+    console.log("Total Final:", paymentData.totalFinal);
+    console.log("Total Original:", paymentData.totalOriginal);
+    console.log("Descuento Aplicado:", paymentData.descuentoAplicado);
+    
+    efectuarPagoReserva(paymentData)
+      .then((res) => console.log("pago con exito"))
+      .catch((res) => console.warn("error en realizar el pago"));
+  };
+
   const onSubmitPago = () => {
-    console.log("Efectuando pago por Reserva...");
-    efectuarPagoReserva()
+    console.log("=== BOTON CONTINUAR PRESIONADO ===");
+    console.log("Datos de descuento guardados:", datosDescuento);
+    
+    // Si hay datos de descuento guardados, usarlos; sino, pasar objeto vacío
+    efectuarPagoReserva(datosDescuento || {})
       .then((res) => console.log("pago con exito"))
       .catch((res) => console.warn("error en realizar el pago"));
   };
@@ -97,14 +127,20 @@ export const CompraAnticipada = ({
         </p>
         <div className="u-margin-top-small"></div>
         {/* <p className="paragraph">$ {costoTotal.toFixed(2)}</p> */}
-        <ContBotonPago price={costoTotal.toFixed(2)} />
+        <ContBotonPago 
+          price={costoTotal.toFixed(2)} 
+          userId={user.IdUsuario}
+          onPaymentSuccess={handlePaymentSuccess}
+          onDescuentoChange={setDatosDescuento}
+        />
         <div className="metodoPago__btnBox">
-          {/* <button 
+          <button
             type="button"
             onClick={() => setShowPagoAnticipado(false)}
             className="btn btn--red"
-          >Cancelar</button> */}
-
+          >
+            Cancelar
+          </button>
           <button
             type="button"
             onClick={onSubmitPago}

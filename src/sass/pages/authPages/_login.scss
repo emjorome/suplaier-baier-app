@@ -1,141 +1,137 @@
-.loginPage {
-  background-image: linear-gradient(to right, $color-green, $color-primary-light,$color-primary-dark);
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  
-  
-  
+.login-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    margin: 0;
 
-  &__title {
-    background: linear-gradient(to right, $color-primary, $color-green);
-    -webkit-background-clip: text;
-    -moz-background-clip: text;
-    background-clip: text;
-    clip: text;
-    color: transparent; 
-    font-size: 2.5rem; 
-  }
-
-  &__centralbox {
-    background-image: linear-gradient(to right, $color-primary-light, $color-primary-dark);
-    width: 80%;
-    height: 80%;
-    border-radius: 5px;
     display: flex;
-    flex-direction: row;
+    min-height: 100vh;
+    width: 100%;
+    background-color: $color-white;
+    overflow-x: hidden;
 
-    &__izq {
-      position: relative;
-      width: 60%;
-      height: 100%;
-      padding: 5rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      
-      & > :not(:last-child) {
-        margin-bottom: 2rem;
-      }
-
-      &__img {
-        max-width: 80%;
-      }
-
-      &__logoImg {
+    &__image-section {
+        display: none;
         width: 50%;
-      }
+        position: relative;
+        background-image: 
+            linear-gradient(to bottom right, rgba($color-primary, 0.9), rgba($color-primary-dark, 0.8)),
+            url('../../../../public/login.png');
+        background-size: cover;
+        background-position: center;
+        
+        flex-direction: column;
+        justify-content: center;
+        padding: 6rem;
+        color: $color-white;
+
+        @media (min-width: 900px) {
+            display: flex;
+        }
+
+        h1 {
+            color: $color-white;
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            max-width: 50rem;
+        }
+
+        p {
+            font-size: 1.8rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
     }
 
-    &__der {
-      position: relative;
-      background-color: $color-grey-light-1;
-      width: 40%;
-      height: 100%;
-      border-top-right-radius: 5px;
-      border-bottom-right-radius: 5px;
-      padding: 8rem 0rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      //justify-content: center;
-
-      &__loginBox {
-        position: relative;
-        margin-top: 2rem;
-        display: flex;
+    &__form-section {
         width: 100%;
-        justify-content: center;
-
-        &__entryBox {
-          display: flex;
-          flex-direction: column;
-          margin-bottom: 1rem;
-          align-items: center;
-
-          &__input {
-            height: 4rem;
-            width: 100%;
-            border-radius: 5px;
-            border-style: solid;
-            border-width: 2px;
-            border-color: $color-blue;
-            text-align: center;
-          }
-
-        }
-
-        &__btnBox {
-          display: flex;
-          justify-content: center;
-          margin-top: 2rem;
-          padding: 0rem 3rem;
-        }
-      }
-
-      &__signupBox {
-        width: 100%;
-        margin-top: 5rem;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 0.5rem;
-      }
+        justify-content: center;
+        background-color: $color-white;
+        padding: 4rem 2rem;
 
-      &__buttons{
-        display: flex;
-        flex-direction: column;
-
-        & > :not(:last-child) {
-          margin-bottom: 2rem;
+        @media (min-width: 900px) {
+            width: 50%;
         }
-      }
+    }
 
-    }
-    @media (max-width: 708px) {
-      flex-direction: column;
-  
-      &__izq {
+    &__card {
         width: 100%;
-        height: 45%;
-        padding: 2rem;
-  
-        &__img {
-          max-width: 50%;
+        max-width: 45rem;
+    }
+
+    &__header {
+        text-align: center;
+        margin-bottom: 4rem;
+
+        img {
+            height: 8rem;
+            margin-bottom: 2rem;
+            object-fit: contain;
         }
-      }
-  
-      &__der {
-        width: 100%;
-        padding: 2rem;
-      }
     }
-  }
-  
+
+    &__input-group {
+        margin-bottom: 2rem;
+        text-align: left;
+
+        label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            font-size: 1.4rem;
+            color: $color-secondary;
+        }
+
+        input {
+            width: 100%;
+            padding: 1.4rem 1.6rem;
+            font-family: inherit;
+            font-size: 1.6rem;
+            color: $color-secondary;
+            background-color: $color-grey-light-1;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            transition: all 0.3s;
+
+            &::placeholder {
+                color: $color-grey-dark;
+            }
+
+            &:focus {
+                outline: none;
+                background-color: $color-white;
+                border-color: $color-primary;
+                box-shadow: 0 0 0 4px rgba($color-primary, 0.1);
+            }
+        }
+    }
+
+    &__actions {
+        margin-top: 3rem;
+        
+        button[type="submit"] {
+            width: 100%;
+            padding: 1.6rem;
+            font-size: 1.6rem;
+        }
+    }
+
+    &__footer {
+        margin-top: 4rem;
+        text-align: center;
+        padding-top: 2rem;
+        border-top: 1px solid $color-grey-light-2;
+        
+        p {
+            color: $color-grey-dark;
+            font-size: 1.4rem;
+        }
+    }
 }

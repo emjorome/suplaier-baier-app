@@ -20,7 +20,7 @@ export const NavbarAdm = () => {
         </Link>
       </div>
       <div className="buscadorAdm">
-        <p className="paragraph paragraph--mid--2"><b>Panel de control</b></p>
+        <p className="paragraph paragraph--mid--1"><b>Panel de control</b></p>
       </div>
       <div className="navigation__leftButtons">
         <div className="navigation__leftButtons__box">

@@ -135,6 +135,45 @@
   }*/
 }
 
+@media (max-width: 768px) {
+  .navigation {
+    height: auto;
+    padding: 0.4rem 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .navigation__icon {
+    width: 35%;
+  }
+
+  .navigation__leftButtons {
+    width: 65%;
+    justify-content: flex-end;
+  }
+
+  .navigation__search {
+    order: 3;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .navigation__leftButtons__box {
+    & > :not(:last-child) {
+      margin-right: 1rem;
+    }
+
+    &__ind p,
+    &__indRespHidden p {
+      display: none; // solo iconos en móvil
+    }
+  }
+
+  .icon--bg {
+    font-size: 2rem;
+  }
+}
+
+
 
 
 .navigation-prov {

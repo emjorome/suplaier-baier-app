@@ -1,28 +1,39 @@
 .oferta-card {
-
   display: flex;
   flex-direction: row;
   position: relative;
-  border-style: solid;
-  border-radius: 5px;
-  border-width: 1px;
-  border-color: $color-grey-light-3;
-  margin-bottom: 0.5rem;
-  max-height: 45rem;
-  @media (max-width: 768px) {
-    flex-direction: column;
-    
+
+  /* Estilo visual actualizado */
+  border: 1px solid $color-grey-light-3;
+  border-radius: 12px;
+  background-color: $color-white;
+  margin-bottom: 1rem;
+  padding: 0rem;
+
+  /* Modern look */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.12);
   }
 
-  &__logoBox{
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+
+  /* LOGO BOX */
+  &__logoBox {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 1rem;
-    &__imgBox {
 
+    &__imgBox {
       max-width: 2rem;
-      
+
       &__img {
         width: 100%;
         height: 100%;
@@ -30,77 +41,79 @@
     }
   }
 
+  /* ETIQUETAS - AHORA CON ESPACIO PARA LOS 3 PUNTOS */
   &__etiquetaBox {
     position: absolute;
-    top: 1.2rem;
-    right: 2.5rem;
-    gap: 1rem;
+    top: 1rem;
+    right: 3rem; // Cambiado de 1rem a 3rem para dar espacio a los 3 puntos
     display: flex;
+    gap: 0.6rem;
     flex-direction: row-reverse;
+
     @media (max-width: 768px) {
       flex-direction: column;
-      
+      right: 2.5rem; // También ajustado en mobile
+      top: 0.6rem;
     }
 
-    &__etiqueta{
-      position: relative;
+    &__etiqueta {
       color: $color-white;
-      border-radius: 5px;
       padding: 0.3rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
       width: fit-content;
-  
-      &--green {
-        background-color: $color-tag-green;
-      }
-      &--red {
-        background-color: $color-tag-red;
-      }
-      &--purple {
-        background-color: $color-tag-purple;
-      }
-      &--lightblue {
-        background-color: $color-tag-lightblue;
-      }
-      &--grey {
-        background-color: $color-tag-grey;
-      }
+
+      &--green { background-color: $color-tag-green; }
+      &--red { background-color: $color-tag-red; }
+      &--purple { background-color: $color-tag-purple; }
+      &--lightblue { background-color: $color-tag-lightblue; }
+      &--grey { background-color: $color-tag-grey; }
     }
-  
-    &__etiqueta2{
-      position: relative;
+
+    &__etiqueta2 {
       background-color: $color-tag-blue;
       color: $color-white;
-      border-radius: 5px;
-      padding: 0.3rem 1.8rem;
+      border-radius: 6px;
+      padding: 0.3rem 1.2rem;
+      font-size: 0.75rem;
+      font-weight: 600;
     }
-
   }
 
+  /* IMAGEN */
   &__imgbox {
-    position: relative;
-    width: 30%;
-    max-height: 100%;
+    width: 32%;
+    padding: 1rem;
     display: flex;
     align-items: center;
-    padding: 1rem;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      padding: 0.7rem;
+    }
 
     &__img {
-      max-width: 100%;
-      min-height: 100%;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      border-top-left-radius: 5px;
-      border-bottom-left-radius: 5px;
+      border-radius: 10px;
     }
   }
 
+  /* DATOS */
   &__datosbox {
-    width: 70%;
-    padding: 1rem;
+    width: 68%;
+    padding: 1rem 1.2rem;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      padding: 0.8rem 1rem 1.2rem 1rem;
+    }
 
     &__title {
-      display: flex;
-      flex-direction: column;
-      width: 80%;
+      width: 100%;
+      margin-bottom: 0.6rem;
 
       &:hover {
         cursor: pointer;
@@ -110,58 +123,65 @@
 
     &__otros {
       display: flex;
-      flex-direction: row;
       justify-content: space-between;
+      margin-top: 0.4rem;
 
       @media (max-width: 768px) {
         flex-direction: column;
+        gap: 0.6rem;
       }
-      &__der{
-        
-        & > :not(:last-child) {
-          margin-bottom: 0.8rem;
-        }
 
+      &__der {
+        & > :not(:last-child) {
+          margin-bottom: 0.6rem;
+        }
       }
     }
-
   }
-
 }
 
+/* REPORTAR - AHORA AL LADO DE LAS ETIQUETAS */
 .oferta-card-main {
   position: relative;
-
 }
 
 .oferta-card-reportarBox {
   position: absolute;
-  right: 4px;
-  top: 2rem;
+  right: 1rem; // Ahora está alineado con el borde derecho
+  top: 1rem; // Mismo top que las etiquetas
+  z-index: 10; // Asegura que esté por encima
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem; // Ancho fijo para el icono de 3 puntos
+  height: 2rem; // Alto fijo
   
-  &:hover{
+  @media (max-width: 768px) {
+    right: 0.6rem;
+    top: 0.6rem;
+  }
+
+  &:hover {
     cursor: pointer;
     color: $color-blue;
   }
 }
 
-.oferta-card-reportarTooltip{
+.oferta-card-reportarTooltip {
   background-color: $color-white;
-  border-color: $color-grey-light-3;
-  border-radius: 5px;
-  border-style: solid;
-  border-width: 1px;
-  color: $color-red;
+  border: 1px solid $color-grey-light-3;
+  border-radius: 6px;
+  padding: 0.8rem 1.5rem;
   display: flex;
-  flex-direction: row;
-  gap: .6rem;
+  gap: 0.6rem;
   justify-content: center;
-  padding: .8rem 1.5rem;
+  color: $color-red;
   position: absolute;
-  right: 1.1rem;
-  top: 2.2rem;
-  width: fit-content;
-  
+  right: 0; // Alineado con el botón de reportar
+  top: 2.5rem; // Justo debajo del botón
+  z-index: 20; // Por encima del botón
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
   &:hover {
     cursor: pointer;
   }
